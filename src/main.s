@@ -60,7 +60,7 @@
 
 
 
-cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics
+cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps_input
 
 ;; Structure of templates:
 ;;                   cmps -  x -  y - vx-vy- w-h -color - e_type-         -prevpos     - width- height

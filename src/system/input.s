@@ -5,16 +5,16 @@
 .globl man_entity_forall
 .globl man_entity_create
 .globl cpct_isKeyPressed_asm
-.globl cpct_scanKeyboard_asm
+.globl cpct_scanKeyboard_f_asm
 
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
 keyactions::
-    .dw Key_O, key_left_action
-    .dw Key_P, key_right_action
-    .dw Key_Q, key_up_action
-    .dw Key_A, key_down_action
+    .dw Key_A, key_left_action
+    .dw Key_D, key_right_action
+    .dw Key_W, key_up_action
+    .dw Key_S, key_down_action
     .dw Key_Space, key_space_action
     .dw 0x0000
 
@@ -37,7 +37,7 @@ key_up_action::
 ret
 
 key_down_action::
-    ld e_vy(ix), #2
+    ld e_vy(ix), #3
 ret
 
 ;; ------------------------------------
@@ -47,9 +47,14 @@ key_space_action::
     ;; TODO
 ret
 
+;;ix entidad
 sys_input_check_keyboard_and_update_player::
     ld e_vx(ix), #0
     ld e_vy(ix), #0
+
+
+    call cpct_scanKeyboard_f_asm
+
     ld iy, #keyactions-4
     
     ;; Checks if any key is pressed
