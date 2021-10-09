@@ -43,8 +43,14 @@ ret
 ;; ------------------------------------
 ;;  Extra action: shoot
 ;; ------------------------------------
+
+cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
+bullet_entity:: .db cmps, 0, 0, #0, #-1, #0x08, #0x01, #0x0F, e_type_bullet
+
 key_space_action::
-    ;; TODO
+    ;; TODO: shoot
+    ld hl, #bullet_entity
+    call man_entity_create
 ret
 
 ;;ix entidad
