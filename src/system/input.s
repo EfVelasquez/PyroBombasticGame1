@@ -10,11 +10,11 @@
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
-key_actions::
-    .dw Key_O, key_left_action
-    .dw Key_P, key_right_action
-    .dw Key_Q, key_up_action
-    .dw Key_A, key_down_action
+keyactions::
+    .dw Key_A, key_left_action
+    .dw Key_D, key_right_action
+    .dw Key_W, key_up_action
+    .dw Key_S, key_down_action
     .dw Key_Space, key_space_action
     .dw 0x0000
 
@@ -47,20 +47,6 @@ key_space_action::
     ;; TODO
 ret
 
-<<<<<<< HEAD
-sys_input_check_keyboard_and_update_player:
-    ;; Reset velocity
-    ld e_vx(ix), #0
-    ld e_vy(ix), #0
-
-    ;; Check keyboard for input
-    call cpct_scanKeyboard_f_asm
-
-    ;; Key-Action Check-call Looop
-    ld iy, #key_actions-4
-
-    loop_keys:
-=======
 ;;ix entidad
 sys_input_check_keyboard_and_update_player::
     ld e_vx(ix), #0
@@ -73,24 +59,29 @@ sys_input_check_keyboard_and_update_player::
     
     ;; Checks if any key is pressed
     nextkey:
->>>>>>> f51b2e1407ca538bcb65989f79a3c0e8c4a4a472
         ld bc, #4
         add iy, bc
-        ld l, 0(iy) ;; HL = Next Key
-        ld h, 1(iy) ;;
-
-        ;; Check if key is null
-        ld a, l ;; A = H | L
-        or h
-        ret z   ;; A = 0, Key = null, ret
         
-        ld hl, #loop_keys ;; ret
-        push hl
+        ;; Check next key code
+        ld l, (iy)
+        ld h, 1(iy)
+        
+        ;; Check for null to end
+        ld a, l
+        or h
+        ret z
+
+        ;; Test Key and perform
         call cpct_isKeyPressed_asm
-        ld l, 2(iy)
-        ld h, 3(iy)
-        jp(hl)
-    ;; ret is implicit
+    jr z, nextkey
+
+    ;; Key is pressed, perform key_left_action
+    ld hl, #nextkey
+    push hl
+    ld l, 2(iy)
+    ld h, 3(iy)
+    jp (hl)
+
 ;; --------------------------------------
 ;;  Update all entities' physics
 ;;  B -> mask for filter
