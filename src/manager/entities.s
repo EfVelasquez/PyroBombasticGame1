@@ -160,10 +160,30 @@ ret
 ;; OUTPUT: IX -> The entity
 man_entity_get_from_idx::
 
+    cp #max_entities
+    jr nc, ret_last_ent_gfi ;;si el idx es mayor o igual a max entities, cambio A por max_entities-1 (ultima entidad)
+    jr cont_gfi
+
+    ret_last_ent_gfi:
+    ld a, #max_entities-1
+
+    cont_gfi:
+
     ;; Acceder al elemento 4 de un array de 4 campos
     ;; array[3] = inicio + (3*4)
+    call man_entity_first_entity
+
+    inc a
+    dec a
+    jr z, end_gfi
+
+    loop_gfi:
+        call man_next_entity
+        dec a
+    jr nz, loop_gfi
 
 
+    end_gfi:
 ret 
 
 ;;Receives by ix
