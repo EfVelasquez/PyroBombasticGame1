@@ -51,7 +51,8 @@ sys_render_forone::
     ld e_prv_ptr+1(ix), d
 
     ld a, e_color(ix)
-    ld bc, #0x0802
+    ld c, e_h(ix)
+    ld b, e_w(ix)
     call cpct_drawSolidBox_asm
 ret
 
