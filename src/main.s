@@ -52,9 +52,9 @@
 
 
 ;;temp
-.globl man_entity_set4destruction
-.globl man_entity_first_entity
-.globl man_next_entity
+;;.globl man_entity_set4destruction
+;;.globl man_entity_first_entity
+;;.globl man_next_entity
 ;;
 
 
@@ -63,10 +63,10 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps
 
 ;; Structure of templates:
 ;;                   cmps -   x -    y -  vx-vy -color - e_type-         -prevpos     - width- height
-mainchar_entity:: .db cmps, #0x20, #0x50, 0, 0, #0xFF , e_type_mainchar, #0x00, #0x00,  #5,  #10
+mainchar_entity:: .db cmps, #0x20, #0x50, 0, 0, #0xFF , e_type_mainchar, #0x00, #0x00,  #5,  #07
 
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-enemy_entity:: .db cmps, #0x12, #0x10, 0,0, #0xF0, e_type_enemy, #0x00, #0x00,  #8,  #10
+enemy_entity:: .db cmps, #0x12, #0x10, 1,1, #0xF0, e_type_enemy, #0x01, #0x01,  #8,  #10
 
 _main::
    ;; Disable firmware to prevent it from interfering with string drawing
@@ -83,9 +83,9 @@ _main::
    ld hl, #enemy_entity
    call man_entity_create
 
-   call man_entity_first_entity
-   call man_next_entity
-   call man_entity_set4destruction
+   ;call man_entity_first_entity
+   ;call man_next_entity
+   ;call man_entity_set4destruction
 
 
    ;; Loop forever
