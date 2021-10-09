@@ -19,25 +19,28 @@ e_height    == 10
 
 ;; Entity info
 sizeof_e        == 11
-max_entities    == 100
+max_entities    == 5
 
 
 ;; Bit for matching & properties
 
-e_cmps_alive_bit    = 7
-e_cmps_position_bit = 6
-e_cmps_input_bit    = 5
-e_cmps_physics_bit  = 4
-e_cmps_render_bit   = 3
+e_cmps_alive_bit     = 7
+e_cmps_position_bit  = 6
+e_cmps_input_bit     = 5
+e_cmps_physics_bit   = 4
+e_cmps_render_bit    = 3
+;;-----
+e_cmps_todestroy_bit = 1
 
 ;; Component Types (masks)
-e_cmps_invalid  = 0x00
-e_cmps_alive    = (1 << e_cmps_alive_bit)
-e_cmps_position = (1 << e_cmps_position_bit)
-e_cmps_input    = (1 << e_cmps_input_bit)
-e_cmps_physics  = (1 << e_cmps_physics_bit)
-e_cmps_render   = (1 << e_cmps_render_bit)
-e_cmps_default  = 0xFF
+e_cmps_invalid    = 0x00
+e_cmps_alive      = (1 << e_cmps_alive_bit)
+e_cmps_position   = (1 << e_cmps_position_bit)
+e_cmps_input      = (1 << e_cmps_input_bit)
+e_cmps_physics    = (1 << e_cmps_physics_bit)
+e_cmps_render     = (1 << e_cmps_render_bit)
+e_cmps_todestroy  = (1 << e_cmps_todestroy_bit)
+e_cmps_default    = 0xFF
 
 ;; Entity types
 e_type_mainchar     = 0

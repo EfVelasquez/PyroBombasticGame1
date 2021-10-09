@@ -2,8 +2,10 @@
 .include "entities.h.s"
 
 next_free_entity: .dw array_entities
+current_entity: .dw array_entities
 num_entities: .db 0 ;; Actual number of entities created
 array_entities: .ds sizeof_e * max_entities
+array_end: .db 0x00
 
 ;; Functions for entities
 
@@ -31,12 +33,48 @@ man_entity_create::
     skip_ce:
 ret
 
-man_entity_destroy::
+;DELETES CURRENT ENTITY
+man_entity_destroy:
+
+    ld ix, (current_entity)
+    ld a, e_cmps(ix)
+    cp #e_cmps_invalid
+    jr z, skip_delete ;si la entidad ya esta muerta, no hago nada
+
+    call decrease_free_entity ;;deja en hl el last free entity actualizado
+
+
+    ld de, (current_entity)
+
+    ;si hl (last_free entity) y de (current entity) son iguales, deberiamos saltar a final_delete
+    ld a, h
+    cp d
+    jr nz, #are_different_delete ;;si h y d son distintos, se hace el memcpy
+    ld a, l
+    cp e
+    jr z, #final_delete ;;si h y d son iguales, y l y e son iguales, no se hace memcpy
+
+
+    are_different_delete:
+    ld bc, #sizeof_e
+
+    push hl
+
+    call cpct_memcpy_asm ;;copiamos el contenido de la ultima entidad en la que vamos a borrar
+
+    pop hl
+
+    final_delete:
+    ld (hl), #e_cmps_invalid ;hacemos invalida a la ultima entidad
+
+    call man_entity_decrease_num
+
+
+    skip_delete:
 ret 
 
 ;; Pointer to function
 function_for_all: .db #0x00, #0x00
-count: .db #sizeof_e
 ;; ----------------------------------------------------------- ;;
 ;; INPUT -> HL: contains the function                          ;;
 ;; General function to apply to all entities                   ;;
@@ -45,11 +83,11 @@ man_entity_forall::
     ld (function_for_all), hl
     call man_entity_first_entity ;; IX points to the first entity
 
-    ld a, #max_entities
-    ld (count), a
+    ld a,e_cmps(ix) ;;si la primera entidad es invalida, salimos de la funcion
+    and #0xFF
+    jr z, final
 
     loop_forall:
-        ld ix, (next_free_entity)
         ld hl, #afterjp
         push hl
 
@@ -57,10 +95,13 @@ man_entity_forall::
         jp (hl)
 
         afterjp:
-            call increase_free_entity
-            ld a, (count)
-            dec a
-            ld (count), a
+
+
+        call man_next_entity
+        
+        
+        ld a,e_cmps(ix)
+        and #0xFF
     jr nz, loop_forall
 
     final:
@@ -75,43 +116,43 @@ man_entity_forall_matching::
     ld (function_for_all), hl
     call man_entity_first_entity ;; IX points to the first entity
 
-    ld a, #max_entities
-    ld (count), a
+    ld a,e_cmps(ix) ;;si la primera entidad es invalida, salimos de la funcion
+    and #0xFF
+    jr z, final
 
     loop_forall_matching:
-    push bc
-        ld ix, (next_free_entity)   ;; Look
+        push bc ;;guardo mascara de bytes
         ld a, e_cmps(ix)
         and b
         cp b
         jr nz, afterjp_matching
 
-        continue:
-            ld hl, #afterjp_matching
-            push hl
+        
+        ld hl, #afterjp_matching
+        push hl
 
-            ld hl, (function_for_all)
-            jp (hl)
+        ld hl, (function_for_all)
+        jp (hl)
 
-            afterjp_matching:
-                call increase_free_entity
-                ld a, (count)
-                dec a
-                ld (count), a
-                pop bc
+        afterjp_matching:
+
+
+        call man_next_entity
+
+        ld a,e_cmps(ix)
+        and #0xFF
+        pop bc
     jr nz, loop_forall_matching
 
     final_matching:
         call man_entity_first_entity
 ret
 
-
 ;; ----------------------------------------------------
 ;;  Compares a pair of entities under a specific criteria
 ;;  IY -> The other pair
 ;;  B -> Mask to filter
 ;; -----------------------------------------------------
-
 man_entity_forall_pairs_matching::
 ret 
 
@@ -125,41 +166,61 @@ man_entity_get_from_idx::
 
 ret 
 
+;;Receives by ix
 man_entity_set4destruction::
-ret 
-
-;; ---------------------------------------------------
-;; Updates all entities 
-;; HL -> Function for all entities
-;; ---------------------------------------------------
-man_entity_update::
+    ld e_cmps(ix), #e_cmps_todestroy
 ret
 
-;; Increases the value of the counter num_entities
-man_entity_increase_num::
-    ld a, (num_entities)
-    inc a
-    ld (num_entities),a
+
+
+
+man_entity_update:: ;; Updates all entities to be destroyed
+    ld hl, #man_entity_destroy
+    ld b, #e_cmps_todestroy
+    call man_entity_forall_matching
 ret
 
-;; Decreases the value of the counter num_entities
-man_entity_decrease_num::
-    ld a, (num_entities)
-    dec a
-    ld (num_entities),a
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; ITERADOR
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+man_entity_increase_num: ;; Increases the value of the counter num_entities
+    ld hl, #num_entities
+    inc (hl)
 ret
 
-;; Updates the direction of the next_free_entity pointer
-increase_free_entity::
+man_entity_decrease_num: ;; Decreases the value of the counter num_entities
+    ld hl, #num_entities
+    dec (hl)
+ret
+
+increase_free_entity: ;; Updates the direction of the next_free_entity pointer
     ld hl, (next_free_entity)
     ld bc, #sizeof_e
     add hl, bc
     ld (next_free_entity), hl
 ret
 
-;; Changes the entity controller to ix register
-man_entity_first_entity::
-    ld hl, #array_entities
+decrease_free_entity: ;; Updates the direction of the next_free_entity pointer
+    ld hl, (next_free_entity)
+    ld bc, #-sizeof_e
+    add hl, bc
     ld (next_free_entity), hl
-    ;; ld ix, (next_free_entity)
+ret
+
+man_entity_first_entity:: ;; Changes the entity controller to ix register
+    ld hl, #array_entities
+    ld (current_entity), hl
+    ld ix, (current_entity)
+ret
+
+man_next_entity:: ;;aumenta la posicion de current entity
+    ld hl, (current_entity)
+    ld bc, #sizeof_e
+    add hl, bc
+    ld (current_entity), hl
+    ld ix, (current_entity)
 ret
