@@ -6,6 +6,7 @@
 .globl man_entity_create
 .globl cpct_isKeyPressed_asm
 .globl cpct_scanKeyboard_f_asm
+.globl create_bullet
 
 ;; ----------------------------------------
 ;; Puts actions in certain keys
@@ -44,13 +45,13 @@ ret
 ;;  Extra action: shoot
 ;; ------------------------------------
 
-cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-bullet_entity:: .db cmps, 0, 0, #0, #-1, #0x08, #0x01, #0x0F, e_type_bullet
 
 key_space_action::
     ;; TODO: shoot
-    ld hl, #bullet_entity
-    call man_entity_create
+    ld h, e_x(ix)
+    ld l, e_y(ix)
+    ld a, #1
+    call create_bullet
 ret
 
 ;;ix entidad

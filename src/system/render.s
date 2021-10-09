@@ -36,6 +36,9 @@ ret
 ;; -----------------------------------------
 sys_render_forone::
 
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+
     ld e, e_prv_ptr+0(ix)
     ld d, e_prv_ptr+1(ix)
     xor a
@@ -51,8 +54,8 @@ sys_render_forone::
     ld e_prv_ptr+1(ix), d
 
     ld a, e_color(ix)
-    ld c, e_h(ix)
-    ld b, e_w(ix)
+    ld c, e_w(ix)
+    ld b, e_h(ix)
     call cpct_drawSolidBox_asm
 ret
 

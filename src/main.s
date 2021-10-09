@@ -63,8 +63,8 @@
 cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps_input
 
 ;; Structure of templates:
-;;                   cmps -  x -  y - vx-vy- w-h -color - e_type-         -prevpos     - width- height
-mainchar_entity:: .db cmps, #20, #50, #1, #0, #0x08, #0x02, #0xFF , e_type_mainchar, #0x00, #0x00,  #5,  #07
+;;                   cmps -  x -  y - vx-vy-  w-     h -color - e_type-         -prevpos     - width- height
+mainchar_entity:: .db cmps, #20, #50, #1, #0, #0x1, #0x10, #0xFF , e_type_mainchar, #0x00, #0x00,  #5,  #07
 
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
 enemy_entity:: .db cmps, #12, #10, 0, #1, #0x08, #0x02, #0xF0, e_type_enemy, #0x01, #0x01,  #8,  #10

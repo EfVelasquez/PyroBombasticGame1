@@ -13,6 +13,7 @@ array_end: .db 0x00
 man_entity_init::
 ret
 
+;;recibo en hl la template
 ;; Creates the entity
 man_entity_create::
     ;; Is there free space?
@@ -173,8 +174,7 @@ man_entity_get_from_idx::
     ;; array[3] = inicio + (3*4)
     call man_entity_first_entity
 
-    inc a
-    dec a
+    cp #0
     jr z, end_gfi
 
     loop_gfi:
@@ -242,5 +242,9 @@ man_next_entity:: ;;aumenta la posicion de current entity
     ld bc, #sizeof_e
     add hl, bc
     ld (current_entity), hl
+    ld ix, (current_entity)
+ret
+
+man_get_current_entity::
     ld ix, (current_entity)
 ret

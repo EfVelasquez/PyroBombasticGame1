@@ -19,7 +19,7 @@ e_prv_ptr   == 9     ;; Pointer, 2 bytes
 
 ;; Entity info
 sizeof_e        == 11
-max_entities    == 5
+max_entities    == 40
 
 
 ;; Bit for matching & properties
