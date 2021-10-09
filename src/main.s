@@ -45,6 +45,7 @@
 .globl sys_physics_update
 .globl sys_render_wait
 .globl cpct_waitVSYNC_asm
+.globl sys_input_update
 
 
 
@@ -91,7 +92,8 @@ _main::
    ;; Loop forever
 loop:
    call man_entity_update
-   call sys_physics_update
+   ;;call sys_physics_update
+   call sys_input_update
    call sys_render_update
    call sys_render_wait
    call cpct_waitVSYNC_asm
