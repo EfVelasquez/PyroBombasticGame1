@@ -37,7 +37,7 @@ key_up_action::
 ret
 
 key_down_action::
-    ld e_vy(ix), #2
+    ld e_vy(ix), #3
 ret
 
 ;; ------------------------------------
@@ -47,6 +47,7 @@ key_space_action::
     ;; TODO
 ret
 
+<<<<<<< HEAD
 sys_input_check_keyboard_and_update_player:
     ;; Reset velocity
     ld e_vx(ix), #0
@@ -59,6 +60,20 @@ sys_input_check_keyboard_and_update_player:
     ld iy, #key_actions-4
 
     loop_keys:
+=======
+;;ix entidad
+sys_input_check_keyboard_and_update_player::
+    ld e_vx(ix), #0
+    ld e_vy(ix), #0
+
+
+    call cpct_scanKeyboard_f_asm
+
+    ld iy, #keyactions-4
+    
+    ;; Checks if any key is pressed
+    nextkey:
+>>>>>>> f51b2e1407ca538bcb65989f79a3c0e8c4a4a472
         ld bc, #4
         add iy, bc
         ld l, 0(iy) ;; HL = Next Key
@@ -82,12 +97,12 @@ sys_input_check_keyboard_and_update_player:
 ;; --------------------------------------
 
 sys_input_update::
-    ;;xor a   ;; A = 0
-    ;;call man_entity_get_from_idx
-    ;;call sys_input_check_keyboard_and_update_player
+    xor a   ;; A = 0
+    call man_entity_get_from_idx
+    call sys_input_check_keyboard_and_update_player
 
-    ld hl, #sys_input_check_keyboard_and_update_player
-    ld b, #e_cmps_input
-    call man_entity_forall_matching
+    ;ld hl, #sys_input_check_keyboard_and_update_player
+    ;ld b, #e_cmps_input
+    ;call man_entity_forall_matching
 ret
 
