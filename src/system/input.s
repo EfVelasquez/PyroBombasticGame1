@@ -5,12 +5,12 @@
 .globl man_entity_forall
 .globl man_entity_create
 .globl cpct_isKeyPressed_asm
-.globl cpct_scanKeyboard_asm
+.globl cpct_scanKeyboard_f_asm
 
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
-keyactions::
+key_actions::
     .dw Key_O, key_left_action
     .dw Key_P, key_right_action
     .dw Key_Q, key_up_action
@@ -47,36 +47,35 @@ key_space_action::
     ;; TODO
 ret
 
-sys_input_check_keyboard_and_update_player::
+sys_input_check_keyboard_and_update_player:
+    ;; Reset velocity
     ld e_vx(ix), #0
     ld e_vy(ix), #0
-    ld iy, #keyactions-4
-    
-    ;; Checks if any key is pressed
-    nextkey:
+
+    ;; Check keyboard for input
+    call cpct_scanKeyboard_f_asm
+
+    ;; Key-Action Check-call Looop
+    ld iy, #key_actions-4
+
+    loop_keys:
         ld bc, #4
         add iy, bc
-        
-        ;; Check next key code
-        ld l, (iy)
-        ld h, 1(iy)
-        
-        ;; Check for null to end
-        ld a, l
+        ld l, 0(iy) ;; HL = Next Key
+        ld h, 1(iy) ;;
+
+        ;; Check if key is null
+        ld a, l ;; A = H | L
         or h
-        ret z
-
-        ;; Test Key and perform
+        ret z   ;; A = 0, Key = null, ret
+        
+        ld hl, #loop_keys ;; ret
+        push hl
         call cpct_isKeyPressed_asm
-    jr z, nextkey
-
-    ;; Key is pressed, perform key_left_action
-    ld hl, #nextkey
-    push hl
-    ld l, 2(iy)
-    ld h, 3(iy)
-    jp (hl)
-
+        ld l, 2(iy)
+        ld h, 3(iy)
+        jp(hl)
+    ;; ret is implicit
 ;; --------------------------------------
 ;;  Update all entities' physics
 ;;  B -> mask for filter
