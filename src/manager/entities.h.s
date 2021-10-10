@@ -13,12 +13,12 @@ e_vx        == 3
 e_vy        == 4
 e_w         == 5
 e_h         == 6
-e_color     == 7
-e_type      == 8
-e_prv_ptr   == 9     ;; Pointer, 2 bytes
+e_type      == 7
+e_sprite    == 8      ;; Pointer, 2 bytes
+e_prv_ptr   == 10     ;; Pointer, 2 bytes
 
 ;; Entity info
-sizeof_e        == 11
+sizeof_e        == 12
 max_entities    == 40
 
 

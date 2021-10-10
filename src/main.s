@@ -52,7 +52,7 @@
 .globl man_entity_update
 .globl sys_render_init
 
-
+.globl _sprite_char
 ;;temp
 ;;.globl man_entity_set4destruction
 ;;.globl man_entity_first_entity
@@ -64,17 +64,36 @@
 cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps_input
 
 ;; Structure of templates:
-;;                   cmps -  x -  y - vx-vy-  w-     h -color - e_type-         -prevpos     - width- height
-mainchar_entity:: .db cmps, #20, #50, #1, #0, #0x1, #0x10, #0xFF , e_type_mainchar, #0x00, #0x00,  #5,  #07
+;;                    cmps -  x -  y - vx-vy-  w-     h -color - e_type-         -prevpos     - width- height
+mainchar_entity: .db cmps , #0, #0, #0, #0, #3, #12,#e_type_mainchar 
+.dw #_sprite_char, #0x0000
+               ;.ds sizeof_e-1
 
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-enemy_entity:: .db cmps, #12, #10, 0, #1, #0x08, #0x02, #0xF0, e_type_enemy, #0x01, #0x01,  #8,  #10
+enemy_entity: .ds sizeof_e
+
+build_player::
+   ld ix, #mainchar_entity
+;
+;
+   ld e_x(ix), #20
+   ld e_y(ix), #20
+   ld e_vx(ix), #0
+   ld e_vy(ix), #0
+   ld e_w(ix), #3
+   ld e_h(ix), #12
+   ;ld e_type(ix), #e_type_mainchar
+;
+   ;ld hl, #mainchar_entity+8
+   ;ld (hl), #_sprite_char
+
+ret
 
 _main::
    ;; Disable firmware to prevent it from interfering with string drawing
    call cpct_disableFirmware_asm
 
-   
+   call build_player
    
    ;; call man_entity_init
    call sys_render_init

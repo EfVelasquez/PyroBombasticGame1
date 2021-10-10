@@ -9,7 +9,9 @@
 .globl cpct_drawSolidBox_asm
 .globl cpct_setVideoMode_asm
 .globl cpct_setPalette_asm
+.globl cpct_drawSprite_asm
 .globl _g_palette
+.globl _sprite_char
 
 ;; sys_render_init::   ;; NO FUNCIONA
 ;;     ;; MODE 0
@@ -56,10 +58,14 @@ sys_render_forone::
     ld e_prv_ptr+0(ix), e
     ld e_prv_ptr+1(ix), d
 
-    ld a, #0xFF
+    ;ld hl, #_sprite_char
+
+    ld h, e_sprite+1(ix)
+    ld l, e_sprite+0(ix)
+
     ld c, e_w(ix)
     ld b, e_h(ix)
-    call cpct_drawSolidBox_asm
+    call cpct_drawSprite_asm
 ret
 
 sys_render_wait::
