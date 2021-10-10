@@ -28,18 +28,24 @@
 ##
 
 ## 16 colours palette
-#PALETTE=0 1 2 3 6 9 11 12 13 15 16 18 20 24 25 26
+PALETTE=0 1 3 4 6 9 10 11 12 13 15 17 18 20 25 26
 
 ## Default values
-#$(eval $(call IMG2SP, SET_MODE        , 0                  ))  { 0, 1, 2 }
+$(eval $(call IMG2SP, SET_MODE        , 0                   )) # { 0, 1, 2 }
 #$(eval $(call IMG2SP, SET_MASK        , none               ))  { interlaced, none }
-#$(eval $(call IMG2SP, SET_FOLDER      , src/               ))
+$(eval $(call IMG2SP, SET_FOLDER      , src/sprites/        ))
 #$(eval $(call IMG2SP, SET_EXTRAPAR    ,                    ))
-#$(eval $(call IMG2SP, SET_IMG_FORMAT  , sprites            ))	{ sprites, zgtiles, screen }
-#$(eval $(call IMG2SP, SET_OUTPUT      , c                  ))  { bin, c }
-#$(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
-#$(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
-#$(eval $(call IMG2SP, CONVERT         , img.png , w, h, array, palette, tileset))
+$(eval $(call IMG2SP, SET_IMG_FORMAT  , sprites             ))#	{ sprites, zgtiles, screen }
+$(eval $(call IMG2SP, SET_OUTPUT      , c                   )) # { bin, c }
+$(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
+$(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
+
+$(eval $(call IMG2SP, CONVERT         , assets/char.png ,    12, 24, sprite_char    ))
+$(eval $(call IMG2SP, CONVERT         , assets/char2.png ,   12, 24, sprite_char2   ))
+$(eval $(call IMG2SP, CONVERT         , assets/malo1_0.png , 12, 24, sprite_malo1_0 ))
+$(eval $(call IMG2SP, CONVERT         , assets/malo1_1.png , 12, 24, sprite_malo1_1 ))
+$(eval $(call IMG2SP, CONVERT         , assets/malo2_0.png , 12, 24, sprite_malo2_0 ))
+$(eval $(call IMG2SP, CONVERT         , assets/malo2_1.png , 12, 24, sprite_malo2_1 ))
 
 ##
 ## OLD MACROS (For compatibility)
