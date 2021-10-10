@@ -42,12 +42,13 @@
 .globl cpct_disableFirmware_asm
 .globl cpct_getScreenPtr_asm
 .globl sys_render_update
+.globl sys_render_init
 .globl sys_physics_update
 .globl sys_render_wait
 .globl cpct_waitVSYNC_asm
 .globl sys_input_update
-
-
+.globl _sprite_char
+.globl _sprite_malo1_0
 
 .globl man_entity_update
 
@@ -63,11 +64,17 @@
 cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps_input
 
 ;; Structure of templates:
-;;                   cmps -  x -  y - vx-vy-  w-     h -color - e_type-         -prevpos     - width- height
-mainchar_entity:: .db cmps, #20, #50, #1, #0, #0x1, #0x10, #0xFF , e_type_mainchar, #0x00, #0x00,  #5,  #07
+;;                   cmps -  x -  y - vx-vy-  w-     h   - e_type-           - sprite    -prevpos    
+mainchar_entity:: .db cmps, #20, #50, #1, #0, #6, #24,  e_type_mainchar ;, #_sprite_char,    #0x00, #0x00
+                  .dw #_sprite_char
+                  .dw #0
 
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-enemy_entity:: .db cmps, #12, #10, 0, #1, #0x08, #0x02, #0xF0, e_type_enemy, #0x01, #0x01,  #8,  #10
+;;                   cmps -  x -  y - vx-vy-  w-     h   - e_type-           - sprite    -prevpos    
+enemy_entity::    .db cmps, #10, #10, #1, #0, #6, #24,  e_type_mainchar ;, #_sprite_malo1_0 , #0x00, #0x00
+                  .dw #_sprite_malo1_0
+                  .dw #0
+
 
 _main::
    ;; Disable firmware to prevent it from interfering with string drawing
@@ -76,7 +83,7 @@ _main::
    
    
    ;; call man_entity_init
-   ;; call sys_render_init
+   call sys_render_init
 
    ld hl, #mainchar_entity 
    call man_entity_create
