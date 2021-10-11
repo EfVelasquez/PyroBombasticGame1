@@ -19,9 +19,7 @@ keyactions::
     .dw Key_S, key_down_action
     .dw 0x0000
 
-;; ------------------------------------
-;;  Horizontal movement
-;; ------------------------------------
+
 
 ;;receives A
 change_shoot_dir:
@@ -37,9 +35,13 @@ change_shoot_dir:
     end_csd:
 ret
 
+;; ------------------------------------
+;;  Horizontal movement
+;; ------------------------------------
+
 key_left_action::
     ld e_vx(ix), #-1
-    
+
     ld a, #3
     call change_shoot_dir
 ret
