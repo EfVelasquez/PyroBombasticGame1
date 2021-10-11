@@ -7,15 +7,16 @@
 
 cooldown: .db #0
 shoot_dir: .db #0
+is_shooting: .db #0
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
 keyactions::
+    .dw Key_Space, key_space_action
     .dw Key_A, key_left_action
     .dw Key_D, key_right_action
     .dw Key_W, key_up_action
     .dw Key_S, key_down_action
-    .dw Key_Space, key_space_action
     .dw 0x0000
 
 ;; ------------------------------------
@@ -23,14 +24,30 @@ keyactions::
 ;; ------------------------------------
 key_left_action::
     ld e_vx(ix), #-1
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr nz, end_kla
+
+
     ld hl, #shoot_dir
     ld (hl), #3
+    
+    end_kla:
 ret
 
 key_right_action::
     ld e_vx(ix), #1
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr nz, end_kra
+
+
     ld hl, #shoot_dir
     ld (hl), #1
+    
+    end_kra:
 ret
 
 ;; ------------------------------------
@@ -38,14 +55,32 @@ ret
 ;; ------------------------------------
 key_up_action::
     ld e_vy(ix), #-1
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr nz, end_kua
+
+
     ld hl, #shoot_dir
     ld (hl), #0
+    
+    end_kua:
 ret
 
 key_down_action::
     ld e_vy(ix), #1
+
+
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr nz, end_kda
+
+
     ld hl, #shoot_dir
     ld (hl), #2
+
+    end_kda:
 ret
 
 ;; ------------------------------------
@@ -54,6 +89,11 @@ ret
 
 key_space_action::
     ;; TODO: shoot
+
+    ld hl, #is_shooting
+    ld (hl), #1
+
+
     ld hl, #cooldown
     inc (hl)
     dec (hl)
@@ -76,6 +116,9 @@ ret
 sys_input_check_keyboard_and_update_player::
     ld e_vx(ix), #0
     ld e_vy(ix), #0
+
+    ld hl, #is_shooting
+    ld (hl), #0
 
     ld hl, #cooldown
     inc (hl)
