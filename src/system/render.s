@@ -1,29 +1,9 @@
 ;; INIT OF RENDER.S
 
 .include "./manager/entities.h.s"
-
-.globl cpct_setVideoMode_asm
-.globl man_entity_forall
-.globl cpct_setPalette_asm
-.globl cpct_getScreenPtr_asm
-.globl cpct_drawSolidBox_asm
-.globl cpct_setVideoMode_asm
-.globl cpct_setPalette_asm
-.globl cpct_drawSprite_asm
+.include "cpct_globals.h.s"
 .globl _g_palette
 .globl _sprite_char
-
-;; sys_render_init::   ;; NO FUNCIONA
-;;     ;; MODE 0
-;;     ld c, #0
-;;     call cpct_setVideoMode_asm
-;; 
-;;     ;; BORDER, SET_PALETTE
-;;     cpctm_setBorder_asm HW_WHITE
-;;     ld hl, #palette
-;;     ld de, #16
-;;     call cpct_setPalette_asm
-;; ret
 
 ;; ---------------------------------------------
 ;; Updates all the entities

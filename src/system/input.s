@@ -2,12 +2,8 @@
 
 .include "cpctelera.h.s"
 .include "./manager/entities.h.s"
-.globl man_entity_forall
-.globl man_entity_create
-.globl cpct_isKeyPressed_asm
-.globl cpct_scanKeyboard_f_asm
-.globl create_bullet
-
+.include "cpct_globals.h.s"
+.include "./entities/bullet.h.s"
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------

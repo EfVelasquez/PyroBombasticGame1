@@ -2,8 +2,6 @@
 
 .include "cpctelera.h.s"
 .include "./manager/entities.h.s"
-.globl man_entity_forall
-
 ;; --------------------------------------
 ;;  Update all entities' physics
 ;;  B -> mask for filter
