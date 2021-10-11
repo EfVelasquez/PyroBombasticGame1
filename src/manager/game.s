@@ -15,12 +15,12 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps
 
 ;; Structure of templates:
 ;;  cmps - x - y - vx - vy - w - h - color - e_type - sprite_ptr - prevpos
-mainchar_entity: .db cmps , #0, #0, #0, #0, #3, #12, #e_type_mainchar, #0, #0, #e_ai_st_noAI
+mainchar_entity: .db cmps , #0, #0, #0, #0, #3, #12,#0xFF, #e_type_mainchar, #0, #0, #e_ai_st_noAI
 .dw #_sprite_char, #0x0000
                ;.ds sizeof_e-1
 
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-enemy_entity: .db cmps , #0, #0, #0, #0, #4, #18, #e_type_enemy, #0, #0, #e_ai_st_stand_by
+enemy_entity: .db cmps , #0, #0, #0, #0, #4, #18,#0xFF, #e_type_enemy, #0, #0, #e_ai_st_stand_by
 .dw #_sprite_char, #0x0000
 
 

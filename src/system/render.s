@@ -45,7 +45,24 @@ sys_render_forone::
 
     ld c, e_w(ix)
     ld b, e_h(ix)
+
+    inc h
+    dec h
+    jr nz, rend_sprite
+    inc l
+    dec l
+    jr nz, rend_sprite
+
+
+    ld a, e_color(ix)
+    call cpct_drawSolidBox_asm
+    jr final_rend
+
+    rend_sprite:
+
     call cpct_drawSprite_asm
+
+    final_rend:
 ret
 
 sys_render_wait::

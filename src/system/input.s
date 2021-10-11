@@ -4,6 +4,8 @@
 .include "./manager/entities.h.s"
 .include "cpct_globals.h.s"
 .include "./entities/bullet.h.s"
+
+cooldown: .db #0
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
@@ -30,11 +32,11 @@ ret
 ;;  Vertical movement
 ;; ------------------------------------
 key_up_action::
-    ld e_vy(ix), #-2
+    ld e_vy(ix), #-1
 ret
 
 key_down_action::
-    ld e_vy(ix), #2
+    ld e_vy(ix), #1
 ret
 
 ;; ------------------------------------
@@ -43,10 +45,19 @@ ret
 
 key_space_action::
     ;; TODO: shoot
+    ld hl, #cooldown
+    inc (hl)
+    dec (hl)
+    jr nz, no_bullet
+
+    ld (hl), #19
+
     ld h, e_x(ix)
     ld l, e_y(ix)
     ld a, #1
     call create_bullet
+
+    no_bullet:
 ret
 
 ;;ix entidad
@@ -54,7 +65,14 @@ sys_input_check_keyboard_and_update_player::
     ld e_vx(ix), #0
     ld e_vy(ix), #0
 
+    ld hl, #cooldown
+    inc (hl)
+    dec (hl)
+    jr z, cont_cool
 
+    dec (hl)
+    
+    cont_cool:
     call cpct_scanKeyboard_f_asm
 
     ld iy, #keyactions-4
