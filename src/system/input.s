@@ -11,7 +11,7 @@ is_shooting: .db #0
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
-keyactions::
+keyactions:: ;;el eje horizontal tendra prioridad ya que hay mas enemigos de los lados
     .dw Key_Space, key_space_action
     .dw Key_A, key_left_action
     .dw Key_D, key_right_action
