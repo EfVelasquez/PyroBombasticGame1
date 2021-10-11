@@ -54,9 +54,6 @@ ret
 
 game_man_update::
 
- cpctm_setBorder_asm HW_RED
-      call sys_render_update
-
    cpctm_setBorder_asm HW_GREEN
       call sys_input_update
 
@@ -65,6 +62,9 @@ game_man_update::
 
    cpctm_setBorder_asm HW_BLUE
       call sys_physics_update
+
+    cpctm_setBorder_asm HW_RED
+      call sys_render_update
    
    cpctm_setBorder_asm HW_WHITE
 
