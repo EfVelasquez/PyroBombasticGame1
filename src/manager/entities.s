@@ -248,3 +248,7 @@ ret
 man_get_current_entity::
     ld ix, (current_entity)
 ret
+
+man_entity_getFirstEntity_IY::
+    ld iy, #array_entities
+ret 

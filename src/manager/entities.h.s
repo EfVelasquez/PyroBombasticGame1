@@ -14,14 +14,22 @@ e_vy        == 4
 e_w         == 5
 e_h         == 6
 e_type      == 7
-e_sprite    == 8      ;; Pointer, 2 bytes
-e_prv_ptr   == 10     ;; Pointer, 2 bytes
+
+e_ai_aim_x  == 8
+e_ai_aim_y  == 9
+e_ai_st     == 10
+
+e_sprite    == 11     ;; Pointer, 2 bytes
+e_prv_ptr   == 13     ;; Pointer, 2 bytes
 
 ;; Entity info
-sizeof_e        == 12
+sizeof_e        == 15
 max_entities    == 40
 
-
+;; Entity AI enum status
+e_ai_st_noAI     == 0
+e_ai_st_stand_by == 1
+e_ai_st_move_to  == 2
 ;; Bit for matching & properties
 
 e_cmps_alive_bit     = 7
@@ -64,3 +72,4 @@ e_type_bullet       = 3
 .globl mainchar_entity
 .globl increase_free_entity
 .globl man_entity_first_entity
+.globl man_entity_getFirstEntity_IY

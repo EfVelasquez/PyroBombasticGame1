@@ -34,13 +34,12 @@ key_up_action::
 ret
 
 key_down_action::
-    ld e_vy(ix), #3
+    ld e_vy(ix), #2
 ret
 
 ;; ------------------------------------
 ;;  Extra action: shoot
 ;; ------------------------------------
-
 
 key_space_action::
     ;; TODO: shoot
