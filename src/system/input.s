@@ -22,32 +22,33 @@ keyactions::
 ;; ------------------------------------
 ;;  Horizontal movement
 ;; ------------------------------------
-key_left_action::
-    ld e_vx(ix), #-1
+
+;;receives A
+change_shoot_dir:
     ld hl, #is_shooting
     inc (hl)
     dec (hl)
-    jr nz, end_kla
+    jr nz, end_csd
 
 
     ld hl, #shoot_dir
-    ld (hl), #3
+    ld (hl), a
     
-    end_kla:
+    end_csd:
+ret
+
+key_left_action::
+    ld e_vx(ix), #-1
+    
+    ld a, #3
+    call change_shoot_dir
 ret
 
 key_right_action::
     ld e_vx(ix), #1
-    ld hl, #is_shooting
-    inc (hl)
-    dec (hl)
-    jr nz, end_kra
 
-
-    ld hl, #shoot_dir
-    ld (hl), #1
-    
-    end_kra:
+    ld a, #1
+    call change_shoot_dir
 ret
 
 ;; ------------------------------------
@@ -55,32 +56,16 @@ ret
 ;; ------------------------------------
 key_up_action::
     ld e_vy(ix), #-1
-    ld hl, #is_shooting
-    inc (hl)
-    dec (hl)
-    jr nz, end_kua
 
-
-    ld hl, #shoot_dir
-    ld (hl), #0
-    
-    end_kua:
+    ld a, #0
+    call change_shoot_dir
 ret
 
 key_down_action::
     ld e_vy(ix), #1
 
-
-    ld hl, #is_shooting
-    inc (hl)
-    dec (hl)
-    jr nz, end_kda
-
-
-    ld hl, #shoot_dir
-    ld (hl), #2
-
-    end_kda:
+    ld a, #2
+    call change_shoot_dir
 ret
 
 ;; ------------------------------------
