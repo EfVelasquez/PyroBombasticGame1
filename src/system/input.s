@@ -6,6 +6,7 @@
 .include "./entities/bullet.h.s"
 
 cooldown: .db #0
+shoot_dir: .db #0
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
@@ -22,10 +23,14 @@ keyactions::
 ;; ------------------------------------
 key_left_action::
     ld e_vx(ix), #-1
+    ld hl, #shoot_dir
+    ld (hl), #3
 ret
 
 key_right_action::
     ld e_vx(ix), #1
+    ld hl, #shoot_dir
+    ld (hl), #1
 ret
 
 ;; ------------------------------------
@@ -33,10 +38,14 @@ ret
 ;; ------------------------------------
 key_up_action::
     ld e_vy(ix), #-1
+    ld hl, #shoot_dir
+    ld (hl), #0
 ret
 
 key_down_action::
     ld e_vy(ix), #1
+    ld hl, #shoot_dir
+    ld (hl), #2
 ret
 
 ;; ------------------------------------
@@ -54,11 +63,14 @@ key_space_action::
 
     ld h, e_x(ix)
     ld l, e_y(ix)
-    ld a, #1
+    ld a, (#shoot_dir)
     call create_bullet
 
     no_bullet:
 ret
+
+
+
 
 ;;ix entidad
 sys_input_check_keyboard_and_update_player::
