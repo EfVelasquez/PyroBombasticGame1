@@ -53,7 +53,7 @@
 .globl sys_render_init
 
 .globl _sprite_char
-.globl _sprite_malo1_0
+;.globl _sprite_malo1_0
 ;;temp
 ;;.globl man_entity_set4destruction
 ;;.globl man_entity_first_entity
@@ -71,8 +71,8 @@ mainchar_entity: .db cmps , #0, #0, #0, #0, #3, #12,#e_type_mainchar
                ;.ds sizeof_e-1
 
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-enemy_entity: .db cmps , #0, #0, #0, #0, #3, #12,#e_type_mainchar 
-.dw #_sprite_malo1_0, #0x0000
+enemy_entity: .db cmps , #0, #0, #0, #0, #4, #18,#e_type_enemy 
+.dw #_sprite_char, #0x0000
 
 build_player::
    ld ix, #mainchar_entity
@@ -82,8 +82,8 @@ build_player::
    ld e_y(ix), #20
    ld e_vx(ix), #0
    ld e_vy(ix), #0
-   ld e_w(ix), #3
-   ld e_h(ix), #12
+   ld e_w(ix), #4
+   ld e_h(ix), #18
    ;ld e_type(ix), #e_type_mainchar
 ;
    ;ld hl, #mainchar_entity+8

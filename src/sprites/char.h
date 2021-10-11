@@ -3,8 +3,8 @@
 #define _ASSETS_CHAR_H_
 
 #include <types.h>
-#define SPRITE_CHAR_W 6
-#define SPRITE_CHAR_H 24
-extern const u8 sprite_char[6 * 24];
+#define SPRITE_CHAR_W 4
+#define SPRITE_CHAR_H 18
+extern const u8 sprite_char[4 * 18];
 
 #endif

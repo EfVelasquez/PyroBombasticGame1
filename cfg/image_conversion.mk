@@ -40,12 +40,12 @@ $(eval $(call IMG2SP, SET_OUTPUT      , c                   )) # { bin, c }
 $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
 
-$(eval $(call IMG2SP, CONVERT         , assets/char.png ,    12, 24, sprite_char    ))
-$(eval $(call IMG2SP, CONVERT         , assets/char2.png ,   12, 24, sprite_char2   ))
-$(eval $(call IMG2SP, CONVERT         , assets/malo1_0.png , 12, 24, sprite_malo1_0 ))
-$(eval $(call IMG2SP, CONVERT         , assets/malo1_1.png , 12, 24, sprite_malo1_1 ))
-$(eval $(call IMG2SP, CONVERT         , assets/malo2_0.png , 12, 24, sprite_malo2_0 ))
-$(eval $(call IMG2SP, CONVERT         , assets/malo2_1.png , 12, 24, sprite_malo2_1 ))
+$(eval $(call IMG2SP, CONVERT         , assets/char.png ,    8, 18, sprite_char    ))
+#$(eval $(call IMG2SP, CONVERT         , assets/char2.png ,   12, 24, sprite_char2   ))
+#$(eval $(call IMG2SP, CONVERT         , assets/malo1_0.png , 12, 24, sprite_malo1_0 ))
+#$(eval $(call IMG2SP, CONVERT         , assets/malo1_1.png , 12, 24, sprite_malo1_1 ))
+#$(eval $(call IMG2SP, CONVERT         , assets/malo2_0.png , 12, 24, sprite_malo2_0 ))
+#$(eval $(call IMG2SP, CONVERT         , assets/malo2_1.png , 12, 24, sprite_malo2_1 ))
 
 ##
 ## OLD MACROS (For compatibility)
