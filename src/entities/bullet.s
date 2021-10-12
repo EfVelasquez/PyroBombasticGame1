@@ -5,7 +5,7 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
 
 
 ;;                   cmps - x - y - vx - vy - w - h - color - e_type- -prevpos  
-bullet_entity::   .db cmps, 0, 0, #0, #0, #0x01, #0x04, #0x0F, e_type_bullet, #0, #0, #e_ai_st_noAI
+bullet_entity::   .db cmps, 0, 0, #0, #0, #0x01, #0x04, e_type_bullet, #0, #0, #e_ai_st_noAI, #0x0F
                     .dw _sprite_char, #0x0000
 
 

@@ -150,12 +150,8 @@ sys_input_check_keyboard_and_update_player::
 ;; --------------------------------------
 
 sys_input_update::
-    xor a   ;; A = 0
-    call man_entity_get_from_idx
-    call sys_input_check_keyboard_and_update_player
-
-    ;ld hl, #sys_input_check_keyboard_and_update_player
-    ;ld b, #e_cmps_input
-    ;call man_entity_forall_matching
+    ld hl, #sys_input_check_keyboard_and_update_player
+    ld b, #e_cmps_input
+    call man_entity_forall_matching
 ret
 

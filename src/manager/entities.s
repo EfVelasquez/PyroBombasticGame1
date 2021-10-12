@@ -1,5 +1,6 @@
 ;; INIT OF ENTITIES.S
 .include "entities.h.s"
+.include "./system/collision.h.s"
 
 next_free_entity: .dw array_entities
 current_entity: .dw array_entities
@@ -11,6 +12,9 @@ array_end: .db 0x00
 
 ;; Initializes the array of entities
 man_entity_init::
+
+    call man_entity_collision_init
+
 ret
 
 ;;recibo en hl la template
@@ -26,6 +30,13 @@ man_entity_create::
     ld de, (next_free_entity) ;; To
     ld bc, #sizeof_e ;; Size
     call cpct_memcpy_asm    ;; Changes AF, BC, DE, HL
+
+    ld ix, (next_free_entity)
+    ld a, e_cmps(ix)
+    and #e_cmps_physics
+    call nz, man_entity_collision_add
+    ;;volver a cargar 'a' desde 'ix' o se jode todo jeje
+
 
     call increase_free_entity
     call man_entity_increase_num
@@ -191,7 +202,9 @@ man_entity_set4destruction::
     ld e_cmps(ix), #e_cmps_todestroy
 ret
 
-
+man_entity_set4destruction_IY::
+    ld e_cmps(iy), #e_cmps_todestroy
+ret
 
 
 man_entity_update:: ;; Updates all entities to be destroyed
