@@ -5,11 +5,12 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
 
 
 ;;                   cmps - x - y - vx - vy - w - h - color - e_type- -prevpos  
-bullet_entity::   .db cmps, 0, 0, #0, #0, #0x01, #0x04, #0x0F, e_type_bullet, #0, #0, #e_ai_st_noAI
-                    .dw _sprite_char, #0x0000
+;bullet_entity::   .db cmps, 0, 0, #0, #0, #0x01, #0x04, #0x0F, e_type_bullet, #0, #0, #e_ai_st_noAI
+;                    .dw _sprite_char, #0x0000
+bullet_entity:: .db cmps
+.ds sizeof_e-1
 
-
-bullet_speed == 1
+bullet_speed == 2
 
 ;;recibir en h->x en l->y
 ;;recibir en a velocidad
@@ -18,9 +19,14 @@ create_bullet::
     ld e_x(ix), h
     ld e_y(ix), l
 
-    ld e_color(ix), #0xCC
-    ld e_sprite(ix), #00
-    ld e_sprite+1(ix), #00
+    ld e_color(ix), #0xFE
+    ;ld e_sprite(ix), #00
+    ;ld e_sprite+1(ix), #00
+
+    ld e_w(ix), #01
+    ld e_h(ix), #04
+    ld e_type(ix), #e_type_bullet
+
 
     cp #0
     jr z, up

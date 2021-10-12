@@ -7,25 +7,25 @@
 ;; Definition of entity structure fields
 
 e_cmps      == 0
-e_x         == 1
-e_y         == 2
-e_vx        == 3
-e_vy        == 4
-e_w         == 5
-e_h         == 6
-e_type      == 7
+e_x         == 1 ;2 bytes
+e_y         == 3 ;2 bytes
+e_vx        == 5 ;2 bytes
+e_vy        == 7 ;2 bytes
+e_w         == 9
+e_h         == 10
+e_type      == 11
 
-e_ai_aim_x  == 8
-e_ai_aim_y  == 9
-e_ai_st     == 10
+e_ai_aim_x  == 12
+e_ai_aim_y  == 13
+e_ai_st     == 14
 
-e_color == 11
+e_color == 15
 
-e_sprite    == 12     ;; Pointer, 2 bytes
-e_prv_ptr   == 14     ;; Pointer, 2 bytes
+e_sprite    == 16     ;; Pointer, 2 bytes
+e_prv_ptr   == 18     ;; Pointer, 2 bytes
 
 ;; Entity info
-sizeof_e        == 16
+sizeof_e        == 20
 max_entities    == 10
 
 ;; Entity AI enum status
