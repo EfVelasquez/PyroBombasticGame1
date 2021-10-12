@@ -19,7 +19,8 @@ ret
 ;; Renders one entity
 ;; IX -> entity
 ;; -----------------------------------------
-sys_render_forone::
+
+sys_render_delete::
 
     ld c, e_w(ix)
     ld b, e_h(ix)
@@ -28,6 +29,11 @@ sys_render_forone::
     ld d, e_prv_ptr+1(ix)
     xor a
     call cpct_drawSolidBox_asm
+ret
+
+sys_render_forone::
+
+    call sys_render_delete
 
     ld de, #0xC000
     ld c, e_x(ix)

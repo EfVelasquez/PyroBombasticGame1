@@ -1,6 +1,7 @@
 ;; INIT OF ENTITIES.S
 .include "entities.h.s"
 .include "./system/collision.h.s"
+.include "./system/render.h.s"
 
 next_free_entity: .dw array_entities
 current_entity: .dw array_entities
@@ -200,10 +201,12 @@ ret
 ;;Receives by ix
 man_entity_set4destruction::
     ld e_cmps(ix), #e_cmps_todestroy
+    call sys_render_delete
 ret
 
 man_entity_set4destruction_IY::
     ld e_cmps(iy), #e_cmps_todestroy
+    call sys_render_delete
 ret
 
 
