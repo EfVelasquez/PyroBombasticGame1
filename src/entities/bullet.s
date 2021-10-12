@@ -22,7 +22,7 @@ create_bullet::
     ld e_x(ix), h
     ld e_y(ix), l
 
-    ld e_color(ix), #0xFE
+    ld e_color(ix), #0x3F
     ;ld e_sprite(ix), #00
     ;ld e_sprite+1(ix), #00
 
