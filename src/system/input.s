@@ -40,16 +40,16 @@ ret
 ;; ------------------------------------
 
 key_left_action::
-    ld e_vx(ix), #-1
-    ld e_vx+1(ix), #0xA0
+    ld e_vx(ix), #-1      ;-1
+    ld e_vx+1(ix), #0xA0  ;+0.A0 (hex) (-0.6hex) -0,35 mas o menos
 
     ld a, #3
     call change_shoot_dir
 ret
 
 key_right_action::
-    ld e_vx(ix), #0
-    ld e_vx+1(ix), #0x60
+    ld e_vx(ix), #0       ;0
+    ld e_vx+1(ix), #0x60  ;+0.60 (hex) (+0.6hex) 0,35 mas o menos
 
     ld a, #1
     call change_shoot_dir
