@@ -50,6 +50,7 @@ ret
 man_entity_destroy:
 
     ld ix, (current_entity)
+    call sys_render_delete
     ld a, e_cmps(ix)
     cp #e_cmps_invalid
     jr z, skip_delete ;si la entidad ya esta muerta, no hago nada
@@ -201,12 +202,12 @@ ret
 ;;Receives by ix
 man_entity_set4destruction::
     ld e_cmps(ix), #e_cmps_todestroy
-    call sys_render_delete
+    
 ret
 
 man_entity_set4destruction_IY::
     ld e_cmps(iy), #e_cmps_todestroy
-    call sys_render_delete
+    
 ret
 
 
