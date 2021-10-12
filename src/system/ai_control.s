@@ -29,7 +29,9 @@ sys_ai_stand_by:
     ;; ld e_ai_aim_y(ix), a
     ;; ld e_ai_st(ix), #e_ai_st_move_to
 
-    ld e_vx(ix), #1
+    ld a, e_x(ix)
+    add e_vx(ix)
+
 ret 
 
 sys_ai_move_to:
