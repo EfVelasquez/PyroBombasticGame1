@@ -43,6 +43,15 @@ key_left_action::
     ld e_vx(ix), #-1      ;-1
     ld e_vx+1(ix), #0xA0  ;+0.A0 (hex) (-0.6hex) -0,35 mas o menos
 
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr z, fast_kla
+        ld e_vx(ix), #-1
+        ld e_vx+1(ix), #0xD0
+
+    fast_kla:
+
     ld a, #3
     call change_shoot_dir
 ret
@@ -50,6 +59,16 @@ ret
 key_right_action::
     ld e_vx(ix), #0       ;0
     ld e_vx+1(ix), #0x60  ;+0.60 (hex) (+0.6hex) 0,35 mas o menos
+
+
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr z, fast_kra
+        ld e_vx(ix), #0
+        ld e_vx+1(ix), #0x30
+
+    fast_kra:
 
     ld a, #1
     call change_shoot_dir
@@ -61,12 +80,31 @@ ret
 key_up_action::
     ld e_vy(ix), #-1
 
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr z, fast_kua
+        ld e_vy(ix), #-1
+        ld e_vy+1(ix), #0x80
+
+    fast_kua:
+
     ld a, #0
     call change_shoot_dir
 ret
 
 key_down_action::
     ld e_vy(ix), #1
+
+    ld hl, #is_shooting
+    inc (hl)
+    dec (hl)
+    jr z, fast_kda
+        ld e_vy(ix), #0
+        ld e_vy+1(ix), #0x80
+
+    fast_kda:
+
 
     ld a, #2
     call change_shoot_dir
