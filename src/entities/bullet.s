@@ -10,12 +10,15 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
 bullet_entity:: .db cmps
 .ds sizeof_e-1
 
-bullet_speed == 2
+bullet_speed == 1
 
 ;;recibir en h->x en l->y
 ;;recibir en a velocidad
 create_bullet::
     ld ix, #bullet_entity
+    
+    ld bc, #0x0207
+    add hl,bc
     ld e_x(ix), h
     ld e_y(ix), l
 
