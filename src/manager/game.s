@@ -67,7 +67,7 @@ build_enemy:
    ld ix, #enemy_entity
    ld e_x(ix), #20
    ld e_y(ix), #80
-   ld e_vx(ix), #0
+   ld e_vx(ix), #1
    ld e_vy(ix), #0
    ld e_w(ix), #4
    ld e_h(ix), #18
