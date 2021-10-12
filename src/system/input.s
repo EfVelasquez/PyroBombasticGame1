@@ -13,10 +13,11 @@ is_shooting: .db #0
 ;; ----------------------------------------
 keyactions:: ;;el eje horizontal tendra prioridad ya que hay mas enemigos de los lados
     .dw Key_Space, key_space_action
-    .dw Key_A, key_left_action
-    .dw Key_D, key_right_action
+    
     .dw Key_W, key_up_action
     .dw Key_S, key_down_action
+    .dw Key_A, key_left_action
+    .dw Key_D, key_right_action
     .dw 0x0000
 
 
@@ -154,12 +155,12 @@ sys_input_check_keyboard_and_update_player::
 sys_input_update::
 
 
-    xor a   ;; A = 0
-    call man_entity_get_from_idx
-    call sys_input_check_keyboard_and_update_player
+    ;xor a   ;; A = 0
+    ;call man_entity_get_from_idx
+    ;call sys_input_check_keyboard_and_update_player
 
-    ;ld hl, #sys_input_check_keyboard_and_update_player
-    ;ld b, #e_cmps_input
-    ;call man_entity_forall_matching
+    ld hl, #sys_input_check_keyboard_and_update_player
+    ld b, #e_cmps_input
+    call man_entity_forall_matching
 ret
 
