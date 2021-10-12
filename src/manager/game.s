@@ -8,6 +8,8 @@
 .include "cpctelera.h.s"
 .include "./system/cpct_globals.h.s"
 .include "./system/ai_control.h.s"
+.include "./system/collision.h.s"
+.include "./system/collision_sys.h.s"
 
 .globl _sprite_char
 
@@ -64,7 +66,7 @@ ret
 build_enemy:
    ld ix, #enemy_entity
    ld e_x(ix), #20
-   ld e_y(ix), #20
+   ld e_y(ix), #80
    ld e_vx(ix), #0
    ld e_vy(ix), #0
    ld e_w(ix), #4
@@ -81,6 +83,9 @@ ret
 
 game_man_init::
 
+   call man_entity_init
+   call sys_collision_control_init
+
     call build_player
     call build_enemy
 
@@ -91,6 +96,7 @@ game_man_init::
 
     ld hl, #enemy_entity
     call man_entity_create
+
 ret
 
 game_man_update::
@@ -108,10 +114,11 @@ game_man_update::
    cpctm_setBorder_asm HW_BLUE
       call sys_ai_control_update
       call sys_physics_update
-
+      call sys_collision_update
     
    
    cpctm_setBorder_asm HW_WHITE
+   
 
    call cpct_waitVSYNC_asm
 ret
