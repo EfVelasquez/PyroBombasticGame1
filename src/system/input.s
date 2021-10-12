@@ -5,6 +5,12 @@
 .include "cpct_globals.h.s"
 .include "./entities/bullet.h.s"
 
+.globl _sprite_char_D1
+.globl _sprite_char_L1
+.globl _sprite_char_U1
+.globl _sprite_char_R1
+
+
 cooldown: .db #0
 shoot_dir: .db #0
 is_shooting: .db #0
@@ -26,13 +32,45 @@ change_shoot_dir:
     ld hl, #is_shooting
     inc (hl)
     dec (hl)
-    jr nz, end_csd
+    jr nz, exit_csd
 
 
     ld hl, #shoot_dir
     ld (hl), a
+
+    cp #0
+    jr z, sprite_up
+    cp #1
+
+    jr z, sprite_right
+    cp #2
+
+    jr z, sprite_down
+    cp #3
+    jr z, sprite_left
+
+    sprite_up:
+    ld hl, #_sprite_char_U1
+    jr end_csd
+
+    sprite_right:
+    ld hl, #_sprite_char_R1
+
+    jr end_csd
+
+    sprite_down:
+    ld hl, #_sprite_char_D1
+
+    jr end_csd
+
+    sprite_left:
+    ld hl, #_sprite_char_L1
+
     
     end_csd:
+    ld e_sprite(ix), l
+    ld e_sprite+1(ix), h
+    exit_csd:
 ret
 
 ;; ------------------------------------

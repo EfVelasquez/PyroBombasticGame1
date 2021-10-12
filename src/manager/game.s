@@ -11,8 +11,8 @@
 .include "./system/collision.h.s"
 .include "./system/collision_sys.h.s"
 
-.globl _sprite_char
-
+.globl _sprite_char_D1
+.globl _sprite_e1_1
 cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps_input
 
 ;; Structure of templates:
@@ -58,7 +58,7 @@ build_player:
 
    ld e_color(ix), #0x0F
 
-   ld hl, #_sprite_char
+   ld hl, #_sprite_char_D1
    ld (#mainchar_entity+e_sprite), hl
 
 ret
@@ -75,7 +75,7 @@ build_enemy:
 
    ld e_color(ix), #0x0F
 
-   ld hl, #_sprite_char
+   ld hl, #_sprite_e1_1
    ld (#enemy_entity+e_sprite), hl
 
 ret
