@@ -26,7 +26,7 @@ e_prv_ptr   == 18     ;; Pointer, 2 bytes
 
 ;; Entity info
 sizeof_e        == 20
-max_entities    == 10
+max_entities    == 7
 
 ;; Entity AI enum status
 e_ai_st_noAI     == 0
@@ -76,3 +76,6 @@ e_type_bullet       = 3
 .globl man_entity_first_entity
 .globl man_entity_getFirstEntity_IY
 .globl man_entity_set4destruction_IY
+.globl man_next_entity_iy_iterator
+.globl man_next_entity_iy
+.globl man_next_entity

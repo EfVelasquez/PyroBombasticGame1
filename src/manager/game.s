@@ -80,20 +80,40 @@ build_enemy:
 
 ret
 
+build_enemy2:
+   ld ix, #enemy_entity
+   ld e_x(ix), #20
+   ld e_y(ix), #0
+   ld e_vx(ix), #1
+   ld e_vy(ix), #0
+   ld e_w(ix), #4
+   ld e_h(ix), #18
+   ld e_type(ix), #e_type_enemy
+
+   ld e_color(ix), #0x0F
+
+   ld hl, #_sprite_e1_1
+   ld (#enemy_entity+e_sprite), hl
+
+ret
 
 game_man_init::
 
    call man_entity_init
-   call sys_collision_control_init
+   ;;call sys_collision_control_init
 
     call build_player
     call build_enemy
+    
 
     call sys_render_init
 
     ld hl, #mainchar_entity 
     call man_entity_create
 
+    ld hl, #enemy_entity
+    call man_entity_create
+    call build_enemy2
     ld hl, #enemy_entity
     call man_entity_create
 
@@ -117,7 +137,7 @@ game_man_update::
 
 
    cpctm_setBorder_asm HW_PINK
-      call sys_collision_update
+      call sys_collision_update_all_entities
     
    
    cpctm_setBorder_asm HW_WHITE

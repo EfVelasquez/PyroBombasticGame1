@@ -5,6 +5,8 @@
 
 next_free_entity: .dw array_entities
 current_entity: .dw array_entities
+current_entity_iy: .dw array_entities
+iterator_entity_iy: .dw array_entities
 num_entities: .db 0 ;; Actual number of entities created
 array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
@@ -262,10 +264,30 @@ man_next_entity:: ;;aumenta la posicion de current entity
     ld ix, (current_entity)
 ret
 
+man_next_entity_iy_iterator:: ;;aumenta la posicion de current entity
+    ld hl, (current_entity)
+    ld bc, #sizeof_e
+    add hl, bc
+    ld (current_entity_iy), hl
+    ld iy, (current_entity_iy)
+ret
+
+man_next_entity_iy::
+    ld hl, (current_entity_iy)
+    ld bc, #sizeof_e
+    add hl, bc
+    ld (current_entity_iy), hl
+    ld iy, (current_entity_iy)
+ret
+
 man_get_current_entity::
     ld ix, (current_entity)
 ret
 
 man_entity_getFirstEntity_IY::
     ld iy, #array_entities
-ret 
+ret
+
+man_entity_getArray::
+    ld hl, #array_entities
+ret
