@@ -26,7 +26,7 @@ e_prv_ptr   == 18     ;; Pointer, 2 bytes
 
 ;; Entity info
 sizeof_e        == 20
-max_entities    == 7
+max_entities    == 30
 
 ;; Entity AI enum status
 e_ai_st_noAI     == 0

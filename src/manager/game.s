@@ -100,7 +100,7 @@ ret
 game_man_init::
 
    call man_entity_init
-   ;;call sys_collision_control_init
+   call sys_collision_control_init
 
     call build_player
     call build_enemy
@@ -137,7 +137,7 @@ game_man_update::
 
 
    cpctm_setBorder_asm HW_PINK
-      call sys_collision_update_all_entities
+      call sys_collision_update
     
    
    cpctm_setBorder_asm HW_WHITE

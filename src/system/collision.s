@@ -4,7 +4,10 @@
 .module entity_collision_manager
 
 _collision_ptr_array: .ds #2*max_entities
+.dw #00
 _collision_ptr_pend: .dw _collision_ptr_array
+
+collisions == 0
 
 ;;DefineComponentPointersArrayStructure_Size, _collision , max_entities
 
@@ -22,7 +25,6 @@ man_entity_collision_init::
     ld e, l
     inc de
     ld bc, #2*max_entities-1
-
     ldir
     
     ;;Esto no acaba aqui, si no en la siguiente funcion que
@@ -46,3 +48,12 @@ man_entity_collision_add::
     ld (_collision_ptr_pend), hl
     
     ret
+
+man_collision_delete::
+    ld hl, (_collision_ptr_pend)
+    dec hl
+    ld (hl), #0x00
+    dec hl
+    ld (hl), #0x00
+    ld (_collision_ptr_pend), hl
+ret

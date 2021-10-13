@@ -85,6 +85,7 @@ man_entity_destroy:
 
     call man_entity_decrease_num
 
+    call man_collision_delete
 
     skip_delete:
 ret 
@@ -290,4 +291,8 @@ ret
 
 man_entity_getArray::
     ld hl, #array_entities
+ret
+
+man_get_num_entities::
+    ld a, #num_entities
 ret
