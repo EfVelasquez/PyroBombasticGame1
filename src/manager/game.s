@@ -23,6 +23,9 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps
 mainchar_entity: .db cmps
 .ds sizeof_e-1
 
+
+pos_enemies: .db #0
+
 cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
 enemy_entity: .db cmps
 .ds sizeof_e-1
@@ -48,8 +51,8 @@ enemy_entity: .db cmps
 
 build_player:
    ld ix, #mainchar_entity
-   ld e_x(ix), #20
-   ld e_y(ix), #20
+   ld e_x(ix), #50
+   ld e_y(ix), #120
    ld e_vx(ix), #0
    ld e_vy(ix), #0
    ld e_w(ix), #4
@@ -66,7 +69,7 @@ ret
 build_enemy:
    ld ix, #enemy_entity
    ld e_x(ix), #20
-   ld e_y(ix), #80
+   ld e_y(ix), #10
    ld e_vx(ix), #1
    ld e_vy(ix), #0
    ld e_w(ix), #4
@@ -77,13 +80,15 @@ build_enemy:
 
    ld hl, #_sprite_e1_1
    ld (#enemy_entity+e_sprite), hl
+
 
 ret
 
-build_enemy2:
+;;HL -> coordenadas
+spawn_enemy1::
    ld ix, #enemy_entity
-   ld e_x(ix), #20
-   ld e_y(ix), #0
+   ld e_x(ix), h
+   ld e_y(ix), l
    ld e_vx(ix), #1
    ld e_vy(ix), #0
    ld e_w(ix), #4
@@ -95,6 +100,27 @@ build_enemy2:
    ld hl, #_sprite_e1_1
    ld (#enemy_entity+e_sprite), hl
 
+   ld hl, #enemy_entity
+   call man_entity_create
+ret
+
+create_enemies:
+   ld b, #5
+   bucle:
+   ld a, (pos_enemies)
+   
+   ld h,#10;;coordenada x
+   ld l,a;;coordenada y
+   push af
+   push bc
+   call spawn_enemy1
+   pop bc
+   pop af
+   add a,#30
+   ld (pos_enemies),a
+
+   dec b
+   jr nz, bucle
 ret
 
 game_man_init::
@@ -103,19 +129,22 @@ game_man_init::
    call sys_collision_control_init
 
     call build_player
-    call build_enemy
-    
-
-    call sys_render_init
-
     ld hl, #mainchar_entity 
     call man_entity_create
 
-    ld hl, #enemy_entity
-    call man_entity_create
-    call build_enemy2
-    ld hl, #enemy_entity
-    call man_entity_create
+
+    ;call build_enemy
+    call create_enemies
+
+    call sys_render_init
+
+    
+
+    ;;ld hl, #enemy_entity
+    ;;call man_entity_create
+    ;;call build_enemy2
+    ;;ld hl, #enemy_entity
+    ;;call man_entity_create
 
 ret
 

@@ -154,18 +154,9 @@ sys_collision_update::
 
         ;;CHECK COLLISION BETWEEN ENTITIES IX AND IY
         ;;DESTROY AF
-        call sys_collision_check
-        jr nc, collision;; jr c, no_collision
-        
-        
-        no_collision:
-            ld a, #0xFF
-            ld (0xC01A), a
-            jr next_iy
-        collision:
-            call check_entities_type_collision
+        call check_entities_type_collision
+        jr next_iy
 
-            jr next_iy
     null:
         pop hl
         jr next_ix
@@ -199,12 +190,8 @@ check_entities_type_collision::
     jr nz, skip
 
     bulletEnemy:
-        ld a, #0x0F
-        ld (0xC008), a
-        ld a, #0x01
-        ;;ld (num_entities2), a
-        call man_entity_set4destruction
-        call man_entity_set4destruction_IY
+        call sys_collision_check
+        jr nc, collision
     ret
 
 
@@ -217,12 +204,8 @@ check_entities_type_collision::
     jr nz, skip
 
     bulletEnemy2:
-        ld a, #0xF0
-        ld (0xC020), a
-        ld a, #0x01
-        ;;ld (num_entities2), a
-        call man_entity_set4destruction
-        call man_entity_set4destruction_IY
+        call sys_collision_check
+        jr nc, collision
     ret
 
     mainCharacter:
@@ -230,28 +213,22 @@ check_entities_type_collision::
     add a, b ;;Enemy/Bullet
     cp #1
     jr z, enemy
-        
-    cp #3
-    jr z, bulletCharacter
+    jr nz, skip
 
     enemy:
-        ld a, #0xFF
-        ld (0xC000), a
-        ld a, #0x01
-        ;;ld (num_entities2), a
+        call sys_collision_check
+        jr nc, collision
+    ret
+
+    ;;Personaje principal muere
+
+    collision:
+
         call man_entity_set4destruction
         call man_entity_set4destruction_IY
-    ;;Personaje principal muere
-    ret
 
-    bulletCharacter:
-
-        ld a, #0xFF
-        ld (0xC000), a
-        
     skip:
-    
-    ret
+
 ret 
 
 
@@ -266,6 +243,11 @@ sys_collision_check::
     sub e_x(iy)
     ret c
 
+    ld a, e_y(ix)
+    add e_h(ix)
+    sub e_y(iy)
+    ret c
+
     ;;if (c<d)
     ;;a = e_x(iy)+e_w(iy) < e_x(ix)
     ;;a = e_x(iy)+e_w(iy) - e_x(ix) < 0
@@ -276,11 +258,6 @@ sys_collision_check::
     ret c
 
     ;;Colision en Y
-
-    ld a, e_y(ix)
-    add e_h(ix)
-    sub e_y(iy)
-    ret c
 
     ld a, e_y(iy)
     add e_h(iy)
