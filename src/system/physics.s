@@ -13,8 +13,13 @@ sys_physics_update::
     call man_entity_forall_matching
 ret
 
+
+wall: .db #0
+
 ;;recibe IX
 phy_update_forone::
+    ld hl, #wall
+    ld (hl), #0
 
     ld h,e_x(ix)
     ld l,e_x+1(ix)
@@ -26,18 +31,25 @@ phy_update_forone::
 
     
     ld a,h
-    cp #0
+    cp #2
     jp m, no_x
     
     add e_w(ix)
-    cp #81
+    cp #79
     jr nc, no_x
 
     ld e_x(ix), h
     ld e_x+1(ix), l
 
+    jr skip_x
 
     no_x:
+    ld hl, #wall
+    ld (hl), #1
+
+    skip_x:
+
+
     ld h,e_y(ix)
     ld l,e_y+1(ix)
 
@@ -53,15 +65,39 @@ phy_update_forone::
     jr nc, no_y
     
     add e_h(ix)
-    cp #201
+    cp #195
     jr nc, no_y
 
     ld e_y(ix), h
     ld e_y+1(ix), l
 
 
+    jr skip_y
+
     no_y:
+    ld hl, #wall
+    ld (hl), #1
+
+    skip_y:
 
 
+
+
+    ld a, e_type(ix)
+    cp #e_type_bullet
+    jr nz, end_phy
+
+    ;ld a, e_vx(ix)
+    ;add a, e_vx+1(ix)
+    ;add a, e_vy(ix)
+    ;add a, e_vy+1(ix)
+
+    ld a, (#wall)
+    cp #0
+
+    jr z, end_phy
+    call man_entity_set4destruction
+
+    end_phy:
 ret
 
