@@ -12,7 +12,8 @@
 .include "./system/collision_sys.h.s"
 
 .globl _sprite_char_D1
-.globl _sprite_e1_1
+.globl spawn_enemy1
+
 cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps_input
 
 ;; Structure of templates:
@@ -25,11 +26,6 @@ mainchar_entity: .db cmps
 
 
 pos_enemies: .db #0
-
-cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
-enemy_entity: .db cmps
-.ds sizeof_e-1
-
 
 ;e_cmps      == 0
 ;e_x         == 1
@@ -66,43 +62,26 @@ build_player:
 
 ret
 
-build_enemy:
-   ld ix, #enemy_entity
-   ld e_x(ix), #20
-   ld e_y(ix), #10
-   ld e_vx(ix), #1
-   ld e_vy(ix), #0
-   ld e_w(ix), #4
-   ld e_h(ix), #18
-   ld e_type(ix), #e_type_enemy
-
-   ld e_color(ix), #0x0F
-
-   ld hl, #_sprite_e1_1
-   ld (#enemy_entity+e_sprite), hl
-
-
-ret
 
 ;;HL -> coordenadas
-spawn_enemy1::
-   ld ix, #enemy_entity
-   ld e_x(ix), h
-   ld e_y(ix), l
-   ld e_vx(ix), #1
-   ld e_vy(ix), #0
-   ld e_w(ix), #4
-   ld e_h(ix), #18
-   ld e_type(ix), #e_type_enemy
-
-   ld e_color(ix), #0x0F
-
-   ld hl, #_sprite_e1_1
-   ld (#enemy_entity+e_sprite), hl
-
-   ld hl, #enemy_entity
-   call man_entity_create
-ret
+;spawn_enemy1::
+;   ld ix, #enemy_entity
+;   ld e_x(ix), h
+;   ld e_y(ix), l
+;   ld e_vx(ix), #1
+;   ld e_vy(ix), #0
+;   ld e_w(ix), #4
+;   ld e_h(ix), #18
+;   ld e_type(ix), #e_type_enemy
+;
+;   ld e_color(ix), #0x0F
+;
+;   ld hl, #_sprite_e1_1
+;   ld (#enemy_entity+e_sprite), hl
+;
+;   ld hl, #enemy_entity
+;   call man_entity_create
+;ret
 
 create_enemies:
    ld b, #5

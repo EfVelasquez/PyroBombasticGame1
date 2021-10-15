@@ -74,8 +74,8 @@ e_type_bullet       = 3
 .globl mainchar_entity
 .globl increase_free_entity
 .globl man_entity_first_entity
-.globl man_entity_getFirstEntity_IY
+;.globl man_entity_getFirstEntity_IY
 .globl man_entity_set4destruction_IY
-.globl man_next_entity_iy_iterator
-.globl man_next_entity_iy
+;.globl man_next_entity_iy_iterator
+;.globl man_next_entity_iy
 .globl man_next_entity

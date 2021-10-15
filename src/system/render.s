@@ -1,5 +1,6 @@
 ;; INIT OF RENDER.S
 
+.include "cpctelera.h.s"
 .include "./manager/entities.h.s"
 .include "cpct_globals.h.s"
 .globl _g_palette
@@ -10,7 +11,7 @@
 ;; B -> Mask to filter
 ;; ---------------------------------------------
 sys_render_update::
-    call sys_render_clear_screen
+    ;call sys_render_clear_screen
     ld hl, #sys_render_forone
     ld b, #e_cmps_render ;; e_cmps_render
     call man_entity_forall_matching
@@ -28,21 +29,14 @@ sys_render_delete::
 
     ld e, e_prv_ptr+0(ix)
     ld d, e_prv_ptr+1(ix)
-    xor a
+    ld a, #0x3C
     call cpct_drawSolidBox_asm
 ret
 
-sys_render_clear_screen:
-    ld de, #0xC000
-    xor a
-    ld c, #10
-    ld b, #10
-    call cpct_drawSolidBox_asm
-ret
 
 sys_render_forone::
-
-    ;call sys_render_delete
+    cpctm_setBorder_asm HW_WHITE
+    call sys_render_delete
 
     ld de, #0xC000
     ld c, e_x(ix)
@@ -78,6 +72,7 @@ sys_render_forone::
     call cpct_drawSprite_asm
 
     final_rend:
+    cpctm_setBorder_asm HW_RED
 ret
 
 sys_render_wait::
@@ -97,4 +92,7 @@ sys_render_init::
     ld hl, #_g_palette
     ld de, #16
     call cpct_setPalette_asm
+
+
+    cpctm_clearScreen_asm #0x3C
 ret

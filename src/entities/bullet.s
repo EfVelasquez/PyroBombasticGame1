@@ -1,13 +1,13 @@
 
 .include "./manager/entities.h.s"
 .globl _sprite_char
-cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
+b_cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
 
 
 ;;                   cmps - x - y - vx - vy - w - h - color - e_type- -prevpos  
 ;bullet_entity::   .db cmps, 0, 0, #0, #0, #0x01, #0x04, #0x0F, e_type_bullet, #0, #0, #e_ai_st_noAI
 ;                    .dw _sprite_char, #0x0000
-bullet_entity:: .db cmps
+bullet_entity:: .db b_cmps
 .ds sizeof_e-1
 
 bullet_speed == 2

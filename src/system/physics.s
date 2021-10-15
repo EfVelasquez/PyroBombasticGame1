@@ -18,6 +18,7 @@ wall: .db #0
 
 ;;recibe IX
 phy_update_forone::
+    cpctm_setBorder_asm HW_WHITE
     ld hl, #wall
     ld (hl), #0
 
@@ -99,5 +100,6 @@ phy_update_forone::
     call man_entity_set4destruction
 
     end_phy:
+    cpctm_setBorder_asm HW_BLUE
 ret
 
