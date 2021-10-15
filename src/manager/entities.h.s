@@ -72,7 +72,6 @@ e_type_bullet       = 3
 .globl man_entity_increase_num
 .globl man_entity_decrease_num
 .globl mainchar_entity
-.globl increase_free_entity
 .globl man_entity_first_entity
 .globl man_entity_getFirstEntity_IY
 .globl man_entity_set4destruction_IY

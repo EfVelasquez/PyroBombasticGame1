@@ -32,7 +32,7 @@ man_entity_create::
     ;; ld hl, #mainchar_entity ;; From
     ld de, (next_free_entity) ;; To
     ld bc, #sizeof_e ;; Size
-    call cpct_memcpy_asm    ;; Changes AF, BC, DE, HL
+    ldir    ;; Changes AF, BC, DE, HL
 
     ld ix, (next_free_entity)
     ld a, e_cmps(ix)
@@ -40,8 +40,11 @@ man_entity_create::
     call nz, man_entity_collision_add
     ;;volver a cargar 'a' desde 'ix' o se jode todo jeje
 
-
-    call increase_free_entity
+    ;; Increase free entity
+    ld hl, (next_free_entity)
+    ld bc, #sizeof_e
+    add hl, bc
+    ld (next_free_entity), hl
     call man_entity_increase_num
 
     ;; No free space -> Skip
@@ -57,7 +60,11 @@ man_entity_destroy:
     cp #e_cmps_invalid
     jr z, skip_delete ;si la entidad ya esta muerta, no hago nada
 
-    call decrease_free_entity ;;deja en hl el last free entity actualizado
+    ;; Decrease free entity
+    ld hl, (next_free_entity)
+    ld bc, #-sizeof_e
+    add hl, bc
+    ld (next_free_entity), hl
 
 
     ld de, (current_entity)
@@ -237,19 +244,7 @@ man_entity_decrease_num: ;; Decreases the value of the counter num_entities
     dec (hl)
 ret
 
-increase_free_entity: ;; Updates the direction of the next_free_entity pointer
-    ld hl, (next_free_entity)
-    ld bc, #sizeof_e
-    add hl, bc
-    ld (next_free_entity), hl
-ret
 
-decrease_free_entity: ;; Updates the direction of the next_free_entity pointer
-    ld hl, (next_free_entity)
-    ld bc, #-sizeof_e
-    add hl, bc
-    ld (next_free_entity), hl
-ret
 
 man_entity_first_entity:: ;; Changes the entity controller to ix register
     ld hl, #array_entities

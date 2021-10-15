@@ -10,10 +10,8 @@
 ;; B -> Mask to filter
 ;; ---------------------------------------------
 sys_render_update::
-    call sys_render_clear_screen
     ld hl, #sys_render_forone
-    ld b, #e_cmps_render ;; e_cmps_render
-    call man_entity_forall_matching
+    call man_entity_forall
 ret
 
 ;; -----------------------------------------
@@ -42,7 +40,7 @@ ret
 
 sys_render_forone::
 
-    ;call sys_render_delete
+    call sys_render_delete
 
     ld de, #0xC000
     ld c, e_x(ix)
