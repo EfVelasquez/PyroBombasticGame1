@@ -52,7 +52,7 @@ enemy_entity: .db cmps
 build_player:
    ld ix, #mainchar_entity
    ld e_x(ix), #50
-   ld e_y(ix), #120
+   ld e_y(ix), #140
    ld e_vx(ix), #0
    ld e_vy(ix), #0
    ld e_w(ix), #4
