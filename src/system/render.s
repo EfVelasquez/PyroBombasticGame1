@@ -11,10 +11,7 @@
 ;; B -> Mask to filter
 ;; ---------------------------------------------
 sys_render_update::
-<<<<<<< HEAD
     ;call sys_render_clear_screen
-=======
->>>>>>> b0d6138c94ab0ea399b8e84291467c0e1ea9d94d
     ld hl, #sys_render_forone
     call man_entity_forall
 ret
