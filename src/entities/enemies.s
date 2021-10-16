@@ -13,33 +13,33 @@ enemy_entity: .db en_cmps
 
 
 ;-------
-spwn1_x =  37
+spwn1_x =  39
 spwn1_y =  30 ;arriba
 spwn1_vx = 0
 spwn1_vy = 1
 
-spwn2_x =  37
-spwn2_y =  170 ;abajo
+spwn2_x =  39
+spwn2_y =  178 ;abajo
 spwn2_vx = 0
 spwn2_vy = -1
 
 spwn3_x =  2
-spwn3_y =  50 ;izq arr
+spwn3_y =  60 ;izq arr
 spwn3_vx = 1
 spwn3_vy = 0
 
-spwn4_x =  70
-spwn4_y =  50 ;der arr
+spwn4_x =  75
+spwn4_y =  60 ;der arr
 spwn4_vx = -1
 spwn4_vy = 0
 
 spwn5_x =  2
-spwn5_y =  130 ;izq abaj
+spwn5_y =  140 ;izq abaj
 spwn5_vx = 1
 spwn5_vy = 0
 
-spwn6_x =  70
-spwn6_y =  130 ;der abaj
+spwn6_x =  75
+spwn6_y =  140 ;der abaj
 spwn6_vx = -1
 spwn6_vy = 0
 ;--------
