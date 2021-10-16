@@ -50,7 +50,7 @@ phy_update_forone::
 
     skip_x:
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;; Y
     ld h,e_y(ix)
     ld l,e_y+1(ix)
 
@@ -62,11 +62,11 @@ phy_update_forone::
     
 
     ld a,h
-    cp #-2
-    jr nc, no_y
+    cp #30
+    jr c, no_y
     
     add e_h(ix)
-    cp #195
+    cp #196
     jr nc, no_y
 
     ld e_y(ix), h

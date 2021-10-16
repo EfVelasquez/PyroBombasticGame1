@@ -16,6 +16,194 @@ sys_render_update::
     call man_entity_forall
 ret
 
+
+
+
+
+draw_room::
+
+    ;;;;;;;;Barra negra de arriba
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #0;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #64 ;x
+    ld b, #10;y
+
+    ld a, #0x00
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #64 ;x
+    ld b, #0;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #16 ;x
+    ld b, #10;y
+
+    ld a, #0x00
+    call cpct_drawSolidBox_asm
+    ;;;;;;Pared Superior
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #10;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #64 ;x
+    ld b, #20;y
+
+    ld a, #0xC3
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #64 ;x
+    ld b, #10;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #16 ;x
+    ld b, #20;y
+
+    ld a, #0xC3
+    call cpct_drawSolidBox_asm
+
+    ;;;Paredes laterales
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #30;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #1 ;x
+    ld b, #170;y
+
+    ld a, #0xC3
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #79 ;x
+    ld b, #30;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #1 ;x
+    ld b, #170;y
+
+    ld a, #0xC3
+    call cpct_drawSolidBox_asm
+
+    ;; Pared abajo
+
+    ld de, #0xC000
+    ld c, #1 ;x
+    ld b, #195;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #64 ;x
+    ld b, #5;y
+
+    ld a, #0xC3
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #64 ;x
+    ld b, #195;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #16 ;w
+    ld b, #5;h
+
+    ld a, #0xC3
+    call cpct_drawSolidBox_asm
+
+    ;;;;Contornos arriba
+
+    ld de, #0xC000
+    ld c, #2 ;x
+    ld b, #29;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #64 ;w
+    ld b, #1;h
+
+    ld a, #0x00
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #66 ;x
+    ld b, #29;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #12 ;w
+    ld b, #1;h
+
+    ld a, #0x00
+    call cpct_drawSolidBox_asm
+    ;;contornos abajo
+
+    ld de, #0xC000
+    ld c, #2 ;x
+    ld b, #195;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #64 ;w
+    ld b, #1;h
+
+    ld a, #0x00
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #66 ;x
+    ld b, #195;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #12 ;w
+    ld b, #1;h
+
+    ld a, #0x00
+    call cpct_drawSolidBox_asm
+
+    ;;;Contornos
+
+    ld de, #0xC000
+    ld c, #1 ;x
+    ld b, #29;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #1 ;x
+    ld b, #167;y
+
+    ld a, #0x82
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #78 ;x
+    ld b, #29;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #1 ;x
+    ld b, #167;y
+
+    ld a, #0x41
+    call cpct_drawSolidBox_asm
+
+ret
+
 ;; -----------------------------------------
 ;; Renders one entity
 ;; IX -> entity
@@ -94,4 +282,5 @@ sys_render_init::
 
 
     cpctm_clearScreen_asm #0x3C
+    call draw_room
 ret

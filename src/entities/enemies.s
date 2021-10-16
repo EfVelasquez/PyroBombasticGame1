@@ -14,7 +14,7 @@ enemy_entity: .db en_cmps
 
 ;-------
 spwn1_x =  37
-spwn1_y =  0 ;arriba
+spwn1_y =  30 ;arriba
 spwn1_vx = 0
 spwn1_vy = 1
 

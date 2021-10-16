@@ -139,17 +139,18 @@ game_man_update::
    call sys_input_update
    call sys_ai_control_update
 
-   
+   cpctm_setBorder_asm HW_PINK
+      call sys_collision_update
+      
    cpctm_setBorder_asm HW_BLUE
       call sys_ai_control_update
       call sys_physics_update
 
 
-   cpctm_setBorder_asm HW_PINK
-      call sys_collision_update
+   
     
    
-   cpctm_setBorder_asm HW_WHITE
+   cpctm_setBorder_asm HW_BRIGHT_WHITE
    
 
    call cpct_waitVSYNC_asm
