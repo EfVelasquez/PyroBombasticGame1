@@ -9,6 +9,14 @@ num_entities: .db 0 ;; Actual number of entities created
 array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
 
+num_enemies: .db 0x01
+.globl spawn_enemy1
+
+more_enemies::
+    ld a, (#num_enemies)
+    ld a, #1
+    ld (#num_enemies), a
+ret
 ;; Functions for entities
 
 ;; Initializes the array of entities
@@ -54,6 +62,12 @@ man_entity_destroy:
 
     ld ix, (current_entity)
     call sys_render_delete
+    ld a, e_type(ix)
+    cp #1
+    jr nz, nop
+    call spawn_enemy1
+
+    nop:
     ld a, e_cmps(ix)
     cp #e_cmps_invalid
     jr z, skip_delete ;si la entidad ya esta muerta, no hago nada
@@ -91,6 +105,7 @@ man_entity_destroy:
     call man_entity_decrease_num
 
     call man_collision_delete
+    
 
     skip_delete:
 ret 
@@ -220,9 +235,11 @@ ret
 
 
 man_entity_update:: ;; Updates all entities to be destroyed
+    
     ld hl, #man_entity_destroy
     ld b, #e_cmps_todestroy
     call man_entity_forall_matching
+    
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -278,9 +295,9 @@ man_get_current_entity::
     ld ix, (current_entity)
 ret
 
-;man_entity_getFirstEntity_IY::
-;    ld iy, #array_entities
-;ret
+man_entity_getFirstEntity_IY::
+    ld iy, #array_entities
+ret
 
 man_entity_getArray::
     ld hl, #array_entities

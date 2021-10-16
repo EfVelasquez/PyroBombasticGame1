@@ -73,8 +73,9 @@ e_type_bullet       = 3
 .globl man_entity_decrease_num
 .globl mainchar_entity
 .globl man_entity_first_entity
-;.globl man_entity_getFirstEntity_IY
+.globl man_entity_getFirstEntity_IY
 .globl man_entity_set4destruction_IY
 ;.globl man_next_entity_iy_iterator
 ;.globl man_next_entity_iy
 .globl man_next_entity
+.globl more_enemies

@@ -146,10 +146,17 @@ spawn_enemy1::
    after_calc_enem:
    ;----
    
-
+   ld e_vx(ix), #0x00
+   ld e_vx+1(ix), #0x00
+   ld e_vy(ix), #0x00
+   ld e_vy+1(ix), #0
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_enemy
+
+   ld e_ai_aim_x(ix), #0
+   ld e_ai_aim_y(ix), #0
+   ld e_ai_st(ix), #2
 
    ld e_color(ix), #0x0F
 

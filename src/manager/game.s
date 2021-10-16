@@ -47,7 +47,7 @@ pos_enemies: .db #0
 
 build_player:
    ld ix, #mainchar_entity
-   ld e_x(ix), #50
+   ld e_x(ix), #20
    ld e_y(ix), #140
    ld e_vx(ix), #0
    ld e_vy(ix), #0
@@ -84,7 +84,7 @@ ret
 ;ret
 
 create_enemies:
-   ld b, #5
+   ld b, #1
    bucle:
    ld a, (pos_enemies)
    
@@ -137,6 +137,7 @@ game_man_update::
 
    cpctm_setBorder_asm HW_GREEN
    call sys_input_update
+   call sys_ai_control_update
 
    
    cpctm_setBorder_asm HW_BLUE
