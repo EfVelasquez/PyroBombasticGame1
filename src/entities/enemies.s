@@ -110,7 +110,7 @@ spawn_enemy1::
    jr after_calc_enem
 
    es_3:
-    ld e_x(ix), #spwn4_x
+   ld e_x(ix), #spwn4_x
    ld e_y(ix), #spwn4_y
    ld e_vx(ix), #-1
    ld e_vx+1(ix), #0xC0
@@ -146,19 +146,15 @@ spawn_enemy1::
    after_calc_enem:
    ;----
    
-   ld e_vx(ix), #0x00
-   ld e_vx+1(ix), #0x00
-   ld e_vy(ix), #0x00
-   ld e_vy+1(ix), #0
+   ;;ld e_vx(ix), #0x00
+   ;;ld e_vx+1(ix), #0x00
+   ;;ld e_vy(ix), #0x00
+   ;;ld e_vy+1(ix), #0
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_enemy
 
-   ld e_ai_aim_x(ix), #0
-   ld e_ai_aim_y(ix), #0
-   ld e_ai_st(ix), #2
-
-   ld e_color(ix), #0x0F
+   ld e_ai_st(ix), #e_ai_st_move_to_food
 
    ld hl, #_sprite_e1_1
    ld (#enemy_entity+e_sprite), hl

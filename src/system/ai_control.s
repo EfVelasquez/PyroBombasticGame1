@@ -10,6 +10,7 @@ sys_ai_control_init::
 ret
 
 sys_ai_control_update::
+    call man_entity_getFirstEntity_IY
     ld hl, #sys_ai_control_update_forone
     call man_entity_forall
 ret
@@ -54,6 +55,7 @@ sys_ia_movement:
     arrives_x:
     ld e_vx(ix), #0
     ld e_vx+1(ix), #0
+    ld a, e_type(ix)
 
     next_pos:
 
@@ -92,14 +94,80 @@ sys_ia_movement:
 
 ret
 
+enemy_arrived: .db 0x00
+
+sys_ai_movement_food:
+    ld a, #50   ;; X Objetivo
+    ld (enemy_arrived), a
+    cp e_x(ix)  ;; Esto controla al zombi
+    jp m, left_ia_food  ;; Esto significa que se mueve hacia la izquierda
+    jr z, arrives_x_food
+
+    ld e_vx(ix), #0
+    ld e_vx+1(ix), #0x10
+    jr next_pos_food
+
+    left_ia_food:
+    ld e_vx(ix), #-1
+    ld e_vx+1(ix), #0xE0
+    jr next_pos_food
+
+    arrives_x_food:
+    ld e_vx(ix), #0
+    ld e_vx+1(ix), #0
+    ld a, #1
+    ld (enemy_arrived), a
+    ;;ld a, e_type(ix)
+    ld e_ai_st(ix), #e_ai_st_stand_by
+
+    next_pos_food:
+
+    ld a, #100  ;; Cargas la Y
+    cp e_y(ix)
+
+    jp m, up_ia_food
+    jr z, arrives_y_food
+
+    ;; Cuando el enemigo va hacia abajo
+    ld e_vy(ix), #0
+    ld e_vy+1(ix), #0x30
+    jr next_pos_Y_food
+
+    up_ia_food:
+    ld e_vy(ix), #-1
+    ld e_vy+1(ix), #0xC0
+    jr next_pos_Y_food
+
+    arrives_y_food:
+    ld e_vy(ix), #0
+    ld e_vy+1(ix), #0
+    ld a, (enemy_arrived)
+    inc a
+    ;;ld e_ai_st(ix), #e_ai_st_stand_by
+    next_pos_Y_food:
+    ld a, e_vx(ix)
+    cp #0
+    jr nz, _skip
+    ld a, e_vy(ix)
+    cp #0
+    jr nz, _skip
+    ;;cp #2
+    ;;jr nz, _skip
+    ld e_ai_st(ix), #e_ai_st_stand_by
+    _skip:
+ret
+
 
 sys_ai_move_to:
-    call man_entity_getFirstEntity_IY
     call sys_ia_movement
 ret
 
-sys_ai_control_update_forone:
+sys_ai_move_to_food:
+    call sys_ai_movement_food
+ret
 
+
+sys_ai_control_update_forone:
     ld a, e_ai_st(ix)
     cp #e_ai_st_noAI
     jr z, no_AI_ent
@@ -108,6 +176,8 @@ sys_ai_control_update_forone:
         call z, sys_ai_stand_by
         cp #e_ai_st_move_to
         call z, sys_ai_move_to
+        cp #e_ai_st_move_to_food
+        call z, sys_ai_move_to_food
         ;;ld e_vx(ix), #-1
         ;;ld e_vy(ix), #-1
     no_AI_ent:

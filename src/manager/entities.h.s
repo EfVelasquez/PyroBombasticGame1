@@ -14,24 +14,27 @@ e_vy        == 7 ;2 bytes
 e_w         == 9
 e_h         == 10
 e_type      == 11
+e_ai_st     == 12
+e_sprite    == 13    ;; Pointer, 2 bytes
+e_prv_ptr   == 15    ;; Pointer, 2 bytes
+e_lifes     == 17    ;; Lifes of both character and enemy
+e_level     == 18    ;; Dificultad de los enemigos (velocidad)
 
-e_ai_aim_x  == 12
-e_ai_aim_y  == 13
-e_ai_st     == 14
-
-e_color == 15
-
-e_sprite    == 16     ;; Pointer, 2 bytes
-e_prv_ptr   == 18     ;; Pointer, 2 bytes
+e_fs1       == 19
+e_fs2       == 20
+e_fs3       == 21
+e_fs4       == 22
+e_fs5       == 23
 
 ;; Entity info
-sizeof_e        == 20
+sizeof_e        == 24
 max_entities    == 30
 
 ;; Entity AI enum status
-e_ai_st_noAI     == 0
-e_ai_st_stand_by == 1
-e_ai_st_move_to  == 2
+e_ai_st_noAI            == 0
+e_ai_st_stand_by        == 1
+e_ai_st_move_to         == 2
+e_ai_st_move_to_food    == 3
 ;; Bit for matching & properties
 
 e_cmps_alive_bit     = 7
