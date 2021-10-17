@@ -28,7 +28,7 @@ sys_ai_stand_by:
     ;; ld a, e_y(iy)
     ;; ld e_ai_aim_y(ix), a
     ;; ld e_ai_st(ix), #e_ai_st_move_to
-    call man_entity_set4destruction
+    ;call man_entity_set4destruction
 ret 
 
 

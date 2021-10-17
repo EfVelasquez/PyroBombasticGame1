@@ -28,7 +28,7 @@ spwn3_y =  60 ;izq arr
 spwn3_vx = 1
 spwn3_vy = 0
 
-spwn4_x =  75
+spwn4_x =  74
 spwn4_y =  60 ;der arr
 spwn4_vx = -1
 spwn4_vy = 0
@@ -38,7 +38,7 @@ spwn5_y =  140 ;izq abaj
 spwn5_vx = 1
 spwn5_vy = 0
 
-spwn6_x =  75
+spwn6_x =  74
 spwn6_y =  140 ;der abaj
 spwn6_vx = -1
 spwn6_vy = 0

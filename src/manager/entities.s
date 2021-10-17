@@ -1,5 +1,6 @@
 ;; INIT OF ENTITIES.S
 .include "entities.h.s"
+.include "rounds.h.s"
 .include "./system/collision.h.s"
 .include "./system/render.h.s"
 
@@ -63,9 +64,10 @@ man_entity_destroy:
     ld ix, (current_entity)
     call sys_render_delete
     ld a, e_type(ix)
-    cp #1
+    cp #e_type_enemy
     jr nz, nop
-    call spawn_enemy1
+    ;call spawn_enemy1
+    call enemy_died
 
     nop:
     ld a, e_cmps(ix)
