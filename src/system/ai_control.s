@@ -146,6 +146,9 @@ sys_ai_movement_food:
     ld (enemy_arrived), a
     ;;ld e_ai_st(ix), #e_ai_st_stand_by
     next_pos_Y_food:
+
+    
+
     ld a, (enemy_arrived)
     cp #2
     jr nz, _skip

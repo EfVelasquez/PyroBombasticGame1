@@ -245,11 +245,10 @@ check_entities_type_collision::
         dec a
         jr nz, not_damaged
             call man_entity_damaged
-            ld a, #200
+            ld a, #100 ;;Tiempo entre hit y hit 50 = 1 Segundo
             ld (#cooldown_damaged), a
             ld a, #1
             ld (#damaged), a
-            call spawn_enemy1
             jp skip
         not_damaged:
             ld (#cooldown_damaged), a

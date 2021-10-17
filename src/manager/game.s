@@ -55,7 +55,7 @@ build_player:
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_mainchar
-   ld e_lifes(ix), #100
+   ld e_lifes(ix), #3
 
    ld hl, #_sprite_char_D1
    ld (#mainchar_entity+e_sprite), hl
