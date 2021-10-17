@@ -118,7 +118,7 @@ sys_ai_movement_food:
     ld a, #1
     ld (enemy_arrived), a
     ;;ld a, e_type(ix)
-    ld e_ai_st(ix), #e_ai_st_stand_by
+    ;;ld e_ai_st(ix), #e_ai_st_stand_by
 
     next_pos_food:
 
@@ -145,12 +145,12 @@ sys_ai_movement_food:
     inc a
     ;;ld e_ai_st(ix), #e_ai_st_stand_by
     next_pos_Y_food:
-    ld a, e_vx(ix)
-    cp #0
+    ld a, (enemy_arrived)
+    cp #2
     jr nz, _skip
-    ld a, e_vy(ix)
-    cp #0
-    jr nz, _skip
+    ;;ld a, e_vy(ix)
+    ;;cp #0
+    ;;jr nz, _skip
     ;;cp #2
     ;;jr nz, _skip
     ld e_ai_st(ix), #e_ai_st_stand_by

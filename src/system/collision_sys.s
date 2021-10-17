@@ -216,8 +216,8 @@ check_entities_type_collision::
     jr nz, skip
 
     enemy:
-        call sys_collision_check
-        jr nc, collision
+        ;;call sys_collision_check
+        ;;jr nc, collision
     ret
 
     ;;Personaje principal muere
