@@ -11,6 +11,9 @@
 .globl _sprite_puerta_lat_der
 .globl _sprite_vent
 .globl _sprite_vent_abaj
+.globl _sprite_poster
+
+
 ;; ---------------------------------------------
 ;; Updates all the entities
 ;; B -> Mask to filter
@@ -464,7 +467,7 @@ draw_decorations:
     call cpct_drawSprite_asm
 
     ld de, #0xC000
-    ld c, #57 ;x
+    ld c, #51 ;x
     ld b, #10;y
     call cpct_getScreenPtr_asm
     ex de, hl
@@ -503,6 +506,20 @@ draw_decorations:
     call cpct_drawSprite_asm
     
 
+
+
+    ld de, #0xC000
+    ld c, #69 ;x
+    ld b, #12;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #7 ;x
+    ld b, #16;y
+
+    ld hl, #_sprite_poster
+
+    call cpct_drawSprite_asm
 ret
 
 ;; -----------------------------------------

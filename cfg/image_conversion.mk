@@ -51,6 +51,7 @@ $(eval $(call IMG2SP, CONVERT         , assets/decos/puerta_lateral.png , 4, 6, 
 $(eval $(call IMG2SP, CONVERT         , assets/decos/puerta_lateral_der.png , 4, 6, sprite_puerta_lat_der   ))
 $(eval $(call IMG2SP, CONVERT         , assets/decos/ventana.png , 30, 19, sprite_vent   ))
 $(eval $(call IMG2SP, CONVERT         , assets/decos/ventana_abaj.png , 36, 4, sprite_vent_abaj   ))
+$(eval $(call IMG2SP, CONVERT         , assets/decos/poster.png , 14, 16, sprite_poster   ))
 #$(eval $(call IMG2SP, CONVERT         , assets/char2.png ,   12, 24, sprite_char2   ))
 #$(eval $(call IMG2SP, CONVERT         , assets/malo1_0.png , 12, 24, sprite_malo1_0 ))
 #$(eval $(call IMG2SP, CONVERT         , assets/malo1_1.png , 12, 24, sprite_malo1_1 ))
