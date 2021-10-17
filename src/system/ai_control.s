@@ -97,6 +97,12 @@ ret
 enemy_arrived: .db 0x00
 
 sys_ai_movement_food:
+    ;;chequear que este (por ejemplo, ya lo cambiaremos)
+    ;; x entre 35 y 45
+    ;; y entre 90 y 10
+
+    ;jr (lo que sea), standby ;;Si el chequeo dio true, se vuelve standby
+
     ld a, #50   ;; X Objetivo
     ld (enemy_arrived), a
     cp e_x(ix)  ;; Esto controla al zombi
@@ -157,6 +163,7 @@ sys_ai_movement_food:
     ;;jr nz, _skip
     ;;cp #2
     ;;jr nz, _skip
+    standby:
     ld e_ai_st(ix), #e_ai_st_stand_by
     _skip:
 ret
