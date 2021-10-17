@@ -102,8 +102,23 @@ sys_ai_movement_food:
     ;; y entre 90 y 10
 
     ;jr (lo que sea), standby ;;Si el chequeo dio true, se vuelve standby
+    ld a, e_x(ix)
+    cp #31
+    jp m, move_to_food
+    cp #45
+    jr nc, move_to_food
 
-    ld a, #50   ;; X Objetivo
+    ld a, e_y(ix)
+    cp #78
+    jp m, move_to_food
+    cp #128
+    jr nc, move_to_food
+
+    jp standby
+ 
+    move_to_food:
+
+    ld a, #36   ;; X Objetivo
     ld (enemy_arrived), a
     cp e_x(ix)  ;; Esto controla al zombi
     jp m, left_ia_food  ;; Esto significa que se mueve hacia la izquierda
@@ -165,6 +180,10 @@ sys_ai_movement_food:
     ;;jr nz, _skip
     standby:
     ld e_ai_st(ix), #e_ai_st_stand_by
+    ld e_vx(ix), #0
+    ld e_vx+1(ix), #0
+    ld e_vy(ix), #0
+    ld e_vy+1(ix), #0
     _skip:
 ret
 
