@@ -5,6 +5,14 @@
 .include "cpct_globals.h.s"
 .globl _g_palette
 .globl _sprite_char
+.globl _sprite_puerta_arr
+.globl _sprite_puerta_abaj
+.globl _sprite_puerta_lat
+.globl _sprite_puerta_lat_der
+.globl _sprite_vent
+.globl _sprite_vent_abaj
+.globl _sprite_poster
+
 
 ;; ---------------------------------------------
 ;; Updates all the entities
@@ -202,11 +210,7 @@ draw_room::
     ld a, #0x41
     call cpct_drawSolidBox_asm
 
-ret
-
-
-draw_decorations:
-
+    ;;puertas
     ld de, #0xC000
     ld c, #34 ;x
     ld b, #15;y
@@ -282,6 +286,240 @@ draw_decorations:
     ld a, #0x00
     call cpct_drawSolidBox_asm
 
+    ld de, #0xC000
+    ld c, #32 ;x
+    ld b, #16;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #13;y
+
+    ld hl, #_sprite_puerta_arr
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #46 ;x
+    ld b, #16;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #13;y
+
+    ld hl, #_sprite_puerta_arr
+
+    call cpct_drawSprite_asm
+
+    ;;puerta abajo
+
+    ld de, #0xC000
+    ld c, #46 ;x
+    ld b, #196;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #4;y
+
+    ld hl, #_sprite_puerta_abaj
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #32 ;x
+    ld b, #196;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #4;y
+
+    ld hl, #_sprite_puerta_abaj
+
+    call cpct_drawSprite_asm
+
+    ;;puertas laterales
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #176;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #97;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #43;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #0 ;x
+    ld b, #122;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat
+
+    call cpct_drawSprite_asm
+
+    ;;puertas laterales derecha
+
+    ld de, #0xC000
+    ld c, #78 ;x
+    ld b, #176;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat_der
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #78 ;x
+    ld b, #97;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat_der
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #78 ;x
+    ld b, #43;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat_der
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #78 ;x
+    ld b, #122;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #2 ;x
+    ld b, #6;y
+
+    ld hl, #_sprite_puerta_lat_der
+
+    call cpct_drawSprite_asm
+
+ret
+
+
+draw_decorations:
+    
+    ld de, #0xC000
+    ld c, #4 ;x
+    ld b, #10;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #15 ;x
+    ld b, #19;y
+
+    ld hl, #_sprite_vent
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #51 ;x
+    ld b, #10;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #15 ;x
+    ld b, #19;y
+
+    ld hl, #_sprite_vent
+
+    call cpct_drawSprite_asm
+
+    ld de, #0xC000
+    ld c, #53 ;x
+    ld b, #196;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #18 ;x
+    ld b, #4;y
+
+    ld hl, #_sprite_vent_abaj
+
+    call cpct_drawSprite_asm
+    
+    ld de, #0xC000
+    ld c, #7 ;x
+    ld b, #196;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #18 ;x
+    ld b, #4;y
+
+    ld hl, #_sprite_vent_abaj
+
+    call cpct_drawSprite_asm
+    
+
+
+
+    ld de, #0xC000
+    ld c, #69 ;x
+    ld b, #12;y
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #7 ;x
+    ld b, #16;y
+
+    ld hl, #_sprite_poster
+
+    call cpct_drawSprite_asm
 ret
 
 ;; -----------------------------------------
