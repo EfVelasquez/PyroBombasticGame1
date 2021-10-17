@@ -28,7 +28,7 @@ sys_ai_stand_by:
     ;; ld a, e_y(iy)
     ;; ld e_ai_aim_y(ix), a
     ;; ld e_ai_st(ix), #e_ai_st_move_to
-    
+    call man_entity_set4destruction
 ret 
 
 
@@ -143,6 +143,7 @@ sys_ai_movement_food:
     ld e_vy+1(ix), #0
     ld a, (enemy_arrived)
     inc a
+    ld (enemy_arrived), a
     ;;ld e_ai_st(ix), #e_ai_st_stand_by
     next_pos_Y_food:
     ld a, (enemy_arrived)
