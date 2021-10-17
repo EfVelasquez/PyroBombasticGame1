@@ -43,28 +43,39 @@ create_bullet::
 
     up:
     ld e_vy(ix), #-2*bullet_speed
+    ld e_vy+1(ix), #0x00
     ld e_vx(ix), #0
+    ld e_vx+1(ix), #0
 
     jr finish_config_bullet
 
 
     down:
     ld e_vy(ix), #2*bullet_speed
+    ld e_vy+1(ix), #0x00
     ld e_vx(ix), #0
+    ld e_vx+1(ix), #0
+
+
 
     jr finish_config_bullet
 
 
     left:
     ld e_vy(ix), #0
+    ld e_vy+1(ix), #0
     ld e_vx(ix), #-1*bullet_speed
+    ld e_vx+1(ix), #0x00
 
     jr finish_config_bullet
 
 
     right:
     ld e_vy(ix), #0
+    ld e_vy+1(ix), #0
     ld e_vx(ix), #1*bullet_speed
+    ld e_vx+1(ix), #0x00
+
 
 
     finish_config_bullet:
