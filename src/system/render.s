@@ -330,7 +330,7 @@ sys_render_forone::
     jr nz, rend_sprite
 
 
-    ld a, e_color(ix)
+    ld a, e_fs1(ix) ;; Color de la bala
     call cpct_drawSolidBox_asm
     jr final_rend
 

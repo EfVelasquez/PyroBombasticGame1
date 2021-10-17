@@ -55,8 +55,6 @@ build_player:
    ld e_h(ix), #18
    ld e_type(ix), #e_type_mainchar
 
-   ld e_color(ix), #0x0F
-
    ld hl, #_sprite_char_D1
    ld (#mainchar_entity+e_sprite), hl
 
