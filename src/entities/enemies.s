@@ -19,7 +19,7 @@ spwn1_vx = 0
 spwn1_vy = 1
 
 spwn2_x =  39
-spwn2_y =  178 ;abajo
+spwn2_y =  177 ;abajo
 spwn2_vx = 0
 spwn2_vy = -1
 
