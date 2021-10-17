@@ -59,8 +59,6 @@ phy_update_forone::
 
     add hl,bc
 
-    
-
     ld a,h
     cp #30
     jr c, no_y

@@ -1,11 +1,14 @@
 .include "./manager/entities.h.s"
 .include "cpctelera.h.s"
 .include "collision.h.s"
+.globl spawn_enemy1
 
 .module sys_collision
 
 num_entities2: .db 0x00
-
+cooldown_damaged: .db 0x01
+damaged: .db 0x01
+collision_entities: .db 0x00
 
 sys_collision_control_init::
     call man_entity_collision_getArray
@@ -149,6 +152,10 @@ sys_collision_update::
         or d
         jr z, null
         
+        ld a, (collision_entities)
+        cp #1
+        jr z, null
+
         ld__iyl_e
         ld__iyh_d
 
@@ -159,6 +166,8 @@ sys_collision_update::
 
     null:
         pop hl
+        ld a, #0
+        ld (collision_entities), a
         jr next_ix
     exit:
         ;;ld a, #0xFF
@@ -216,22 +225,44 @@ check_entities_type_collision::
     jr nz, skip
 
     enemy:
-        ;;call sys_collision_check
-        ;;jr nc, collision
+        call sys_collision_check
+        jr nc, collision_character
+
+        ld a, (#cooldown_damaged)
+        cp #1
+        jr z, skip
+
+        ld a, (#cooldown_damaged)
+        dec a
+        ld (#cooldown_damaged), a
+
     ret
 
     ;;Personaje principal muere
 
+    collision_character:
+        ld a, (#cooldown_damaged)
+        dec a
+        jr nz, not_damaged
+            call man_entity_damaged
+            ld a, #200
+            ld (#cooldown_damaged), a
+            ld a, #1
+            ld (#damaged), a
+            call spawn_enemy1
+            jp skip
+        not_damaged:
+            ld (#cooldown_damaged), a
+    jp skip
+
     collision:
-
-        call man_entity_set4destruction
-        call man_entity_set4destruction_IY
-
+        call man_entity_damaged
+        call man_entity_damaged_IY
+        ld a, #1
+        ld (collision_entities), a
     skip:
 
-ret 
-
-
+ret
 
 sys_collision_check::
     ;;if (a<b)

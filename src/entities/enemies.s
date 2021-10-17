@@ -153,7 +153,7 @@ spawn_enemy1::
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_enemy
-
+   ld e_lifes(ix), #3
    ld e_ai_st(ix), #e_ai_st_move_to_food
 
    ld hl, #_sprite_e1_1

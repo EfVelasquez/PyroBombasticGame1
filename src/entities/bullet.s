@@ -29,7 +29,7 @@ create_bullet::
     ld e_w(ix), #01
     ld e_h(ix), #04
     ld e_type(ix), #e_type_bullet
-
+    ld e_lifes(ix), #1
 
     cp #0
     jr z, up

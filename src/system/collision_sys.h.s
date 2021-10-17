@@ -5,3 +5,4 @@
 .globl sys_collision_update_all_entities
 .globl sys_collision_update
 .globl sys_render_delete
+.globl spawn_enemy1

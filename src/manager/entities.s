@@ -223,9 +223,9 @@ man_entity_get_from_idx::
 ret 
 
 ;;Receives by ix
+
 man_entity_set4destruction::
     ld e_cmps(ix), #e_cmps_todestroy
-    
 ret
 
 man_entity_set4destruction_IY::
@@ -241,6 +241,23 @@ man_entity_update:: ;; Updates all entities to be destroyed
     call man_entity_forall_matching
     
 ret
+
+;;Receives by ix
+
+man_entity_damaged::
+    ld a, e_lifes(ix)
+    dec a
+    call z, man_entity_set4destruction
+    ld e_lifes(ix), a
+ret
+
+man_entity_damaged_IY::
+    ld a, e_lifes(iY)
+    dec a
+    call z, man_entity_set4destruction_IY
+    ld e_lifes(iy), a
+ret
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
