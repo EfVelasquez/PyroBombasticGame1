@@ -14,6 +14,8 @@
 cooldown: .db #0
 shoot_dir: .db #0
 is_shooting: .db #0
+
+current_cool == 20;19
 ;; ----------------------------------------
 ;; Puts actions in certain keys
 ;; ----------------------------------------
@@ -164,7 +166,7 @@ key_space_action::
     dec (hl)
     jr nz, no_bullet
 
-    ld (hl), #19
+    ld (hl), #current_cool;;cooldown
 
     ld h, e_x(ix)
     ld l, e_y(ix)
