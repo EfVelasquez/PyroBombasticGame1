@@ -153,7 +153,7 @@ spawn_enemy1::
    ;;ld e_vy+1(ix), #0
 
    ld a,l
-   and #1
+   and #3
    jr z, enem0
    ;enem 1
 
