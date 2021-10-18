@@ -13,3 +13,5 @@
 .globl cpct_drawSprite_asm
 .globl cpct_scanKeyboard_f_asm
 .globl cpct_isKeyPressed_asm
+.globl cpct_setDrawCharM0_asm
+.globl cpct_drawStringM0_asm

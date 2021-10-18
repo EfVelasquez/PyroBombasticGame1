@@ -3,6 +3,7 @@
 .include "rounds.h.s"
 .include "./system/collision.h.s"
 .include "./system/render.h.s"
+.include "screen.h.s"
 
 next_free_entity: .dw array_entities
 current_entity: .dw array_entities
@@ -68,10 +69,14 @@ man_entity_destroy:
     ld a, e_type(ix)
     cp #e_type_enemy
     jr nz, nop
+
     ;call spawn_enemy1
     call enemy_died
 
     nop:
+    cp #e_type_mainchar
+    call z, screen_man_death_screen
+
     ld a, e_cmps(ix)
     cp #e_cmps_invalid
     jr z, skip_delete ;si la entidad ya esta muerta, no hago nada

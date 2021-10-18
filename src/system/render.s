@@ -615,15 +615,17 @@ ret
 
 
 sys_render_init::
+
+    cpctm_clearScreen_asm #0x3C
+    call draw_room
+    call draw_decorations
+ret
+
+sys_render_init_palette::
     ld c, #0 ;modo 0
     call cpct_setVideoMode_asm
 
     ld hl, #_g_palette
     ld de, #16
     call cpct_setPalette_asm
-
-
-    cpctm_clearScreen_asm #0x3C
-    call draw_room
-    call draw_decorations
-ret
+    ret
