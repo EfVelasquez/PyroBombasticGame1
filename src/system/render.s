@@ -22,7 +22,7 @@
 sys_render_update::
     ;call sys_render_clear_screen
     call draw_food
-
+    
     ld hl, #sys_render_forone
     call man_entity_forall
 ret
@@ -561,7 +561,7 @@ ret
 
 
 sys_render_forone::
-    cpctm_setBorder_asm HW_WHITE
+    ;;cpctm_setBorder_asm HW_WHITE
     call sys_render_delete
 
     ld de, #0xC000
@@ -581,11 +581,14 @@ sys_render_forone::
     ld c, e_w(ix)
     ld b, e_h(ix)
 
-    inc h
-    dec h
-    jr nz, rend_sprite
-    inc l
-    dec l
+    ;;inc h
+    ;;dec h
+    ;;jr nz, rend_sprite
+    ;;inc l
+    ;;dec l
+    ;;jr nz, rend_sprite
+    ld a, e_type(ix)
+    cp #e_type_bullet
     jr nz, rend_sprite
 
 
@@ -598,7 +601,7 @@ sys_render_forone::
     call cpct_drawSprite_asm
 
     final_rend:
-    cpctm_setBorder_asm HW_RED
+    ;;cpctm_setBorder_asm HW_RED
 ret
 
 sys_render_wait::

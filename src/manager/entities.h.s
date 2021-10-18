@@ -38,8 +38,10 @@ e_color == e_fs1
 ;fs5 == 22 
 
 
-;;;;;enemigo 1;;;;;;;;
+;;;;;enemigo 0;;;;;;;;
 ;fs1 == 18 
+
+;;fs1 contador para quitar vida a la comida, inicializar a 1
 
 ;fs2 == 19 
 
@@ -51,7 +53,7 @@ e_color == e_fs1
 
 
 
-;;enemigo2
+;;enemigo1
 
 ;; Entity info
 sizeof_e        == 23
