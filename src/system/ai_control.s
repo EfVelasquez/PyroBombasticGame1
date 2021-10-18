@@ -16,15 +16,15 @@ sys_ai_control_update::
 ret
 
 sys_ai_stand_by:
-    ld a, e_fs1(ix)
+    ld a, e_foodctr(ix)
     dec a
     jr nz, not_damaged_food
         call man_entity_food_damaged
         ld a, #200 ;;Tiempo entre hit y hit 50 = 1 Segundo
-        ld e_fs1(ix), a
+        ld e_foodctr(ix), a
         ret
     not_damaged_food:
-        ld e_fs1(ix), a
+        ld e_foodctr(ix), a
 ret 
 
 
