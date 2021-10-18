@@ -613,7 +613,6 @@ sys_render_wait::
         jr nz, halts
 ret
 
-
 sys_render_init::
 
     cpctm_clearScreen_asm #0x3C
