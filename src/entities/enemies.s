@@ -1,4 +1,5 @@
 .include "./manager/entities.h.s"
+.include "./manager/rounds.h.s"
 
 .globl cpct_getRandom_lcg_u8_asm
 
@@ -161,6 +162,7 @@ spawn_enemy1::
 
       ld hl, #_sprite_e2_1
       ld (#enemy_entity+e_sprite), hl
+      call get_round
 
    jr after_enem
    enem0: ;enem 0
@@ -169,6 +171,7 @@ spawn_enemy1::
 
       ld hl, #_sprite_e1_1
       ld (#enemy_entity+e_sprite), hl
+      call get_round
 
    after_enem:
 

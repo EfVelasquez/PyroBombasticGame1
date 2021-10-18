@@ -17,6 +17,10 @@ spawn_timer: .db spawner_time
 
 time_to_next_round: .db #round_end_time
 
+get_round::
+    ld a, (round)
+ret
+
 init_round_1::
     ld hl, #round
     ld (hl), #1
