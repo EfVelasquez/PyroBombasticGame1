@@ -23,10 +23,10 @@ ret
 
 init_round_1::
     ld hl, #round
-    ld (hl), #16
+    ld (hl), #1
 
     ld hl, #max_enems
-    ld (hl), #5
+    ld (hl), #3
 
     ld hl, #curr_enems
     ld (hl), #0
@@ -71,7 +71,7 @@ next_round:
     cp #5
     call z, inc_maxenems;;maxenems aumentará de 3 a 4 en la ronda 5
     cp #10
-    call z, inc_maxenems ;;maxenems aumentará de 4 a 5 en la ronda 10
+    ;call z, inc_maxenems ;;maxenems aumentará de 4 a 5 en la ronda 10
 
     ld hl, #curr_enems
     ld (hl), #0
