@@ -1,0 +1,1 @@
+.globl screen_man_title_screen

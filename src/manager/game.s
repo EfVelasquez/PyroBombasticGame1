@@ -10,6 +10,7 @@
 .include "./system/ai_control.h.s"
 .include "./system/collision.h.s"
 .include "./system/collision_sys.h.s"
+.include "./system/screen.h.s"
 
 .globl _sprite_char_D1
 .globl spawn_enemy1
@@ -101,7 +102,8 @@ create_enemies:
 ret
 
 game_man_init::
-
+   call sys_render_init_palette
+   call screen_man_title_screen
    call man_entity_init
    call sys_collision_control_init
 
