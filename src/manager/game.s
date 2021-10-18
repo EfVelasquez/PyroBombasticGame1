@@ -60,6 +60,9 @@ build_player:
    ld hl, #_sprite_char_D1
    ld (#mainchar_entity+e_sprite), hl
 
+   ld hl, #mainchar_entity 
+   call man_entity_create
+
 ret
 
 
@@ -108,8 +111,7 @@ game_man_init::
    call sys_collision_control_init
 
     call build_player
-    ld hl, #mainchar_entity 
-    call man_entity_create
+    
 
 
     ;call build_enemy
