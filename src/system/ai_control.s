@@ -16,19 +16,15 @@ sys_ai_control_update::
 ret
 
 sys_ai_stand_by:
-    ;; call man_entity_getFirstEntity_IY
-    ;; ;; Key is not pressed
-    ;; ld a, e_ai_aim_x(iy)
-    ;; or a
-    ;; ret z
-;; 
-    ;; ;; Key is pressed. Move to player
-    ;; ld a, e_x(iy)
-    ;; ld e_ai_aim_x(ix), a
-    ;; ld a, e_y(iy)
-    ;; ld e_ai_aim_y(ix), a
-    ;; ld e_ai_st(ix), #e_ai_st_move_to
-    ;call man_entity_set4destruction
+    ld a, e_fs1(ix)
+    dec a
+    jr nz, not_damaged_food
+        call man_entity_food_damaged
+        ld a, #200 ;;Tiempo entre hit y hit 50 = 1 Segundo
+        ld e_fs1(ix), a
+        ret
+    not_damaged_food:
+        ld e_fs1(ix), a
 ret 
 
 
@@ -201,15 +197,21 @@ sys_ai_control_update_forone:
     ld a, e_ai_st(ix)
     cp #e_ai_st_noAI
     jr z, no_AI_ent
-    AI_ent:
-        cp #e_ai_st_stand_by
-        call z, sys_ai_stand_by
-        cp #e_ai_st_move_to
-        call z, sys_ai_move_to
-        cp #e_ai_st_move_to_food
-        call z, sys_ai_move_to_food
-        ;;ld e_vx(ix), #-1
-        ;;ld e_vy(ix), #-1
+
+    cp #e_ai_st_move_to
+    jr nz, next_movement
+    call sys_ai_move_to
+    ret
+    next_movement:
+    cp #e_ai_st_move_to_food
+    jr nz, next_movement_food
+    call sys_ai_move_to_food
+    ret
+    next_movement_food:
+    cp #e_ai_st_stand_by
+    jr nz, no_AI_ent
+    call sys_ai_stand_by
+
     no_AI_ent:
 
 ret

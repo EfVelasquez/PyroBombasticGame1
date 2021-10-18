@@ -111,3 +111,4 @@ e_type_bullet       = 3
 .globl more_enemies
 .globl man_entity_damaged
 .globl man_entity_damaged_IY
+.globl man_entity_food_damaged
