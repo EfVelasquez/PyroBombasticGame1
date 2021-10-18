@@ -96,12 +96,12 @@ ai_movement_left_ghost:
     jr z, enem0_2_left
 
     ld e_vx(ix), #-1
-    ld e_vx+1(ix), #0xF0
+    ld e_vx+1(ix), #0xE5
     jr after_enem_left
 
     enem0_1_left:
     ld e_vx(ix), #-1
-    ld e_vx+1(ix), #0xE5
+    ld e_vx+1(ix), #0xE2
     jr after_enem_left
 
     enem0_2_left:
@@ -118,12 +118,12 @@ ai_movement_right_ghost:
     jr z, enem0_2_right
 
     ld e_vx(ix), #0
-    ld e_vx+1(ix), #0x10
+    ld e_vx+1(ix), #0x1B
     jr after_enem_right
 
     enem0_1_right:
     ld e_vx(ix), #0
-    ld e_vx+1(ix), #0x15
+    ld e_vx+1(ix), #0x1E
     jr after_enem_right
 
     enem0_2_right:
@@ -142,12 +142,12 @@ ai_movement_up_ghost:
     jr z, enem0_2_up
 
     ld e_vy(ix), #-1
-    ld e_vy+1(ix), #0xC0
+    ld e_vy+1(ix), #0xA0
     jr after_enem_up
 
     enem0_1_up:
     ld e_vy(ix), #-1
-    ld e_vy+1(ix), #0xA0
+    ld e_vy+1(ix), #0x90
     jr after_enem_up
 
     enem0_2_up:
@@ -165,12 +165,12 @@ ai_movement_down_ghost:
     jr z, enem0_2_down
 
     ld e_vy(ix), #0
-    ld e_vy+1(ix), #0x30
+    ld e_vy+1(ix), #0x50
     jr after_enem_down
 
     enem0_1_down:
     ld e_vy(ix), #0
-    ld e_vy+1(ix), #0x50
+    ld e_vy+1(ix), #0x60
     jr after_enem_down
 
     enem0_2_down:
