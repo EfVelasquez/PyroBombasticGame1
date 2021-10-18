@@ -281,7 +281,6 @@ man_entity_food_damaged::
     ;;ld a, #0xF0
     ;;ld (hl), a
     call nz, man_entity_food_decrease
-    ret
     call man_entity_food_die
 ret
 
@@ -294,7 +293,7 @@ man_entity_food_decrease::
 
 ret
 
-;;AQUI LA VIDA DE 
+;;AQUI LA VIDA DE LA COMIDA ES 0
 
 man_entity_food_die::
 
