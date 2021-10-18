@@ -16,19 +16,15 @@ sys_ai_control_update::
 ret
 
 sys_ai_stand_by:
-    ;; call man_entity_getFirstEntity_IY
-    ;; ;; Key is not pressed
-    ;; ld a, e_ai_aim_x(iy)
-    ;; or a
-    ;; ret z
-;; 
-    ;; ;; Key is pressed. Move to player
-    ;; ld a, e_x(iy)
-    ;; ld e_ai_aim_x(ix), a
-    ;; ld a, e_y(iy)
-    ;; ld e_ai_aim_y(ix), a
-    ;; ld e_ai_st(ix), #e_ai_st_move_to
-    
+    ld a, e_fs1(ix)
+    dec a
+    jr nz, not_damaged_food
+        call man_entity_food_damaged
+        ld a, #200 ;;Tiempo entre hit y hit 50 = 1 Segundo
+        ld e_fs1(ix), a
+        ret
+    not_damaged_food:
+        ld e_fs1(ix), a
 ret 
 
 
@@ -97,7 +93,28 @@ ret
 enemy_arrived: .db 0x00
 
 sys_ai_movement_food:
-    ld a, #50   ;; X Objetivo
+    ;;chequear que este (por ejemplo, ya lo cambiaremos)
+    ;; x entre 35 y 45
+    ;; y entre 90 y 10
+
+    ;jr (lo que sea), standby ;;Si el chequeo dio true, se vuelve standby
+    ld a, e_x(ix)
+    cp #31
+    jp m, move_to_food
+    cp #45
+    jr nc, move_to_food
+
+    ld a, e_y(ix)
+    cp #78
+    jp m, move_to_food
+    cp #128
+    jr nc, move_to_food
+
+    jp standby
+ 
+    move_to_food:
+
+    ld a, #36   ;; X Objetivo
     ld (enemy_arrived), a
     cp e_x(ix)  ;; Esto controla al zombi
     jp m, left_ia_food  ;; Esto significa que se mueve hacia la izquierda
@@ -118,7 +135,7 @@ sys_ai_movement_food:
     ld a, #1
     ld (enemy_arrived), a
     ;;ld a, e_type(ix)
-    ld e_ai_st(ix), #e_ai_st_stand_by
+    ;;ld e_ai_st(ix), #e_ai_st_stand_by
 
     next_pos_food:
 
@@ -143,17 +160,26 @@ sys_ai_movement_food:
     ld e_vy+1(ix), #0
     ld a, (enemy_arrived)
     inc a
+    ld (enemy_arrived), a
     ;;ld e_ai_st(ix), #e_ai_st_stand_by
     next_pos_Y_food:
-    ld a, e_vx(ix)
-    cp #0
+
+    
+
+    ld a, (enemy_arrived)
+    cp #2
     jr nz, _skip
-    ld a, e_vy(ix)
-    cp #0
-    jr nz, _skip
+    ;;ld a, e_vy(ix)
+    ;;cp #0
+    ;;jr nz, _skip
     ;;cp #2
     ;;jr nz, _skip
+    standby:
     ld e_ai_st(ix), #e_ai_st_stand_by
+    ld e_vx(ix), #0
+    ld e_vx+1(ix), #0
+    ld e_vy(ix), #0
+    ld e_vy+1(ix), #0
     _skip:
 ret
 
@@ -171,15 +197,21 @@ sys_ai_control_update_forone:
     ld a, e_ai_st(ix)
     cp #e_ai_st_noAI
     jr z, no_AI_ent
-    AI_ent:
-        cp #e_ai_st_stand_by
-        call z, sys_ai_stand_by
-        cp #e_ai_st_move_to
-        call z, sys_ai_move_to
-        cp #e_ai_st_move_to_food
-        call z, sys_ai_move_to_food
-        ;;ld e_vx(ix), #-1
-        ;;ld e_vy(ix), #-1
+
+    cp #e_ai_st_move_to
+    jr nz, next_movement
+    call sys_ai_move_to
+    ret
+    next_movement:
+    cp #e_ai_st_move_to_food
+    jr nz, next_movement_food
+    call sys_ai_move_to_food
+    ret
+    next_movement_food:
+    cp #e_ai_st_stand_by
+    jr nz, no_AI_ent
+    call sys_ai_stand_by
+
     no_AI_ent:
 
 ret

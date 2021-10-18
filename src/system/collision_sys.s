@@ -1,11 +1,13 @@
 .include "./manager/entities.h.s"
 .include "cpctelera.h.s"
 .include "collision.h.s"
+.globl spawn_enemy1
 
 .module sys_collision
 
 num_entities2: .db 0x00
-
+cooldown_damaged: .db 0x01
+damaged: .db 0x01
 
 sys_collision_control_init::
     call man_entity_collision_getArray
@@ -125,7 +127,6 @@ sys_collision_update::
         inc hl
         ld d, (hl)
         inc hl
-
         ;;Comprobamos que el puntero no es null
         ld a, e
         or d
@@ -136,6 +137,9 @@ sys_collision_update::
         
         ld__ixl_e
         ld__ixh_d
+
+        call sys_collision_check_valid_entity
+        jr z, null
 
     next_iy:
 
@@ -148,15 +152,15 @@ sys_collision_update::
         ld a, e
         or d
         jr z, null
-        
+
         ld__iyl_e
         ld__iyh_d
-
+        call sys_collision_check_valid_entity_iy
+        jr z, null
         ;;CHECK COLLISION BETWEEN ENTITIES IX AND IY
         ;;DESTROY AF
         call check_entities_type_collision
         jr next_iy
-
     null:
         pop hl
         jr next_ix
@@ -217,21 +221,54 @@ check_entities_type_collision::
 
     enemy:
         call sys_collision_check
-        jr nc, collision
+        jr nc, collision_character
+
+        ld a, (#cooldown_damaged)
+        cp #1
+        jr z, skip
+
+        ld a, (#cooldown_damaged)
+        dec a
+        ld (#cooldown_damaged), a
+
     ret
 
     ;;Personaje principal muere
 
+    collision_character:
+        ld a, (#cooldown_damaged)
+        dec a
+        jr nz, not_damaged
+            call man_entity_damaged
+            ld a, #100 ;;Tiempo entre hit y hit 50 = 1 Segundo
+            ld (#cooldown_damaged), a
+            ld a, #1
+            ld (#damaged), a
+            jp skip
+        not_damaged:
+            ld (#cooldown_damaged), a
+    jp skip
+
     collision:
-
-        call man_entity_set4destruction
-        call man_entity_set4destruction_IY
-
+        call man_entity_damaged
+        call man_entity_damaged_IY
     skip:
 
-ret 
+ret
 
+sys_collision_check_valid_entity::
+    ld b, #e_cmps_todestroy
+    ld a, e_cmps(ix)
+    and b
+    cp b
+ret
 
+sys_collision_check_valid_entity_iy::
+    ld b, #e_cmps_todestroy
+    ld a, e_cmps(iy)
+    and b
+    cp b
+ret
 
 sys_collision_check::
     ;;if (a<b)

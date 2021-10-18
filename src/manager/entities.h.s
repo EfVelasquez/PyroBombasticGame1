@@ -18,16 +18,43 @@ e_ai_st     == 12
 e_sprite    == 13    ;; Pointer, 2 bytes
 e_prv_ptr   == 15    ;; Pointer, 2 bytes
 e_lifes     == 17    ;; Lifes of both character and enemy
-e_level     == 18    ;; Dificultad de los enemigos (velocidad)
+;e_level     == 18    ;; Dificultad de los enemigos (velocidad)
 
-e_fs1       == 19
-e_fs2       == 20
-e_fs3       == 21
-e_fs4       == 22
-e_fs5       == 23
+e_fs1       == 18 
+e_fs2       == 19
+e_fs3       == 20
+e_fs4       == 21
+e_fs5       == 22
+
+;;;;;balas;;;;;;;;
+;fs1 == 18 
+e_color == e_fs1
+;fs2 == 19 
+
+;fs3 == 20 
+
+;fs4 == 21 
+
+;fs5 == 22 
+
+
+;;;;;enemigo 1;;;;;;;;
+;fs1 == 18 
+
+;fs2 == 19 
+
+;fs3 == 20 
+
+;fs4 == 21 
+
+;fs5 == 22 
+
+
+
+;;enemigo2
 
 ;; Entity info
-sizeof_e        == 24
+sizeof_e        == 23
 max_entities    == 30
 
 ;; Entity AI enum status
@@ -82,3 +109,6 @@ e_type_bullet       = 3
 ;.globl man_next_entity_iy
 .globl man_next_entity
 .globl more_enemies
+.globl man_entity_damaged
+.globl man_entity_damaged_IY
+.globl man_entity_food_damaged

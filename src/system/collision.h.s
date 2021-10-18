@@ -4,3 +4,4 @@
 .globl man_entity_collision_getArray
 .globl man_entity_collision_add
 .globl man_collision_delete
+.globl man_entity_collision_getEnd

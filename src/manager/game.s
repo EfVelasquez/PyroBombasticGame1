@@ -1,6 +1,7 @@
 ;; GAME MANAGER
 
 .include "entities.h.s"
+.include "rounds.h.s"
 .include "./entities/bullet.h.s"
 .include "./system/physics.h.s"
 .include "./system/input.h.s"
@@ -55,6 +56,7 @@ build_player:
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_mainchar
+   ld e_lifes(ix), #3
 
    ld hl, #_sprite_char_D1
    ld (#mainchar_entity+e_sprite), hl
@@ -113,11 +115,11 @@ game_man_init::
 
 
     ;call build_enemy
-    call create_enemies
+    ;call create_enemies
 
     call sys_render_init
 
-    
+    call init_round_1
 
     ;;ld hl, #enemy_entity
     ;;call man_entity_create
@@ -146,7 +148,7 @@ game_man_update::
       call sys_ai_control_update
       call sys_physics_update
 
-
+   call update_rounds
    
     
    

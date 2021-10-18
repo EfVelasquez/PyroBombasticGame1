@@ -1,5 +1,6 @@
 ;; INIT OF ENTITIES.S
 .include "entities.h.s"
+.include "rounds.h.s"
 .include "./system/collision.h.s"
 .include "./system/render.h.s"
 
@@ -10,6 +11,8 @@ array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
 
 num_enemies: .db 0x01
+food_life: .db 0x0A
+food_life_pos: .db 0x00
 .globl spawn_enemy1
 
 more_enemies::
@@ -63,9 +66,10 @@ man_entity_destroy:
     ld ix, (current_entity)
     call sys_render_delete
     ld a, e_type(ix)
-    cp #1
+    cp #e_type_enemy
     jr nz, nop
-    call spawn_enemy1
+    ;call spawn_enemy1
+    call enemy_died
 
     nop:
     ld a, e_cmps(ix)
@@ -223,9 +227,9 @@ man_entity_get_from_idx::
 ret 
 
 ;;Receives by ix
+
 man_entity_set4destruction::
     ld e_cmps(ix), #e_cmps_todestroy
-    
 ret
 
 man_entity_set4destruction_IY::
@@ -240,6 +244,46 @@ man_entity_update:: ;; Updates all entities to be destroyed
     ld b, #e_cmps_todestroy
     call man_entity_forall_matching
     
+ret
+
+;;Receives by ix
+
+man_entity_damaged::
+    ld a, e_lifes(ix)
+    dec a
+    call z, man_entity_set4destruction
+    ld e_lifes(ix), a
+ret
+
+man_entity_damaged_IY::
+    ld a, e_lifes(iY)
+    dec a
+    call z, man_entity_set4destruction_IY
+    ld e_lifes(iy), a
+ret
+
+man_entity_food_damaged::
+    ld a, (food_life)
+    dec a
+    ld (food_life), a
+    jr z, end_life_food
+    ld h, #0xC0
+    ld a, (#food_life_pos)
+    inc a
+    ld l, a
+    ld (#food_life_pos), a
+    ld a, #0xFF
+    ld (hl), a
+    ret
+    end_life_food:
+    ld h, #0xC0
+    ld a, (#food_life_pos)
+    inc a
+    ld l, a
+    ld (#food_life_pos), a
+    ld a, #0xF0
+    ld (hl), a
+
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

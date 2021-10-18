@@ -12,6 +12,7 @@
 .globl _sprite_vent
 .globl _sprite_vent_abaj
 .globl _sprite_poster
+.globl _sprite_comida
 
 
 ;; ---------------------------------------------
@@ -20,6 +21,8 @@
 ;; ---------------------------------------------
 sys_render_update::
     ;call sys_render_clear_screen
+    call draw_food
+
     ld hl, #sys_render_forone
     call man_entity_forall
 ret
@@ -522,6 +525,24 @@ draw_decorations:
     call cpct_drawSprite_asm
 ret
 
+
+draw_food:
+    ld de, #0xFB93
+    ;ld c, #36 ;x
+    ;ld b, #93;y
+    ;call cpct_getScreenPtr_asm
+    ;ex de, hl
+
+    ld c, #9 ;x
+    ld b, #33;y
+
+    ld hl, #_sprite_comida
+
+    call cpct_drawSprite_asm
+
+ret
+
+
 ;; -----------------------------------------
 ;; Renders one entity
 ;; IX -> entity
@@ -568,7 +589,7 @@ sys_render_forone::
     jr nz, rend_sprite
 
 
-    ld a, e_fs1(ix) ;; Color de la bala
+    ld a, e_color(ix) ;; Color de la bala
     call cpct_drawSolidBox_asm
     jr final_rend
 

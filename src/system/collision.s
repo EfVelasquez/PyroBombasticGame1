@@ -30,6 +30,11 @@ man_entity_collision_init::
     ;;Esto no acaba aqui, si no en la siguiente funcion que
     ;;forma parte de esta y por si sola tmb funciona
 
+man_entity_collision_getEnd::
+    ld hl, #_collision_ptr_pend
+ret
+
+
 man_entity_collision_getArray::
     ld hl, #_collision_ptr_array
 ret

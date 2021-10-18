@@ -3,6 +3,7 @@
 .globl cpct_getRandom_lcg_u8_asm
 
 .globl _sprite_e1_1
+.globl _sprite_e2_1
 
 
 en_cmps == e_cmps_position | e_cmps_alive | e_cmps_physics | e_cmps_render
@@ -19,7 +20,7 @@ spwn1_vx = 0
 spwn1_vy = 1
 
 spwn2_x =  39
-spwn2_y =  178 ;abajo
+spwn2_y =  177 ;abajo
 spwn2_vx = 0
 spwn2_vy = -1
 
@@ -28,7 +29,7 @@ spwn3_y =  60 ;izq arr
 spwn3_vx = 1
 spwn3_vy = 0
 
-spwn4_x =  75
+spwn4_x =  74
 spwn4_y =  60 ;der arr
 spwn4_vx = -1
 spwn4_vy = 0
@@ -38,7 +39,7 @@ spwn5_y =  140 ;izq abaj
 spwn5_vx = 1
 spwn5_vy = 0
 
-spwn6_x =  75
+spwn6_x =  74
 spwn6_y =  140 ;der abaj
 spwn6_vx = -1
 spwn6_vy = 0
@@ -150,14 +151,33 @@ spawn_enemy1::
    ;;ld e_vx+1(ix), #0x00
    ;;ld e_vy(ix), #0x00
    ;;ld e_vy+1(ix), #0
+
+   ld a,l
+   and #3
+   jr z, enem0
+   ;enem 1
+
+      ld e_ai_st(ix), #e_ai_st_move_to
+
+      ld hl, #_sprite_e2_1
+      ld (#enemy_entity+e_sprite), hl
+
+   jr after_enem
+   enem0: ;enem 0
+
+      ld e_ai_st(ix), #e_ai_st_move_to_food
+
+      ld hl, #_sprite_e1_1
+      ld (#enemy_entity+e_sprite), hl
+
+   after_enem:
+
+
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_enemy
-
-   ld e_ai_st(ix), #e_ai_st_move_to_food
-
-   ld hl, #_sprite_e1_1
-   ld (#enemy_entity+e_sprite), hl
+   ld e_lifes(ix), #3
+   ld e_fs1(ix), #1
 
    ld hl, #enemy_entity
    call man_entity_create
