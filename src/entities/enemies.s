@@ -177,7 +177,7 @@ spawn_enemy1::
    ld e_h(ix), #18
    ld e_type(ix), #e_type_enemy
    ld e_lifes(ix), #3
-   
+   ld e_fs1(ix), #1
 
    ld hl, #enemy_entity
    call man_entity_create

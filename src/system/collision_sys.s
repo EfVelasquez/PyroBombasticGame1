@@ -8,7 +8,6 @@
 num_entities2: .db 0x00
 cooldown_damaged: .db 0x01
 damaged: .db 0x01
-collision_entities: .db 0x00
 
 sys_collision_control_init::
     call man_entity_collision_getArray
@@ -128,7 +127,6 @@ sys_collision_update::
         inc hl
         ld d, (hl)
         inc hl
-
         ;;Comprobamos que el puntero no es null
         ld a, e
         or d
@@ -139,6 +137,9 @@ sys_collision_update::
         
         ld__ixl_e
         ld__ixh_d
+
+        call sys_collision_check_valid_entity
+        jr z, null
 
     next_iy:
 
@@ -151,23 +152,17 @@ sys_collision_update::
         ld a, e
         or d
         jr z, null
-        
-        ld a, (collision_entities)
-        cp #1
-        jr z, null
 
         ld__iyl_e
         ld__iyh_d
-
+        call sys_collision_check_valid_entity_iy
+        jr z, null
         ;;CHECK COLLISION BETWEEN ENTITIES IX AND IY
         ;;DESTROY AF
         call check_entities_type_collision
         jr next_iy
-
     null:
         pop hl
-        ld a, #0
-        ld (collision_entities), a
         jr next_ix
     exit:
         ;;ld a, #0xFF
@@ -257,10 +252,22 @@ check_entities_type_collision::
     collision:
         call man_entity_damaged
         call man_entity_damaged_IY
-        ld a, #1
-        ld (collision_entities), a
     skip:
 
+ret
+
+sys_collision_check_valid_entity::
+    ld b, #e_cmps_todestroy
+    ld a, e_cmps(ix)
+    and b
+    cp b
+ret
+
+sys_collision_check_valid_entity_iy::
+    ld b, #e_cmps_todestroy
+    ld a, e_cmps(iy)
+    and b
+    cp b
 ret
 
 sys_collision_check::
