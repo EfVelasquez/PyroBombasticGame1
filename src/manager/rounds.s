@@ -23,10 +23,10 @@ ret
 
 init_round_1::
     ld hl, #round
-    ld (hl), #4
+    ld (hl), #16
 
     ld hl, #max_enems
-    ld (hl), #3
+    ld (hl), #5
 
     ld hl, #curr_enems
     ld (hl), #0

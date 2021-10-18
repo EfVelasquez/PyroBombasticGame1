@@ -39,11 +39,11 @@ sys_ia_movement:
     jp m, left_ia
     jr z, arrives_x
 
-    call ai_movement_right_food
+    call ai_movement_right_ghost
     jr next_pos
 
     left_ia:
-    call ai_movement_left_food
+    call ai_movement_left_ghost
     jr next_pos
 
     arrives_x:
@@ -59,11 +59,11 @@ sys_ia_movement:
     jp m, up_ia
     jr z, arrives_y
 
-    call ai_movement_down_food
+    call ai_movement_down_ghost
     jr next_pos_Y
 
     up_ia:
-    call ai_movement_up_food
+    call ai_movement_up_ghost
     jr next_pos_Y
 
     arrives_y:
@@ -88,7 +88,7 @@ ret
 
 enemy_arrived: .db 0x00
 
-ai_movement_left_food:
+ai_movement_left_ghost:
     ld a, e_enemlevel(ix)
     cp #1
     jr z, enem0_1_left
@@ -96,12 +96,12 @@ ai_movement_left_food:
     jr z, enem0_2_left
 
     ld e_vx(ix), #-1
-    ld e_vx+1(ix), #0xE0
+    ld e_vx+1(ix), #0xF0
     jr after_enem_left
 
     enem0_1_left:
     ld e_vx(ix), #-1
-    ld e_vx+1(ix), #0xE0
+    ld e_vx+1(ix), #0xE5
     jr after_enem_left
 
     enem0_2_left:
@@ -110,7 +110,7 @@ ai_movement_left_food:
 
     after_enem_left:
 ret
-ai_movement_right_food:
+ai_movement_right_ghost:
     ld a, e_enemlevel(ix)
     cp #1
     jr z, enem0_1_right
@@ -123,17 +123,17 @@ ai_movement_right_food:
 
     enem0_1_right:
     ld e_vx(ix), #0
-    ld e_vx+1(ix), #0x10
+    ld e_vx+1(ix), #0x15
     jr after_enem_right
 
     enem0_2_right:
     ld e_vx(ix), #0
-    ld e_vx+1(ix), #0x10
+    ld e_vx+1(ix), #0x20
 
     after_enem_right:
 
 ret 
-ai_movement_up_food:
+ai_movement_up_ghost:
 
     ld a, e_enemlevel(ix)
     cp #1
@@ -147,17 +147,17 @@ ai_movement_up_food:
 
     enem0_1_up:
     ld e_vy(ix), #-1
-    ld e_vy+1(ix), #0xC0
+    ld e_vy+1(ix), #0xA0
     jr after_enem_up
 
     enem0_2_up:
     ld e_vy(ix), #-1
-    ld e_vy+1(ix), #0xC0
+    ld e_vy+1(ix), #0x80
 
     after_enem_up:
 
 ret 
-ai_movement_down_food:
+ai_movement_down_ghost:
     ld a, e_enemlevel(ix)
     cp #1
     jr z, enem0_1_down
@@ -170,12 +170,12 @@ ai_movement_down_food:
 
     enem0_1_down:
     ld e_vy(ix), #0
-    ld e_vy+1(ix), #0x30
+    ld e_vy+1(ix), #0x50
     jr after_enem_down
 
     enem0_2_down:
     ld e_vy(ix), #0
-    ld e_vy+1(ix), #0x30
+    ld e_vy+1(ix), #0x70
 
     after_enem_down:
 
@@ -210,11 +210,13 @@ sys_ai_movement_food:
     jp m, left_ia_food  ;; Esto significa que se mueve hacia la izquierda
     jr z, arrives_x_food
 
-    call ai_movement_right_food
+    ld e_vx(ix), #0
+    ld e_vx+1(ix), #0x14
     jr next_pos_food
 
     left_ia_food:
-    call ai_movement_left_food
+    ld e_vx(ix), #-1
+    ld e_vx+1(ix), #0xFB
     jr next_pos_food
 
     arrives_x_food:
@@ -234,11 +236,13 @@ sys_ai_movement_food:
     jr z, arrives_y_food
 
     ;; Cuando el enemigo va hacia abajo
-    call ai_movement_down_food
+    ld e_vy(ix), #0
+    ld e_vy+1(ix), #0x38
     jr next_pos_Y_food
 
     up_ia_food:
-    call ai_movement_up_food
+    ld e_vy(ix), #-1
+    ld e_vy+1(ix), #0xB8
     jr next_pos_Y_food
 
     arrives_y_food:

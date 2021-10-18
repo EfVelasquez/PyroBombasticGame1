@@ -263,25 +263,25 @@ man_entity_food_damaged::
     ld a, (food_life)
     dec a
     ld (food_life), a
-    ;;call z, end_life_food
-    ;;ld h, #0xC0
-    ;;ld a, (#food_life_pos)
-    ;;inc a
-    ;;ld l, a
-    ;;ld (#food_life_pos), a
-    ;;ld a, #0xFF
-    ;;ld (hl), a
-    ;;ret
-    ;;end_life_food:
-    ;;ld h, #0xC0
-    ;;ld a, (#food_life_pos)
-    ;;inc a
-    ;;ld l, a
-    ;;ld (#food_life_pos), a
-    ;;ld a, #0xF0
-    ;;ld (hl), a
-    call nz, man_entity_food_decrease
-    call man_entity_food_die
+    call z, end_life_food
+    ld h, #0xC0
+    ld a, (#food_life_pos)
+    inc a
+    ld l, a
+    ld (#food_life_pos), a
+    ld a, #0xFF
+    ld (hl), a
+    ret
+    end_life_food:
+    ld h, #0xC0
+    ld a, (#food_life_pos)
+    inc a
+    ld l, a
+    ld (#food_life_pos), a
+    ld a, #0xF0
+    ld (hl), a
+    ;;call nz, man_entity_food_decrease
+    ;;call man_entity_food_die
 ret
 
 
