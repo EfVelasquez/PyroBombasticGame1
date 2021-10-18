@@ -11,7 +11,7 @@
 .include "./system/ai_control.h.s"
 .include "./system/collision.h.s"
 .include "./system/collision_sys.h.s"
-.include "./system/screen.h.s"
+.include "screen.h.s"
 
 .globl _sprite_char_D1
 .globl spawn_enemy1

@@ -1,1 +1,2 @@
 .globl screen_man_title_screen
+.globl screen_man_death_screen
