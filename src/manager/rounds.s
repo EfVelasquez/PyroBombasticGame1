@@ -23,7 +23,7 @@ ret
 
 init_round_1::
     ld hl, #round
-    ld (hl), #1
+    ld (hl), #4
 
     ld hl, #max_enems
     ld (hl), #3
@@ -145,7 +145,7 @@ update_rounds::
     call spawner_check
 
     ld a, (round)
-    cp #10
+    cp #6
     call nc, spawner_check
 
     skip_update_rounds:

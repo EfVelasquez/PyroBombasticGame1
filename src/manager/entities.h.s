@@ -44,7 +44,7 @@ e_color == e_fs1
 ;;fs1 contador para quitar vida a la comida, inicializar a 1
 
 ;fs2 == 19 
-
+e_enemlevel == e_fs2
 ;fs3 == 20 
 
 ;fs4 == 21 

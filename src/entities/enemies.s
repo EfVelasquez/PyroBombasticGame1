@@ -153,6 +153,16 @@ spawn_enemy1::
    ;;ld e_vy(ix), #0x00
    ;;ld e_vy+1(ix), #0
 
+   call get_round
+   ld e_enemlevel(ix), #0
+   cp #5
+   jr c, skip_level_calc
+   ld e_enemlevel(ix), #1
+   cp #15
+   jr c, skip_level_calc
+   ld e_enemlevel(ix), #2
+
+   skip_level_calc:
    ld a,l
    and #3
    jr z, enem0
@@ -162,7 +172,25 @@ spawn_enemy1::
 
       ld hl, #_sprite_e2_1
       ld (#enemy_entity+e_sprite), hl
-      call get_round
+
+      ld a, e_enemlevel(ix)
+      
+      cp #1
+      jr z, enem0_1
+      cp #2
+      jr z, enem0_2
+
+
+      enem0_0:
+      ld e_lifes(ix), #2
+      jr after_enem
+      enem0_1:
+      ld e_lifes(ix), #3
+      jr after_enem
+      enem0_2:
+      ld e_lifes(ix), #4
+      
+      ;ld e_lifes(ix), #3
 
    jr after_enem
    enem0: ;enem 0
@@ -171,16 +199,33 @@ spawn_enemy1::
 
       ld hl, #_sprite_e1_1
       ld (#enemy_entity+e_sprite), hl
-      call get_round
 
+      ld e_fs1(ix), #1 ;;contador comida
+      ;ld e_lifes(ix), #3
+      ld a, e_enemlevel(ix)
+      
+      cp #1
+      jr z, enem1_1
+      cp #2
+      jr z, enem1_2
+
+      
+      enem1_0:
+      ld e_lifes(ix), #3
+      jr after_enem
+      enem1_1:
+      ld e_lifes(ix), #5
+      jr after_enem
+      enem1_2:
+      ld e_lifes(ix), #6
+      
    after_enem:
 
 
    ld e_w(ix), #4
    ld e_h(ix), #18
    ld e_type(ix), #e_type_enemy
-   ld e_lifes(ix), #3
-   ld e_fs1(ix), #1
+   ;ld e_lifes(ix), #3
 
    ld hl, #enemy_entity
    call man_entity_create
