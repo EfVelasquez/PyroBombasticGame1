@@ -12,6 +12,7 @@
 .include "./system/collision.h.s"
 .include "./system/collision_sys.h.s"
 .include "screen.h.s"
+.include "./system/ui.h.s"
 
 .globl _sprite_char_D1
 .globl spawn_enemy1
@@ -112,16 +113,18 @@ game_man_init::
    call man_entity_init
    call sys_collision_control_init
 
-    call build_player
-    
+   call build_player
+   
 
 
-    ;call build_enemy
-    ;call create_enemies
+   ;call build_enemy
+   ;call create_enemies
 
-    call sys_render_init
+   call sys_render_init
+   call sys_ui_init
 
-    call init_round_1
+
+   call init_round_1
 
     ;;ld hl, #enemy_entity
     ;;call man_entity_create
@@ -134,6 +137,7 @@ ret
 game_man_update::
    cpctm_setBorder_asm HW_RED
    call sys_render_update
+   ;;call sys_ui_init
 
    cpctm_setBorder_asm HW_YELLOW
    call man_entity_update
