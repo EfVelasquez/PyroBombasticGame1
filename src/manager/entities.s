@@ -234,7 +234,6 @@ ret
 
 man_entity_set4destruction_IY::
     ld e_cmps(iy), #e_cmps_todestroy
-    
 ret
 
 
