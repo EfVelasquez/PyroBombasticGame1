@@ -145,7 +145,7 @@ update_rounds::
     call spawner_check
 
     ld a, (round)
-    cp #6
+    cp #7
     call nc, spawner_check
 
     skip_update_rounds:
