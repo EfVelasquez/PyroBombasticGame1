@@ -154,3 +154,29 @@ update_rounds::
     ld hl, #spawn_timer
     dec (hl)
 ret
+
+
+
+
+
+;;;;PROFESOR
+;;
+;;
+;;waitKeyPressed:
+;;    push hl
+;;    call cpct_scanKeyboard_f_asm
+;;    pop hl 
+;;    push hl 
+;;    call cpct_isKeyPressed
+;;    pop
+;;    jr nz, waitKeyPressed
+;;
+;;    loop2:
+;;    push hl
+;;    call cpct_scanKeyboard_f_asm
+;;    pop hl
+;;    push hl
+;;    call cpct_iskeyPressed
+;;    pop hl
+;;    jr z, loop2
+;;ret

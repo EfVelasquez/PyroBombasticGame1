@@ -117,8 +117,6 @@ game_man_init::
    call man_entity_init
    call sys_collision_control_init
    call init_round_1
-   
-   
 
 
    ;call build_enemy

@@ -4,6 +4,7 @@
 .include "game.h.s"
 
 
+
 string1: .asciz "Get Out Of My Store!"
 string2: .asciz "Press Space To Play"
 screen_man_title_screen::

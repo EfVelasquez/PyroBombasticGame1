@@ -4,6 +4,7 @@
 .include "./system/collision.h.s"
 .include "./system/render.h.s"
 .include "screen.h.s"
+.include "game.h.s"
 
 .globl sys_ui_erase_heart
 
@@ -22,6 +23,15 @@ food_life_pos: .ds #2
 ;; Initializes the array of entities
 man_entity_init::
 
+    
+    ld hl, #num_entities
+    ld (hl), #0
+
+    ld hl, #next_free_entity
+    ld (hl), #array_entities
+
+    call man_entity_first_entity
+    
     call man_entity_collision_init
     call man_entity_init_food_life
 
@@ -42,9 +52,10 @@ man_entity_create::
     ldir    ;; Changes AF, BC, DE, HL
 
     ld ix, (next_free_entity)
-    ld a, e_cmps(ix)
-    and #e_cmps_physics
-    call nz, man_entity_collision_add
+    ;;ld a, e_cmps(ix)
+    ;;and #e_cmps_physics
+    ;;call nz, man_entity_collision_add
+    call man_entity_collision_add
     ;;volver a cargar 'a' desde 'ix' o se jode todo jeje
 
     ;; Increase free entity
@@ -56,6 +67,11 @@ man_entity_create::
 
     ;; No free space -> Skip
     skip_ce:
+ret
+
+restart_game_func:
+    ld a, #1
+    ld (restart_game), a
 ret
 
 ;DELETES CURRENT ENTITY
@@ -71,11 +87,13 @@ man_entity_destroy:
 
     nop:
     cp #e_type_mainchar
-    call z, screen_man_death_screen
+    call z, restart_game_func
+    ;push af
 
     ld a, e_cmps(ix)
     cp #e_cmps_invalid
     jr z, skip_delete ;si la entidad ya esta muerta, no hago nada
+
 
     ;; Decrease free entity
     ld hl, (next_free_entity)
@@ -111,6 +129,9 @@ man_entity_destroy:
 
     call man_collision_delete
     
+    ;pop af
+    ;cp #e_type_mainchar
+    ;call z, screen_man_death_screen
 
     skip_delete:
 ret 
@@ -219,7 +240,7 @@ man_entity_get_from_idx::
     jr z, end_gfi
 
     loop_gfi:
-        call man_next_entity
+        call man_next_entity;
         dec a
     jr nz, loop_gfi
 
@@ -279,6 +300,9 @@ ret
 
 
 man_entity_init_food_life::
+
+    ld a, #16
+    ld (food_life), a
 
     ld de, #0xC000
     ld c, #61
