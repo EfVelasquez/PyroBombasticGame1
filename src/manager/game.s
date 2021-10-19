@@ -137,7 +137,6 @@ ret
 game_man_update::
    cpctm_setBorder_asm HW_RED
    call sys_render_update
-   ;;call sys_ui_init
 
    cpctm_setBorder_asm HW_YELLOW
    call man_entity_update
