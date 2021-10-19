@@ -214,7 +214,7 @@ spawn_enemy1::
       ld e_lifes(ix), #3
       jr after_enem
       enem1_1:
-      ld e_lifes(ix), #5
+      ld e_lifes(ix), #4
       jr after_enem
       enem1_2:
       ld e_lifes(ix), #6

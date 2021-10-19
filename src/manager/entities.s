@@ -11,16 +11,10 @@ num_entities: .db 0 ;; Actual number of entities created
 array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
 
-num_enemies: .db 0x01
 food_life: .db 0x0A
 food_life_pos: .db 0x00
-.globl spawn_enemy1
 
-more_enemies::
-    ld a, (#num_enemies)
-    ld a, #1
-    ld (#num_enemies), a
-ret
+
 ;; Functions for entities
 
 ;; Initializes the array of entities
@@ -70,7 +64,6 @@ man_entity_destroy:
     cp #e_type_enemy
     jr nz, nop
 
-    ;call spawn_enemy1
     call enemy_died
 
     nop:
@@ -270,7 +263,7 @@ man_entity_food_damaged::
     ld a, (food_life)
     dec a
     ld (food_life), a
-    jr z, end_life_food
+    call z, end_life_food
     ld h, #0xC0
     ld a, (#food_life_pos)
     inc a
@@ -287,6 +280,23 @@ man_entity_food_damaged::
     ld (#food_life_pos), a
     ld a, #0xF0
     ld (hl), a
+    ;;call nz, man_entity_food_decrease
+    ;;call man_entity_food_die
+ret
+
+
+;;AQUI DIBUJAREMOS SOBRE LA BARRA DE VIDA DISMINUYENDO
+
+man_entity_food_decrease::
+
+
+
+ret
+
+;;AQUI LA VIDA DE LA COMIDA ES 0
+
+man_entity_food_die::
+
 
 ret
 
