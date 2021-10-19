@@ -67,7 +67,7 @@ sys_ui_init::
     ;;
     ;;
 
-    ld l, #4    ;; Color de la letra
+    ld l, #0    ;; Color de la letra
     ld h, #9    ;; Color del fondo
     call cpct_setDrawCharM0_asm   ;; Set draw char colours
 
@@ -92,7 +92,7 @@ sys_ui_init::
     ;;ld   iy, #puntString   ;; IY = Pointer to the string 
     ;;call cpct_drawStringM0_asm  ;; Draw the string
 
-
+    call man_entity_init_food_life
 
 ret
 
@@ -145,7 +145,7 @@ sys_ui_update_lifes::
 ret
 
 sys_ui_add_round::
-    ld l, #4    ;; Color de la letra
+    ld l, #0    ;; Color de la letra
     ld h, #9    ;; Color del fondo
     call cpct_setDrawCharM0_asm   ;; Set draw char colours
 

@@ -53,6 +53,21 @@ e_enemlevel == e_fs2
 ;fs5 == 22 
 
 
+;;;;;enemigo 0;;;;;;;;
+;fs1 == 18 
+
+;;fs1 contador para quitar vida a al personaje, inicializar a 1
+e_playerctr == e_fs1
+
+;fs2 == 19 
+
+;fs3 == 20 
+
+;fs4 == 21 
+
+;fs5 == 22 
+
+
 
 ;;enemigo1
 
@@ -116,3 +131,5 @@ e_type_bullet       = 3
 .globl man_entity_food_damaged
 .globl cpct_drawSolidBox_asm
 .globl cpct_getScreenPtr_asm
+.globl man_entity_init_food_life
+.globl man_entity_food_decrease

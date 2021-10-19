@@ -11,7 +11,7 @@ num_entities: .db 0 ;; Actual number of entities created
 array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
 
-food_life: .db 0x0A
+food_life: .db 0x10
 food_life_pos: .ds #2
 
 
@@ -274,7 +274,7 @@ ret
 
 man_entity_init_food_life::
     ld de, #0xC000
-    ld c, #77
+    ld c, #62
     ld b, #3
     call cpct_getScreenPtr_asm
     ex de, hl
@@ -284,6 +284,33 @@ man_entity_init_food_life::
     ld (hl), e
     inc hl
     ld (hl), d
+
+    ld hl, #food_life_pos
+    ;;ex de, hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+
+    ld c, #16
+    ld b, #4
+
+    ld a, #0xF0
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #78
+    ld b, #3
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld hl, #food_life_pos
+
+    ld (hl), e
+    inc hl
+    ld (hl), d
+
+    
+
 ret
 
 man_entity_food_decrease::
@@ -294,24 +321,22 @@ man_entity_food_decrease::
     ld hl, #food_life_pos
     ;;ex de, hl
     dec (hl)
-    dec (hl)
     ld e, (hl)
     inc hl
     ld d, (hl)
 
-    ld c, #2
+    ld c, #1
     ld b, #4
 
-    ld a, #0xF0
+    ld a, #0x00
     call cpct_drawSolidBox_asm
 ret
 
 ;;AQUI LA VIDA DE LA COMIDA ES 0
 
 man_entity_food_die::
-
+    call man_entity_food_decrease
     call screen_man_death_screen
-
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

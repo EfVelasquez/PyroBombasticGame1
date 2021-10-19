@@ -5,9 +5,6 @@
 
 .module sys_collision
 
-num_entities2: .db 0x00
-cooldown_damaged: .db 0x01
-damaged: .db 0x01
 
 sys_collision_control_init::
     call man_entity_collision_getArray
@@ -119,9 +116,7 @@ ret
 
 sys_collision_update::    
     _ent_array_ptr = . + 1  ld hl, #0x0000
-    ld a, (num_entities2)
-    cp #1
-    jr z, exit
+
     next_ix:
         ld e, (hl)
         inc hl
@@ -223,30 +218,26 @@ check_entities_type_collision::
         call sys_collision_check
         jr nc, collision_character
 
-        ld a, (#cooldown_damaged)
+        ld a, e_playerctr(ix)
         cp #1
         jr z, skip
 
-        ld a, (#cooldown_damaged)
+        ld a, e_playerctr(ix)
         dec a
-        ld (#cooldown_damaged), a
+        ld e_playerctr(ix), a
 
     ret
 
     ;;Personaje principal muere
 
     collision_character:
-        ld a, (#cooldown_damaged)
+        ld a, e_playerctr(ix)
         dec a
         jr nz, not_damaged
             call man_entity_damaged
             ld a, #100 ;;Tiempo entre hit y hit 50 = 1 Segundo
-            ld (#cooldown_damaged), a
-            ld a, #1
-            ld (#damaged), a
-            jp skip
         not_damaged:
-            ld (#cooldown_damaged), a
+            ld e_playerctr(ix), a
     jp skip
 
     collision:
