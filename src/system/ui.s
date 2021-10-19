@@ -66,27 +66,28 @@ sys_ui_init::
     ;; RONDAS
     ;;
     ;;
+    call sys_ui_add_round
+    ;;ld l, #0    ;; Color de la letra
+    ;;ld h, #9    ;; Color del fondo
+    ;;call cpct_setDrawCharM0_asm   ;; Set draw char colours
+;;
+    ;;;; Calculate a video-memory location for printing a string
+    ;;ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ;;ld c,   #23
+    ;;ld b,   #17
+    ;;call cpct_getScreenPtr_asm
+;;
+    ;;call get_round
+    ;;;rra
+    ;;;rra
+    ;;;rra
+    ;;;rra
+    ;;and #0x0F
+    ;;add #48  ;; primer digito en Ascii
+;;
+    ;;ld e, a
+    ;;call cpct_drawCharM0_asm
 
-    ld l, #0    ;; Color de la letra
-    ld h, #9    ;; Color del fondo
-    call cpct_setDrawCharM0_asm   ;; Set draw char colours
-
-    ;; Calculate a video-memory location for printing a string
-    ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
-    ld c,   #23
-    ld b,   #17
-    call cpct_getScreenPtr_asm
-
-    call get_round
-    ;rra
-    ;rra
-    ;rra
-    ;rra
-    and #0x0F
-    add #48  ;; primer digito en Ascii
-
-    ld e, a
-    call cpct_drawCharM0_asm
     ;;ex de, hl
 
     ;;ld   iy, #puntString   ;; IY = Pointer to the string 
@@ -158,9 +159,45 @@ sys_ui_add_round::
 
     cp #10
     jp m, less_than_ten
+
+    ld de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld c,   #25
+    ld b,   #17
+    call cpct_getScreenPtr_asm
     ;; El numero es mayor de 10
+    ;;rra
+    ;;rra
+    call get_round
+    
+    dec a
+    add  #1
+    daa
+
+    push af
+    and #0x0F
+    add #48 
+    ld e, a
+
+    call cpct_drawCharM0_asm
+    
+    ld de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld c,   #21
+    ld b,   #17
+    call cpct_getScreenPtr_asm
+
+    pop af
+    and #0xF0
     rra
     rra
+    rra
+    rra
+    add #48 
+    ld e, a
+
+    call cpct_drawCharM0_asm
+
+    ret
+
     less_than_ten:
     and #0x0F
     add #48  ;; primer digito en Ascii

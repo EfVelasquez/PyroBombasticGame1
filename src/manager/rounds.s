@@ -21,7 +21,7 @@ ret
 
 init_round_1::
     ld hl, #round
-    ld (hl), #5
+    ld (hl), #9
 
     ld hl, #max_enems
     ld (hl), #3
