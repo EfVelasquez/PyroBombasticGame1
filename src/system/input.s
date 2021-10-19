@@ -21,10 +21,10 @@ current_cool == 20;19
 ;; ----------------------------------------
 keyactions:: ;;el eje horizontal tendra prioridad ya que hay mas enemigos de los lados
     .dw Key_Space, key_space_action
-    .dw Key_W, key_up_action
-    .dw Key_S, key_down_action
-    .dw Key_A, key_left_action
-    .dw Key_D, key_right_action
+    .dw Key_Q, key_up_action
+    .dw Key_A, key_down_action
+    .dw Key_O, key_left_action
+    .dw Key_P, key_right_action
     .dw 0x0000
 
 
