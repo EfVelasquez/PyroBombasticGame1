@@ -27,6 +27,8 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps
 mainchar_entity: .db cmps
 .ds sizeof_e-1
 
+restart_game:: .db #0
+
 
 pos_enemies: .db #0
 
@@ -111,10 +113,11 @@ ret
 game_man_init::
    call sys_render_init_palette
    call screen_man_title_screen
+   
    call man_entity_init
    call sys_collision_control_init
-
-   call build_player
+   call init_round_1
+   
    
 
 
@@ -123,16 +126,18 @@ game_man_init::
 
    call sys_render_init
 
-
-   call init_round_1
+   call build_player
+   
    call sys_ui_init
 
-
+   
     ;;ld hl, #enemy_entity
     ;;call man_entity_create
     ;;call build_enemy2
     ;;ld hl, #enemy_entity
     ;;call man_entity_create
+    ld a, #0
+    ld (restart_game), a
 
 ret
 
@@ -160,6 +165,11 @@ game_man_update::
     
    
    cpctm_setBorder_asm HW_BRIGHT_WHITE
+
+
+   ld a, (restart_game)
+   and a
+   call nz, screen_man_death_screen
    
 
    call cpct_waitVSYNC_asm

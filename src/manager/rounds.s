@@ -2,7 +2,7 @@
 .globl spawn_enemy1
 
 spawner_time == 125 ;;en updates max 256
-round_end_time == 2
+round_end_time == 1
 
 round:: .db #1
 max_enems: .db #3
@@ -21,7 +21,7 @@ ret
 
 init_round_1::
     ld hl, #round
-    ld (hl), #9
+    ld (hl), #1
 
     ld hl, #max_enems
     ld (hl), #3
@@ -43,6 +43,9 @@ init_round_1::
 
     ld hl, #time_to_next_round
     ld (hl), #round_end_time
+    
+    ld a, #spawner_time
+    ld (spawn_timer), a
 ret
 
 enemy_died::

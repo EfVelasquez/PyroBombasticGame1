@@ -1,5 +1,8 @@
 .include "./system/cpct_globals.h.s"
 .include "cpctelera.h.s"
+.include "entities.h.s"
+.include "game.h.s"
+
 
 string1: .asciz "Get Out Of My Store!"
 string2: .asciz "Press Space To Play"
@@ -42,19 +45,22 @@ ret
 stringD1:  .asciz "You died!"
 stringD2:  .asciz  "Space to Restart"
 screen_man_death_screen::
+   ld hl, #man_entity_set4destruction
+   call man_entity_forall
+   call man_entity_update
 
-    ;; Crear un rectangulo en pantalla
-    ld de, #0xC000
-    ld c,  #07
-    ld b,  #50
-    call cpct_getScreenPtr_asm
+   ;; Crear un rectangulo en pantalla
+   ld de, #0xC000
+   ld c,  #07
+   ld b,  #50
+   call cpct_getScreenPtr_asm
 
-    ex de, hl
+   ex de, hl
 
-    ld a, #0x00
-    ld b, #64
-    ld c, #64
-    call cpct_drawSolidBox_asm
+   ld a, #0x00
+   ld b, #64
+   ld c, #64
+   call cpct_drawSolidBox_asm
 
     ;; Set up draw char colours before calling draw string
    ld    l, #2        ;; D = Background PEN (0)
@@ -84,9 +90,13 @@ screen_man_death_screen::
    ld iy, #stringD2
    call cpct_drawStringM0_asm
 
+   ;ld a, #e_cmps_invalid 
+   ;ld (array_entities), a
+
    string_loop_death:
       call cpct_scanKeyboard_f_asm
       ld hl, #Key_Space
       call cpct_isKeyPressed_asm
       jr z, string_loop_death
+      call nz, game_man_init
 ret
