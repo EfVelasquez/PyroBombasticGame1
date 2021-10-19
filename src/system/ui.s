@@ -161,8 +161,6 @@ sys_ui_add_round::
     ;; El numero es mayor de 10
     rra
     rra
-    rra
-    rra
     less_than_ten:
     and #0x0F
     add #48  ;; primer digito en Ascii
