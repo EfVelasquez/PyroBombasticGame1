@@ -12,7 +12,7 @@ array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
 
 food_life: .db 0x0A
-food_life_pos: .db 0x00
+food_life_pos: .ds #2
 
 
 ;; Functions for entities
@@ -21,6 +21,7 @@ food_life_pos: .db 0x00
 man_entity_init::
 
     call man_entity_collision_init
+    call man_entity_init_food_life
 
 ret
 
@@ -262,41 +263,54 @@ ret
 man_entity_food_damaged::
     ld a, (food_life)
     dec a
+    call z, man_entity_food_die
     ld (food_life), a
-    call z, end_life_food
-    ld h, #0xC0
-    ld a, (#food_life_pos)
-    inc a
-    ld l, a
-    ld (#food_life_pos), a
-    ld a, #0xFF
-    ld (hl), a
-    ret
-    end_life_food:
-    ld h, #0xC0
-    ld a, (#food_life_pos)
-    inc a
-    ld l, a
-    ld (#food_life_pos), a
-    ld a, #0xF0
-    ld (hl), a
-    ;;call nz, man_entity_food_decrease
-    ;;call man_entity_food_die
+    call man_entity_food_decrease
 ret
 
 
 ;;AQUI DIBUJAREMOS SOBRE LA BARRA DE VIDA DISMINUYENDO
 
+
+man_entity_init_food_life::
+    ld de, #0xC000
+    ld c, #77
+    ld b, #3
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld hl, #food_life_pos
+
+    ld (hl), e
+    inc hl
+    ld (hl), d
+ret
+
 man_entity_food_decrease::
+    ;;ld de, #0xC000
+    ;;ld c, #77
+    ;;ld b, #3
+    ;;call cpct_getScreenPtr_asm
+    ld hl, #food_life_pos
+    ;;ex de, hl
+    dec (hl)
+    dec (hl)
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
 
+    ld c, #2
+    ld b, #4
 
-
+    ld a, #0xF0
+    call cpct_drawSolidBox_asm
 ret
 
 ;;AQUI LA VIDA DE LA COMIDA ES 0
 
 man_entity_food_die::
 
+    call screen_man_death_screen
 
 ret
 
