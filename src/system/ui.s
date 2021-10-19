@@ -52,7 +52,7 @@ sys_ui_init::
     
     ;; Calculate a video-memory location for printing a string
     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
-    ld c,   #45
+    ld c,   #44
     ld b,   #01
     call cpct_getScreenPtr_asm
 
@@ -168,7 +168,7 @@ sys_ui_add_round::
     ;;rra
     ;;rra
     call get_round
-    
+
     dec a
     add  #1
     daa

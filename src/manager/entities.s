@@ -273,6 +273,33 @@ ret
 
 
 man_entity_init_food_life::
+
+    ld de, #0xC000
+    ld c, #61
+    ld b, #2
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld hl, #food_life_pos
+
+    ld (hl), e
+    inc hl
+    ld (hl), d
+
+    ld hl, #food_life_pos
+    ;;ex de, hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+
+    ld c, #18
+    ld b, #6
+
+    ld a, #0xFF
+    call cpct_drawSolidBox_asm
+
+
+
     ld de, #0xC000
     ld c, #62
     ld b, #3
@@ -314,21 +341,14 @@ man_entity_init_food_life::
 ret
 
 man_entity_food_decrease::
-    ;;ld de, #0xC000
-    ;;ld c, #77
-    ;;ld b, #3
-    ;;call cpct_getScreenPtr_asm
     ld hl, #food_life_pos
-    ;;ex de, hl
     dec (hl)
     ld e, (hl)
     inc hl
     ld d, (hl)
-
     ld c, #1
     ld b, #4
-
-    ld a, #0x00
+    ld a, #0x30
     call cpct_drawSolidBox_asm
 ret
 
