@@ -27,6 +27,7 @@ cmps == e_cmps_position | e_cmps_alive | e_cmps_render | e_cmps_physics | e_cmps
 mainchar_entity: .db cmps
 .ds sizeof_e-1
 
+should_restart:: .db #0
 
 pos_enemies: .db #0
 
@@ -160,6 +161,10 @@ game_man_update::
     
    
    cpctm_setBorder_asm HW_BRIGHT_WHITE
+
+   ld a, (should_restart)
+   cp #0
+   call nz, screen_man_death_screen
    
 
    call cpct_waitVSYNC_asm

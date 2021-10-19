@@ -5,6 +5,7 @@
 .include "./system/render.h.s"
 .include "screen.h.s"
 
+.globl should_restart
 .globl sys_ui_erase_heart
 
 next_free_entity: .dw array_entities
@@ -58,6 +59,13 @@ man_entity_create::
     skip_ce:
 ret
 
+set_to_reset:
+
+    ld a, #1
+    ld (should_restart), a
+
+ret
+
 ;DELETES CURRENT ENTITY
 man_entity_destroy:
 
@@ -71,7 +79,7 @@ man_entity_destroy:
 
     nop:
     cp #e_type_mainchar
-    call z, screen_man_death_screen
+    call z, set_to_reset
 
     ld a, e_cmps(ix)
     cp #e_cmps_invalid

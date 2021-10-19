@@ -1,6 +1,9 @@
 .include "./system/cpct_globals.h.s"
 .include "cpctelera.h.s"
 
+.globl should_restart
+
+
 string1: .asciz "Get Out Of My Store!"
 string2: .asciz "Press Space To Play"
 screen_man_title_screen::
@@ -42,6 +45,9 @@ ret
 stringD1:  .asciz "You died!"
 stringD2:  .asciz  "Space to Restart"
 screen_man_death_screen::
+
+    ld a, #0
+    ld (should_restart), a
 
     ;; Crear un rectangulo en pantalla
     ld de, #0xC000
