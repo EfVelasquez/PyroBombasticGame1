@@ -5,6 +5,8 @@
 .include "./system/render.h.s"
 .include "screen.h.s"
 
+.globl sys_ui_erase_heart
+
 next_free_entity: .dw array_entities
 current_entity: .dw array_entities
 num_entities: .db 0 ;; Actual number of entities created
@@ -251,6 +253,10 @@ man_entity_damaged::
     dec a
     call z, man_entity_set4destruction
     ld e_lifes(ix), a
+
+    ld a, e_type(ix)
+    cp #e_type_mainchar
+    call z, sys_ui_erase_heart
 ret
 
 man_entity_damaged_IY::
