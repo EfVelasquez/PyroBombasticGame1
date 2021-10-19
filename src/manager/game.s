@@ -121,10 +121,11 @@ game_man_init::
    ;call create_enemies
 
    call sys_render_init
-   call sys_ui_init
 
 
    call init_round_1
+   call sys_ui_init
+
 
     ;;ld hl, #enemy_entity
     ;;call man_entity_create
@@ -137,7 +138,6 @@ ret
 game_man_update::
    cpctm_setBorder_asm HW_RED
    call sys_render_update
-   ;;call sys_ui_init
 
    cpctm_setBorder_asm HW_YELLOW
    call man_entity_update

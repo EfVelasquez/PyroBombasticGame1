@@ -2,6 +2,7 @@
 .include "cpct_globals.h.s"
 .include "./manager/entities.h.s"
 .include "cpctelera.h.s"
+.include "./manager/rounds.h.s"
 
 lifeString: .asciz "LIFES"
 foodString: .asciz "FOOD"
@@ -62,9 +63,13 @@ sys_ui_init::
 
     ;;  -------------------------------------------------
     ;;
-    ;;  POSICION PROVISIONAL DE LAS RONDAS
+    ;; RONDAS
     ;;
     ;;
+
+    ld l, #4    ;; Color de la letra
+    ld h, #9    ;; Color del fondo
+    call cpct_setDrawCharM0_asm   ;; Set draw char colours
 
     ;; Calculate a video-memory location for printing a string
     ld   de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
@@ -72,16 +77,26 @@ sys_ui_init::
     ld b,   #17
     call cpct_getScreenPtr_asm
 
+    call get_round
+    ;rra
+    ;rra
+    ;rra
+    ;rra
+    and #0x0F
+    add #48  ;; primer digito en Ascii
+
+    ld e, a
+    call cpct_drawCharM0_asm
     ;;ex de, hl
 
-    ld   iy, #puntString   ;; IY = Pointer to the string 
-    call cpct_drawStringM0_asm  ;; Draw the string
+    ;;ld   iy, #puntString   ;; IY = Pointer to the string 
+    ;;call cpct_drawStringM0_asm  ;; Draw the string
 
 
 
 ret
 
-sys_ui_update::
+sys_ui_update_lifes::
     call man_entity_first_entity    ;; Conseguimos el player
     ld a, e_lifes(ix)
 
@@ -128,3 +143,28 @@ sys_ui_update::
 
     skip_ui:
 ret
+
+sys_ui_add_round::
+    ld l, #4    ;; Color de la letra
+    ld h, #9    ;; Color del fondo
+    call cpct_setDrawCharM0_asm   ;; Set draw char colours
+
+    ld de, #CPCT_VMEM_START_ASM ;; DE = Pointer to start of the screen
+    ld c,   #23
+    ld b,   #17
+    call cpct_getScreenPtr_asm
+
+    call get_round  ;; A = rondas
+
+    cp #10
+    jp m, less_than_ten
+    ;; El numero es mayor de 10
+    rra
+    rra
+    less_than_ten:
+    and #0x0F
+    add #48  ;; primer digito en Ascii
+
+    ld e, a
+    call cpct_drawCharM0_asm
+ret 

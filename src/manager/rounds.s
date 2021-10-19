@@ -1,6 +1,4 @@
-
-
-
+.include "./system/ui.h.s"
 .globl spawn_enemy1
 
 spawner_time == 125 ;;en updates max 256
@@ -65,7 +63,7 @@ ret
 next_round:
     ld hl, #round
     inc (hl)
-
+    call sys_ui_add_round
 
     ld a, (hl)
     cp #5
@@ -92,6 +90,7 @@ next_round:
 
     ld hl, #time_to_next_round
     ld (hl), #round_end_time
+    
 
 ret
 
