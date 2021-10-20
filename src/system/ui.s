@@ -3,10 +3,16 @@
 .include "./manager/entities.h.s"
 .include "cpctelera.h.s"
 .include "./manager/rounds.h.s"
+.include "./manager/screen.h.s"
+
 
 lifeString: .asciz "LIFES"
 foodString: .asciz "FOOD"
 puntString: .asciz "1"
+
+
+food_life: .db 0x10
+food_life_pos: .ds #2
 
 .globl _sprite_corazon ;4bytes x 9
 
@@ -154,7 +160,7 @@ sys_ui_init::
     ;;ld   iy, #puntString   ;; IY = Pointer to the string 
     ;;call cpct_drawStringM0_asm  ;; Draw the string     
     
-    call man_entity_init_food_life
+    call sys_ui_init_food_life
 
 ret
 
@@ -256,53 +262,6 @@ sys_ui_erase_heart::
         call cpct_drawSolidBox_asm
         ret
 ret
-sys_ui_update_lifes::
-    call man_entity_first_entity    ;; Conseguimos el player
-    ld a, e_lifes(ix)
-
-    ;;  ----------------------------------------
-    ;; 
-    ;;  Update de las vidas
-    ;;
-    ;;
-
-    cp #0
-    jr z, no_lifes
-
-    cp #1
-    jr z, one_life
-
-    cp #2
-    jr z, two_lifes
-
-    cp #3
-    jr z, three_lifes
-
-    cp #4
-    jr z, four_lifes
-
-    cp #5
-    jr z, five_lifes
-
-    no_lifes:
-    jr skip_ui
-
-    one_life:
-    jr skip_ui
-
-    two_lifes:
-    jr skip_ui
-
-    three_lifes:
-    jr skip_ui
-
-    four_lifes:
-    jr skip_ui
-
-    five_lifes:
-
-    skip_ui:
-ret
 
 sys_ui_add_round::
     ld l, #0    ;; Color de la letra
@@ -363,4 +322,102 @@ sys_ui_add_round::
 
     ld e, a
     call cpct_drawCharM0_asm
-ret 
+ret
+
+sys_ui_food_damaged::
+    ld a, (food_life)
+    dec a
+    call z, sys_ui_food_die
+    ld (food_life), a
+    call sys_ui_food_decrease
+ret
+
+
+;;AQUI DIBUJAREMOS SOBRE LA BARRA DE VIDA DISMINUYENDO
+
+
+sys_ui_init_food_life::
+
+    ld a, #16
+    ld (food_life), a
+
+    ld de, #0xC000
+    ld c, #31      ;; 61
+    ld b, #85       ;; 2
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld hl, #food_life_pos
+
+    ld (hl), e
+    inc hl
+    ld (hl), d
+
+    ld hl, #food_life_pos
+    ;;ex de, hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+
+    ld c, #18
+    ld b, #6
+
+    ld a, #0xFF
+    call cpct_drawSolidBox_asm
+
+
+
+    ld de, #0xC000
+    ld c, #32       ;; 62
+    ld b, #86       ;; 3
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld hl, #food_life_pos
+
+    ld (hl), e
+    inc hl
+    ld (hl), d
+
+    ld hl, #food_life_pos
+    ;;ex de, hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+
+    ld c, #16
+    ld b, #4
+
+    ld a, #0xF0
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #48       ;; 78
+    ld b, #86        ;; 3
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld hl, #food_life_pos
+
+    ld (hl), e
+    inc hl
+    ld (hl), d
+ret
+
+sys_ui_food_decrease::
+    ld hl, #food_life_pos
+    dec (hl)
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ld c, #1
+    ld b, #4
+    ld a, #0x30
+    call cpct_drawSolidBox_asm
+ret
+
+;;AQUI LA VIDA DE LA COMIDA ES 0
+sys_ui_food_die::
+    call sys_ui_food_decrease
+    call screen_man_death_screen
+ret

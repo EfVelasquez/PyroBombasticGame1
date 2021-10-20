@@ -128,8 +128,5 @@ e_type_bullet       = 3
 .globl man_next_entity
 .globl man_entity_damaged
 .globl man_entity_damaged_IY
-.globl man_entity_food_damaged
 .globl cpct_drawSolidBox_asm
 .globl cpct_getScreenPtr_asm
-.globl man_entity_init_food_life
-.globl man_entity_food_decrease

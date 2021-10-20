@@ -5,8 +5,8 @@
 .include "./system/render.h.s"
 .include "screen.h.s"
 .include "game.h.s"
+.include "./system/ui.h.s"
 
-.globl sys_ui_erase_heart
 
 next_free_entity: .dw array_entities
 current_entity: .dw array_entities
@@ -14,8 +14,6 @@ num_entities: .db 0 ;; Actual number of entities created
 array_entities: .ds sizeof_e * max_entities
 array_end: .db 0x00
 
-food_life: .db 0x10
-food_life_pos: .ds #2
 
 
 ;; Functions for entities
@@ -33,7 +31,7 @@ man_entity_init::
     call man_entity_first_entity
     
     call man_entity_collision_init
-    call man_entity_init_food_life
+    call sys_ui_init_food_life
 
 ret
 
@@ -287,107 +285,7 @@ man_entity_damaged_IY::
     ld e_lifes(iy), a
 ret
 
-man_entity_food_damaged::
-    ld a, (food_life)
-    dec a
-    call z, man_entity_food_die
-    ld (food_life), a
-    call man_entity_food_decrease
-ret
 
-
-;;AQUI DIBUJAREMOS SOBRE LA BARRA DE VIDA DISMINUYENDO
-
-
-man_entity_init_food_life::
-
-    ld a, #16
-    ld (food_life), a
-
-    ld de, #0xC000
-    ld c, #61
-    ld b, #2
-    call cpct_getScreenPtr_asm
-    ex de, hl
-
-    ld hl, #food_life_pos
-
-    ld (hl), e
-    inc hl
-    ld (hl), d
-
-    ld hl, #food_life_pos
-    ;;ex de, hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-
-    ld c, #18
-    ld b, #6
-
-    ld a, #0xFF
-    call cpct_drawSolidBox_asm
-
-
-
-    ld de, #0xC000
-    ld c, #62
-    ld b, #3
-    call cpct_getScreenPtr_asm
-    ex de, hl
-
-    ld hl, #food_life_pos
-
-    ld (hl), e
-    inc hl
-    ld (hl), d
-
-    ld hl, #food_life_pos
-    ;;ex de, hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-
-    ld c, #16
-    ld b, #4
-
-    ld a, #0xF0
-    call cpct_drawSolidBox_asm
-
-    ld de, #0xC000
-    ld c, #78
-    ld b, #3
-    call cpct_getScreenPtr_asm
-    ex de, hl
-
-    ld hl, #food_life_pos
-
-    ld (hl), e
-    inc hl
-    ld (hl), d
-
-    
-
-ret
-
-man_entity_food_decrease::
-    ld hl, #food_life_pos
-    dec (hl)
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ld c, #1
-    ld b, #4
-    ld a, #0x30
-    call cpct_drawSolidBox_asm
-ret
-
-;;AQUI LA VIDA DE LA COMIDA ES 0
-
-man_entity_food_die::
-    call man_entity_food_decrease
-    call screen_man_death_screen
-ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

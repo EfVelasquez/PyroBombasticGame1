@@ -2,6 +2,7 @@
 
 .include "cpctelera.h.s"
 .include "./manager/entities.h.s"
+.include "ui.h.s"
 
 .module sys_ai_control
 
@@ -19,7 +20,7 @@ sys_ai_stand_by:
     ld a, e_foodctr(ix)
     dec a
     jr nz, not_damaged_food
-        call man_entity_food_damaged
+        call sys_ui_food_damaged
         ld a, #200 ;;Tiempo entre hit y hit 50 = 1 Segundo
         ld e_foodctr(ix), a
         ret
