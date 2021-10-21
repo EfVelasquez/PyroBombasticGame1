@@ -151,7 +151,7 @@ game_man_update::
 
    cpctm_setBorder_asm HW_YELLOW
    call man_entity_update
-
+   call change_screen
 
    cpctm_setBorder_asm HW_GREEN
    call sys_input_update
@@ -176,5 +176,5 @@ game_man_update::
    call nz, screen_man_death_screen
    
 
-   ;;call cpct_waitVSYNC_asm
+   call cpct_waitVSYNC_asm
 ret
