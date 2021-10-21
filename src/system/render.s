@@ -27,7 +27,7 @@ sys_render_update::
     call man_entity_forall
 
     call sys_ui_draw_food_counter
-    call change_screen
+    
 
 ret
 
@@ -610,7 +610,7 @@ back_buffer = . + 2
 ret
 
 
-change_screen:
+change_screen::
 f_change_screen = . + 1
     jp change_screen_to_8000
 

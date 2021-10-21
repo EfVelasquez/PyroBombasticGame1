@@ -151,7 +151,7 @@ game_man_update::
 
    cpctm_setBorder_asm HW_YELLOW
    call man_entity_update
-
+   call change_screen
 
    cpctm_setBorder_asm HW_GREEN
    call sys_input_update
