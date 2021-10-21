@@ -31,7 +31,7 @@ man_entity_init::
     call man_entity_first_entity
     
     call man_entity_collision_init
-    call sys_ui_init_food_life
+    ;call sys_ui_init_food_life
 
 ret
 

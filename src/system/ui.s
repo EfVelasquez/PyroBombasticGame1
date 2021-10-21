@@ -160,7 +160,9 @@ sys_ui_init::
     ;;ld   iy, #puntString   ;; IY = Pointer to the string 
     ;;call cpct_drawStringM0_asm  ;; Draw the string     
     
-    call sys_ui_init_food_life
+    ;call sys_ui_init_food_life
+    ld a, #16
+    ld (food_life), a
 
 ret
 
@@ -325,47 +327,28 @@ sys_ui_add_round::
 ret
 
 sys_ui_food_damaged::
-    ld a, (food_life)
-    dec a
+    ld hl, #food_life
+    dec (hl)
     call z, sys_ui_food_die
-    ld (food_life), a
-    call sys_ui_food_decrease
+    
+    ;call sys_ui_food_decrease
 ret
 
 
 ;;AQUI DIBUJAREMOS SOBRE LA BARRA DE VIDA DISMINUYENDO
 
-
-sys_ui_init_food_life::
-
-    ld a, #16
-    ld (food_life), a
+sys_ui_draw_food_counter::
 
     ld de, #0xC000
     ld c, #31      ;; 61
     ld b, #85       ;; 2
     call cpct_getScreenPtr_asm
     ex de, hl
-
-    ld hl, #food_life_pos
-
-    ld (hl), e
-    inc hl
-    ld (hl), d
-
-    ld hl, #food_life_pos
-    ;;ex de, hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-
     ld c, #18
     ld b, #6
 
     ld a, #0xFF
     call cpct_drawSolidBox_asm
-
-
 
     ld de, #0xC000
     ld c, #32       ;; 62
@@ -373,51 +356,119 @@ sys_ui_init_food_life::
     call cpct_getScreenPtr_asm
     ex de, hl
 
-    ld hl, #food_life_pos
-
-    ld (hl), e
-    inc hl
-    ld (hl), d
-
-    ld hl, #food_life_pos
-    ;;ex de, hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-
     ld c, #16
     ld b, #4
 
-    ld a, #0xF0
-    call cpct_drawSolidBox_asm
-
-    ld de, #0xC000
-    ld c, #48       ;; 78
-    ld b, #86        ;; 3
-    call cpct_getScreenPtr_asm
-    ex de, hl
-
-    ld hl, #food_life_pos
-
-    ld (hl), e
-    inc hl
-    ld (hl), d
-ret
-
-sys_ui_food_decrease::
-    ld hl, #food_life_pos
-    dec (hl)
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ld c, #1
-    ld b, #4
     ld a, #0x30
     call cpct_drawSolidBox_asm
+
+
+    ld a, (food_life)
+    and a
+    jr z, no_comida
+
+        ld de, #0xC000
+        ld c, #32       ;; 62
+        ld b, #86       ;; 3
+        call cpct_getScreenPtr_asm
+        ex de, hl
+
+        ld a, (food_life)
+        ld c, a
+        ld b, #4
+
+        ld a, #0xF0
+        call cpct_drawSolidBox_asm
+
+    ;dibuja barra verde
+
+
+    no_comida:
 ret
+;
+;
+;sys_ui_init_food_life::
+;
+;    ld a, #16
+;    ld (food_life), a
+;
+;    ld de, #0xC000
+;    ld c, #31      ;; 61
+;    ld b, #85       ;; 2
+;    call cpct_getScreenPtr_asm
+;    ex de, hl
+;
+;    ld hl, #food_life_pos
+;
+;    ld (hl), e
+;    inc hl
+;    ld (hl), d
+;
+;    ld hl, #food_life_pos
+;    ;;ex de, hl
+;    ld e, (hl)
+;    inc hl
+;    ld d, (hl)
+;
+;    ld c, #18
+;    ld b, #6
+;
+;    ld a, #0xFF
+;    call cpct_drawSolidBox_asm
+;
+;
+;
+;    ld de, #0xC000
+;    ld c, #32       ;; 62
+;    ld b, #86       ;; 3
+;    call cpct_getScreenPtr_asm
+;    ex de, hl
+;
+;    ld hl, #food_life_pos
+;
+;    ld (hl), e
+;    inc hl
+;    ld (hl), d
+;
+;    ld hl, #food_life_pos
+;    ;;ex de, hl
+;    ld e, (hl)
+;    inc hl
+;    ld d, (hl)
+;
+;    ld c, #16
+;    ld b, #4
+;
+;    ld a, #0xF0
+;    call cpct_drawSolidBox_asm
+;
+;    ld de, #0xC000
+;    ld c, #48       ;; 78
+;    ld b, #86        ;; 3
+;    call cpct_getScreenPtr_asm
+;    ex de, hl
+;
+;    ld hl, #food_life_pos
+;
+;    ld (hl), e
+;    inc hl
+;    ld (hl), d
+;ret
+;
+;sys_ui_food_decrease::
+;    ld hl, #food_life_pos
+;    dec (hl)
+;    ld e, (hl)
+;    inc hl
+;    ld d, (hl)
+;    ld c, #1
+;    ld b, #4
+;    ld a, #0x30
+;    call cpct_drawSolidBox_asm
+;ret
 
 ;;AQUI LA VIDA DE LA COMIDA ES 0
 sys_ui_food_die::
-    call sys_ui_food_decrease
+    ;call sys_ui_food_decrease
     call screen_man_death_screen
 ret
