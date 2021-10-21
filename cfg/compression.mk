@@ -33,8 +33,9 @@
 ## that is placed in src/mygraphics.c & src/mygraphics.h, ready
 ## to be included and used by other modules.
 ##
-#$(eval $(call ADD2PACK,mygraphics,gfx/enemy.bin))
-#$(eval $(call ADD2PACK,mygraphics,gfx/hero.bin))
+$(eval $(call ADD2PACK,screen_menu_z, src/screens/pantallaCarga2.bin))
+$(eval $(call PACKZX7B,screen_menu_z,src/screens))
+
 #$(eval $(call ADD2PACK,mygraphics,gfx/background.bin))
 #$(eval $(call PACKZX7B,mygraphics,src/))
 

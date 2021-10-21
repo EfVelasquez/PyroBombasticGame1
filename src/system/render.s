@@ -629,7 +629,7 @@ change_screen_to_C000:
 ret
 
 sys_render_init::
-
+    call clear_8000
     cpctm_clearScreen_asm #0x3C
     call draw_room
     call draw_decorations
@@ -642,4 +642,13 @@ sys_render_init_palette::
     ld hl, #_g_palette
     ld de, #16
     call cpct_setPalette_asm
+ret
+
+clear_8000:
+    ld hl, #0x8000
+    ld de, #0x8001
+    ld (hl), #0x3C
+    ld bc, #0x4000
+    ldir
+
 ret

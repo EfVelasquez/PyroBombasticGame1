@@ -54,7 +54,13 @@ $(eval $(call IMG2SP, CONVERT         , assets/decos/ventana.png , 30, 19, sprit
 $(eval $(call IMG2SP, CONVERT         , assets/decos/ventana_abaj.png , 36, 4, sprite_vent_abaj   ))
 $(eval $(call IMG2SP, CONVERT         , assets/decos/poster.png , 14, 16, sprite_poster   ))
 $(eval $(call IMG2SP, CONVERT         , assets/decos/comida.png , 18, 33, sprite_comida   )) 
-$(eval $(call IMG2SP, CONVERT         , assets/spritecora.png , 8, 9, sprite_corazon   )) 
+$(eval $(call IMG2SP, CONVERT         , assets/spritecora.png , 8, 9, sprite_corazon   ))
+
+$(eval $(call IMG2SP, SET_IMG_FORMAT  , screen             ))#	{ sprites, zgtiles, screen }
+$(eval $(call IMG2SP, SET_FOLDER  , src/screens/             ))
+$(eval $(call IMG2SP, SET_OUTPUT  , bin             ))
+$(eval $(call IMG2SP, CONVERT  , assets/screens/pantallaCarga2.png, 0, 0, screen_menu             ))
+
 #$(eval $(call IMG2SP, CONVERT         , assets/char2.png ,   12, 24, sprite_char2   ))
 #$(eval $(call IMG2SP, CONVERT         , assets/malo1_0.png , 12, 24, sprite_malo1_0 ))
 #$(eval $(call IMG2SP, CONVERT         , assets/malo1_1.png , 12, 24, sprite_malo1_1 ))

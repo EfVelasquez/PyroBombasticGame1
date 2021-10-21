@@ -176,5 +176,5 @@ game_man_update::
    call nz, screen_man_death_screen
    
 
-   ;;call cpct_waitVSYNC_asm
+   call cpct_waitVSYNC_asm
 ret
