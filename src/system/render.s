@@ -25,11 +25,8 @@ sys_render_update::
     
     ld hl, #sys_render_forone
     call man_entity_forall
+    call change_screen
 ret
-
-
-
-
 
 draw_room::
 
@@ -453,7 +450,6 @@ draw_room::
 
 ret
 
-
 draw_decorations:
     
     ld de, #0xC000
@@ -553,8 +549,8 @@ sys_render_delete::
     ld c, e_w(ix)
     ld b, e_h(ix)
 
-    ld e, e_prv_ptr+0(ix)
-    ld d, e_prv_ptr+1(ix)
+    ld e, e_prv_ptr2+0(ix)
+    ld d, e_prv_ptr2+1(ix)
     ld a, #0x3C
     call cpct_drawSolidBox_asm
 ret
@@ -563,12 +559,18 @@ ret
 sys_render_forone::
     ;;cpctm_setBorder_asm HW_WHITE
     call sys_render_delete
-
-    ld de, #0xC000
+back_buffer = . + 2
+    ld de, #0x8000
     ld c, e_x(ix)
     ld b, e_y(ix)
     call cpct_getScreenPtr_asm
     ex de, hl
+    ;; Intercambio de punteros
+    ld a, e_prv_ptr(ix)
+    ld e_prv_ptr2(ix), a
+
+    ld a, e_prv_ptr+1(ix)
+    ld e_prv_ptr2+1(ix), a
 
     ld e_prv_ptr+0(ix), e
     ld e_prv_ptr+1(ix), d
@@ -604,13 +606,23 @@ sys_render_forone::
     ;;cpctm_setBorder_asm HW_RED
 ret
 
-sys_render_wait::
-    ld a, #18
-    halts:
-        halt
-        halt
-        dec a
-        jr nz, halts
+
+change_screen:
+f_change_screen = . + 1
+    jp change_screen_to_8000
+
+change_screen_to_8000:
+    ld a, #0xC0
+    ld (back_buffer), a
+    ld hl, #change_screen_to_C000
+    ld (f_change_screen), hl
+ret
+
+change_screen_to_C000:
+    ld a, #0x80
+    ld (back_buffer), a
+    ld hl, #change_screen_to_8000
+    ld (f_change_screen), hl
 ret
 
 sys_render_init::
@@ -627,4 +639,4 @@ sys_render_init_palette::
     ld hl, #_g_palette
     ld de, #16
     call cpct_setPalette_asm
-    ret
+ret

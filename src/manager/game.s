@@ -62,6 +62,12 @@ build_player:
    ld e_lifes(ix), #6
    ld e_playerctr(ix), #1
 
+   ld e_prv_ptr(ix), #0x00
+   ld e_prv_ptr+1(ix), #0xC0
+
+   ld e_prv_ptr2(ix), #0x00
+   ld e_prv_ptr2+1(ix), #0x80
+
    ld hl, #_sprite_char_D1
    ld (#mainchar_entity+e_sprite), hl
 
@@ -170,5 +176,5 @@ game_man_update::
    call nz, screen_man_death_screen
    
 
-   call cpct_waitVSYNC_asm
+   ;;call cpct_waitVSYNC_asm
 ret

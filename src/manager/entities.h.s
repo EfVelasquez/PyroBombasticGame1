@@ -17,14 +17,15 @@ e_type      == 11
 e_ai_st     == 12
 e_sprite    == 13    ;; Pointer, 2 bytes
 e_prv_ptr   == 15    ;; Pointer, 2 bytes
-e_lifes     == 17    ;; Lifes of both character and enemy
+e_prv_ptr2  == 17
+e_lifes     == 19    ;; Lifes of both character and enemy
 ;e_level     == 18    ;; Dificultad de los enemigos (velocidad)
 
-e_fs1       == 18 
-e_fs2       == 19
-e_fs3       == 20
-e_fs4       == 21
-e_fs5       == 22
+e_fs1       == 20 
+e_fs2       == 21
+e_fs3       == 22
+e_fs4       == 23
+e_fs5       == 24
 
 ;;;;;balas;;;;;;;;
 ;fs1 == 18 
@@ -72,7 +73,7 @@ e_playerctr == e_fs1
 ;;enemigo1
 
 ;; Entity info
-sizeof_e        == 23
+sizeof_e        == 25
 max_entities    == 30
 
 ;; Entity AI enum status

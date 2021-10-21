@@ -44,6 +44,8 @@
 _main::
    ;; Disable firmware to prevent it from interfering with string drawing
    call cpct_disableFirmware_asm
+
+   ld sp, #0x8000
    
    call game_man_init
 
