@@ -14,7 +14,7 @@
 .globl _sprite_poster
 .globl _sprite_comida
 
-
+.globl sys_ui_draw_food_counter
 ;; ---------------------------------------------
 ;; Updates all the entities
 ;; B -> Mask to filter
@@ -25,6 +25,8 @@ sys_render_update::
     
     ld hl, #sys_render_forone
     call man_entity_forall
+
+    call sys_ui_draw_food_counter
 ret
 
 

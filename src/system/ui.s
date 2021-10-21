@@ -335,6 +335,55 @@ ret
 
 ;;AQUI DIBUJAREMOS SOBRE LA BARRA DE VIDA DISMINUYENDO
 
+sys_ui_draw_food_counter::
+
+    ld de, #0xC000
+    ld c, #31      ;; 61
+    ld b, #85       ;; 2
+    call cpct_getScreenPtr_asm
+    ex de, hl
+    ld c, #18
+    ld b, #6
+
+    ld a, #0xFF
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld c, #32       ;; 62
+    ld b, #86       ;; 3
+    call cpct_getScreenPtr_asm
+    ex de, hl
+
+    ld c, #16
+    ld b, #4
+
+    ld a, #0x30
+    call cpct_drawSolidBox_asm
+
+
+    ld a, (food_life)
+    and a
+    jr z, no_comida
+
+        ld de, #0xC000
+        ld c, #32       ;; 62
+        ld b, #86       ;; 3
+        call cpct_getScreenPtr_asm
+        ex de, hl
+
+        ld a, (food_life)
+        ld c, a
+        ld b, #4
+
+        ld a, #0xF0
+        call cpct_drawSolidBox_asm
+
+    ;dibuja barra verde
+
+
+    no_comida:
+ret
+
 
 sys_ui_init_food_life::
 
